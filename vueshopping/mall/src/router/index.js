@@ -1,10 +1,8 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
 import Home from '../views/Home.vue'
-const originalPush = VueRouter.prototype.push
-VueRouter.prototype.push = function push(location) {
-    return originalPush.call(this, location).catch(err => err)
-}
+
+
 Vue.use(VueRouter)
 
 const routes = [
@@ -15,7 +13,17 @@ const routes = [
         children: [
             {
                 path: '/goods',
-                component: () => import('../views/Goods')
+                component: () => import('../views/Goods'),
+                children: [
+                    {
+                        path: '/index',
+                        component: () => import('../views/DefaultResult')
+                    },
+                    {
+                        path: '/searchResult',
+                        component: () => import('../views/SearchResult')
+                    }
+                ]
             },
             {
                 path: '/goodsDetail',
@@ -26,16 +34,16 @@ const routes = [
                 component: () => import('../views/Cart')
             },
             {
-                path: 'login',
+                path: '/login',
                 component: () => import('../views/Login')
             },
             {
-                path: 'register',
+                path: '/register',
                 component: () => import('../views/Register')
 
             },
             {
-                path: 'personal',
+                path: '/personal',
                 component: () => import('../views/Personal'),
                 children: [
                     {

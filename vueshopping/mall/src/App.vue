@@ -4,7 +4,18 @@
   </div>
 </template>
 
+<script>
+export default {
+  created() {
+    document.querySelector('body').setAttribute('style', 'overflow-y: scroll');
+  }
+}
+</script>
+
+<style src="./assets/icon/iconfont.css"></style>
 <style>
+@import '//at.alicdn.com/t/font_2987071_5djbiom76v.css';
+
 #app {
   font-family: Avenir, Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
@@ -13,16 +24,4 @@
   color: #2c3e50;
 }
 
-#nav {
-  padding: 30px;
-}
-
-#nav a {
-  font-weight: bold;
-  color: #2c3e50;
-}
-
-#nav a.router-link-exact-active {
-  color: #42b983;
-}
 </style>

@@ -22,7 +22,6 @@
 <script>
 export default {
   data() {
-
     let validateUsername = (rule, value, callback) => {
       if (value === '') {
         callback(new Error('请输入用户名'));
@@ -82,6 +81,6 @@ export default {
   width: 20%;
   margin: 160px auto;
   border-radius: 20px;
-  box-shadow: 0 2px 12px 0 rgba(0, 0, 0, 0.4)
+  box-shadow: 0 2px 12px 0 rgba(0, 0, 0, 0.4);
 }
 </style>
