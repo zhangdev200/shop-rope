@@ -19,13 +19,13 @@
         </div>
       </div>
       <div>
-        <i class="icon-ali-cai icons" ref="cai" style="position: relative; top: 2px;" @click="cai">
+        <i class="iconfont icon-ali-cai icons" ref="cai" style="position: relative; top: 2px;" @click="cai">
           <span style="font-size: 20px"> ({{ numOfCai }})</span>
         </i>
-        <i class="icon-ali-zan icons" ref="zan" @click="zan">
+        <i class="iconfont icon-ali-zan icons" ref="zan" @click="zan">
           <span style="font-size: 20px"> ({{ numOfZan }})</span>
         </i>
-        <i class="el-icon-chat-line-round icons" style="font-size: 28px"></i>
+        <i class=" el-icon-chat-line-round icons" style="font-size: 28px"></i>
       </div>
     </el-row>
   </div>
@@ -128,7 +128,7 @@ export default {
 
 .icons {
   margin: 0 20px;
-  font-size: larger;
+  font-size: 22px;
   float: right
 }
 
