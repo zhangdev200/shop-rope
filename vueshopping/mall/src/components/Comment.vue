@@ -1,13 +1,13 @@
 <template>
   <div class="comment">
     <el-row>
-      <span style="position: absolute; right: 20px; color: #aaaaaa">{{ date }}</span>
+      <span style="position: absolute; right: 20px; color: #888888">{{ date }}</span>
       <div style="position: absolute;">
         <img :src="avatar" style="width: 50px">
       </div>
       <div style="margin-left: 70px">
         <div style="font-weight: bold; margin-bottom: 10px">
-          {{username}}
+          {{ username }}
         </div>
         <el-rate
             v-model="star"
@@ -61,23 +61,23 @@ export default {
     zan() {
       if (this.caiClicked) {
         if (!this.zanClicked) {
-          this.zanClicked = true; this.numOfZan++;
-          this.caiClicked = false; this.numOfCai--;
+          this.zanClicked = true;
+          this.numOfZan++;
+          this.caiClicked = false;
+          this.numOfCai--;
           this.$refs.zan.style.color = 'rgb(18,150,219)';
           this.$refs.cai.style.color = 'black';
-        }
-        else {
-          this.zanClicked = false; this.numOfZan--;
+        } else {
+          this.zanClicked = false;
+          this.numOfZan--;
           this.$refs.zan.style.color = 'black';
         }
-      }
-      else {
+      } else {
         this.zanClicked = !this.zanClicked;
         if (this.zanClicked) {
           this.numOfZan++;
           this.$refs.zan.style.color = 'rgb(18,150,219)';
-        }
-        else {
+        } else {
           this.numOfZan--;
           this.$refs.zan.style.color = 'black';
         }
@@ -86,23 +86,23 @@ export default {
     cai() {
       if (this.zanClicked) {
         if (!this.caiClicked) {
-          this.caiClicked = true; this.numOfCai++;
-          this.zanClicked = false; this.numOfZan--;
+          this.caiClicked = true;
+          this.numOfCai++;
+          this.zanClicked = false;
+          this.numOfZan--;
           this.$refs.cai.style.color = 'rgb(18,150,219)';
           this.$refs.zan.style.color = 'black';
-        }
-        else {
-          this.caiClicked = false; this.numOfCai--;
+        } else {
+          this.caiClicked = false;
+          this.numOfCai--;
           this.$refs.cai.style.color = 'black';
         }
-      }
-      else {
+      } else {
         this.caiClicked = !this.caiClicked;
         if (this.caiClicked) {
           this.numOfCai++;
           this.$refs.cai.style.color = 'rgb(18,150,219)';
-        }
-        else {
+        } else {
           this.numOfCai--;
           this.$refs.cai.style.color = 'black';
         }

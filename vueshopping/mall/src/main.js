@@ -8,6 +8,10 @@ import './assets/icon/iconfont.css'
 Vue.use(ElementUI)
 Vue.config.productionTip = false
 
+router.afterEach((t) => {
+  window.scrollTo(0, 0);
+});
+
 new Vue({
   router,
   render: h => h(App)

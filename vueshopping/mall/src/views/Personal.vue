@@ -4,7 +4,7 @@
       <el-aside id="aside" width="200px">
         <el-menu
             id="menu"
-            :default-active="$route.path"
+            default-active="/personalManage"
             class="el-menu-vertical-demo"
             style="height: 90vh;"
             background-color="#545c64"

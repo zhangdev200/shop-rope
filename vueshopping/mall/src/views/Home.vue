@@ -7,7 +7,7 @@
           <el-menu
               id="header-menu"
               class="el-menu-demo"
-              :default-active="$route.path"
+              default-active="/goods"
               mode="horizontal"
               background-color="#545c64"
               text-color="#fff"

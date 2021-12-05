@@ -10,7 +10,7 @@
           <br>
         </div>
       </el-col>
-      <span class="price" style="vertical-align: bottom">￥{{ detail.price }}</span>
+      <span class="price">￥{{ detail.price }}</span>
       <div style="position: absolute; bottom: 20px; right: 20px">
         <el-button type="primary">加入购物车</el-button>
         <el-button type="primary">立即购买</el-button>
@@ -59,7 +59,8 @@ export default {
     //       .catch(err => console.log(err));
     this.detail = {
       img: '../assets/Hamburger.png',
-      description: '好吃的汉堡，你值得拥有，快来购买吧！！！\'https://cube.elemecdn.com/3/7c/3ea6beec64369c2642b92c6726f1epng.png\'',
+      description: '好吃的汉堡，你值得拥有，快来购买吧！！！' +
+          'https://cube.elemecdn.com/3/7c/3ea6beec64369c2642b92c6726f1epng.png',
       price: 28.00
     }
   }
