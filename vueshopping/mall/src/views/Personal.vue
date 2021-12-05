@@ -37,7 +37,7 @@
         </el-menu>
       </el-aside>
 
-      <el-main id="contanier">
+      <el-main id="container">
         <router-view></router-view>
       </el-main>
     </el-container>
@@ -66,7 +66,7 @@ export default {
 
 <style scoped>
 
-#contanier {
+#container {
 
 }
 

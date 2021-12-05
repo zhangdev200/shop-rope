@@ -1,4 +1,5 @@
 <template>
+  <transition name="el-zoom-in-top">
   <div>
     <el-row class="cart">
       <el-col :span="5">
@@ -19,6 +20,7 @@
       </div>
     </el-row>
   </div>
+  </transition>
 </template>
 
 <script>
@@ -47,9 +49,11 @@ export default {
       this.selected = !this.selected;
       if (this.selected === true) {
         this.$refs.select.style.color = 'red';
+        this.$emit('select', this.itemData.goodsId);
       }
       else {
         this.$refs.select.style.color = 'black';
+        this.$emit('unselect', this.itemData.goodsId);
       }
     }
   },

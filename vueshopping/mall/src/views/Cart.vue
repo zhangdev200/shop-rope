@@ -11,10 +11,18 @@
           <el-button type="success" round @click="check" class="myButton">结算</el-button>
         </div>
       </div>
-
-      <CartItem v-for="i in cartList" :item="i" :key="i.goodsId" ref="cart"></CartItem>
+      <div v-if="this.cartList.length === 0">
+        <el-empty description="你的购物车还没有商品哦" :image-size="400"></el-empty>
+      </div>
+      <CartItem
+          v-for="i in cartList"
+          :item="i"
+          :key="i.goodsId"
+          ref="cart"
+          @select="select"
+          @unselect="unselect">
+      </CartItem>
     </div>
-
   </div>
 </template>
 
@@ -26,11 +34,12 @@ export default {
   components: {CartItem},
   data() {
     return {
+      selectSet: new Set,
       cartList: [
         {
           goodsId: 1,
           img: null,
-          description: '描述信息描述信息描述信息描述信息描述信息描述信息描述信息' +
+          description: 'goodsId:1 描述信息描述信息描述信息描述信息描述信息描述信息描述信息' +
               '描述信息描述信息描述信息描述信息描述信息描述信息描述信息',
           price: 28.0,
           amount: 1
@@ -38,7 +47,7 @@ export default {
         {
           goodsId: 2,
           img: null,
-          description: '描述信息描述信息描述信息描述信息描述信息描述信息描述信息' +
+          description: 'goodsId:2 描述信息描述信息描述信息描述信息描述信息描述信息描述信息' +
               '描述信息描述信息描述信息描述信息描述信息描述信息描述信息',
           price: 28.0,
           amount: 2
@@ -46,7 +55,7 @@ export default {
         {
           goodsId: 3,
           img: null,
-          description: '描述信息描述信息描述信息描述信息描述信息描述信息描述信息' +
+          description: 'goodsId:3 描述信息描述信息描述信息描述信息描述信息描述信息描述信息' +
               '描述信息描述信息描述信息描述信息描述信息描述信息描述信息',
           price: 28.0,
           amount: 3
@@ -54,7 +63,7 @@ export default {
         {
           goodsId: 4,
           img: null,
-          description: '描述信息描述信息描述信息描述信息描述信息描述信息描述信息' +
+          description: 'goodsId:4 描述信息描述信息描述信息描述信息描述信息描述信息描述信息' +
               '描述信息描述信息描述信息描述信息描述信息描述信息描述信息',
           price: 28.0,
           amount: 1
@@ -63,44 +72,51 @@ export default {
     }
   },
   methods: {
+    select(goodsId) {
+      this.selectSet.add(goodsId);
+    },
+    unselect(goodsId) {
+      this.selectSet.delete(goodsId);
+    },
     check() {
       let list = [];
-      for (let i in this.$refs.cart) {
-        if (this.$refs.cart[i].selected === true) {
-          list.push(this.$refs.cart[i].$data.itemData.goodsId);
+      for (let i of this.$refs.cart) {
+        if (i.selected) {
+          list.push(i.itemData.goodsId);
         }
       }
-      alert(list.toString())
+      alert(list.toString());
     },
     selectAll() {
       if (this.$refs.selectAll.$el.children[0].innerHTML === '全选') {
-        for (let i in this.$refs.cart) {
-          if (this.$refs.cart[i].selected === false) {
-            this.$refs.cart[i].select();
+        for (let i of this.$refs.cart) {
+          if (i.selected === false) {
+            i.select();
           }
         }
         this.$refs.selectAll.$el.children[0].innerHTML = '取消全选';
-      }
-      else {
-        for (let i in this.$refs.cart) {
-          if (this.$refs.cart[i].selected === true) {
-            this.$refs.cart[i].select();
+      } else {
+        for (let i of this.$refs.cart) {
+          if (i.selected === true) {
+            i.select();
           }
         }
         this.$refs.selectAll.$el.children[0].innerHTML = '全选';
       }
     },
     selectReverse() {
-      for (let i in this.$refs.cart) {
-        this.$refs.cart[i].select();
+      for (let i of this.$refs.cart) {
+        i.select();
       }
     },
     deleteItems() {
-      // for (let i in this.$refs.cart) {
-      //   if (this.$refs.cart[i].selected === true) {
-      //
-      //   }
-      // }
+      for (let i of this.selectSet) {
+        for (let j = 0; j < this.cartList.length; j++) {
+          if (this.cartList[j].goodsId === i) {
+            this.cartList.splice(j, 1);
+          }
+        }
+      }
     }
   }
 }
