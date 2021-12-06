@@ -36,7 +36,6 @@
           </el-menu-item>
         </el-menu>
       </el-aside>
-
       <el-main id="container">
         <router-view></router-view>
       </el-main>
@@ -71,8 +70,8 @@ export default {
 }
 
 #aside {
-  position: relative;
-  left: -8px;
+  position: fixed;
+  top: 80px;
   border-bottom-right-radius: 15px;
   border-top-right-radius: 15px;
 }
