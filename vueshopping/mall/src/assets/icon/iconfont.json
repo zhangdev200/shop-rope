@@ -1,0 +1,37 @@
+{
+  "id": "2987071",
+  "name": "prj1",
+  "font_family": "iconfont",
+  "css_prefix_text": "icon-ali-",
+  "description": "",
+  "glyphs": [
+    {
+      "icon_id": "6025672",
+      "name": "图标_点赞",
+      "font_class": "zan",
+      "unicode": "e603",
+      "unicode_decimal": 58883
+    },
+    {
+      "icon_id": "26223246",
+      "name": "图标_点赞",
+      "font_class": "yizan",
+      "unicode": "e60d",
+      "unicode_decimal": 58893
+    },
+    {
+      "icon_id": "26223247",
+      "name": "图标_点赞",
+      "font_class": "cai",
+      "unicode": "e60e",
+      "unicode_decimal": 58894
+    },
+    {
+      "icon_id": "26223248",
+      "name": "图标_点赞",
+      "font_class": "yicai",
+      "unicode": "e60f",
+      "unicode_decimal": 58895
+    }
+  ]
+}
