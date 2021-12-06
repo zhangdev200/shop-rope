@@ -20,4 +20,4 @@ create table store(      /*商家的店铺信息*/
 insert into admin values(1,'胡权富','男','123');
 select  *from admin;
 
-alter table shop.customers add column description varchar(40);
+alter table shop.customers add column enable boolean;

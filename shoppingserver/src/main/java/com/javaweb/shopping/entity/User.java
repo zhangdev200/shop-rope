@@ -10,18 +10,30 @@ public class User {
     private String email;
     private String nickname;
     private Timestamp regTime; //登入时间
+    private boolean enable; //是否为管理员
 
 
     public User() {
     }
 
-    public User(int id, String name, String sex, String description, String email, String nickname) {
+    public User(int id, String name, String sex, String description, String email, String nickname,
+                Timestamp regTime, boolean enable) {
         this.id = id;
         this.name = name;
         this.sex = sex;
         this.description = description;
         this.email = email;
         this.nickname = nickname;
+        this.regTime = regTime;
+        this.enable = enable;
+    }
+
+    public boolean isEnable() {
+        return enable;
+    }
+
+    public void setEnable(boolean enable) {
+        this.enable = enable;
     }
 
     public Timestamp getRegTime() {
@@ -90,6 +102,7 @@ public class User {
                 ", email='" + email + '\'' +
                 ", nickname='" + nickname + '\'' +
                 ", regTime=" + regTime +
+                ", enable=" + enable +
                 '}';
     }
 }

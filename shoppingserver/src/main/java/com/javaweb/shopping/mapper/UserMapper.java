@@ -16,5 +16,7 @@ public interface UserMapper {
     List<User> getUserByNickName(@Param("nickname") String nickname);
     //根据用户uid注销用户，成功返回1，失败返回0
     int deleteUserByID(long uid);
+    //更改用户权限
+    boolean updateUserEnabled(@Param("enable") boolean  enabled, @Param("id") long uid);
 
 }
