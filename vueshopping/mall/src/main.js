@@ -8,7 +8,7 @@ import './assets/icon/iconfont.css'
 Vue.use(ElementUI)
 Vue.config.productionTip = false
 
-router.afterEach((t) => {
+router.afterEach(() => {
   window.scrollTo(0, 0);
 });
 

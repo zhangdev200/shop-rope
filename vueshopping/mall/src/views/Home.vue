@@ -7,35 +7,33 @@
           <el-menu
               id="header-menu"
               class="el-menu-demo"
-              default-active="/goods"
+              :default-active="activePath"
               mode="horizontal"
-              background-color="#545c64"
-              text-color="#fff"
-              active-text-color="#ffd04b"
+              background-color="rgba(210,210,210,1)"
+              text-color="#000"
+              active-text-color="rgb(44,138,255)"
           >
             <div id="logo">
               {{ mallName }}
             </div>
             <div style="float: right">
-              <el-menu-item index="/goods" class="menu-item" @click="routerLink('/index')">
+              <el-menu-item index="/index" class="menu-item" @click="routerLink('/index')">
                 首页
               </el-menu-item>
               <el-menu-item index="/cart" class="menu-item" @click="routerLink('/cart')">
                 购物车
               </el-menu-item>
-                <div v-if="userName !== null" style="display: inline-block;">
+                <div v-if="nickName !== null" style="display: inline-block;">
                   <el-menu-item index="/personal" class="menu-item"
                                 @click="routerLink('/personal')">
                     <el-avatar size="small">
                       <img :src="avatar" alt="">
                     </el-avatar>
-                    &nbsp;{{ userName }}
+                    &nbsp;{{ nickName }}
                   </el-menu-item>
-                  <el-popconfirm>
                     <el-menu-item slot="reference" index="/logout" class="menu-item"
                                   @click="logout">退出登录
                     </el-menu-item>
-                  </el-popconfirm>
 
                 </div>
                 <div v-else style="display: inline-block;">
@@ -64,7 +62,7 @@ export default {
   data() {
     return {
       mallName: '好 名 字 商 城',
-      userName: '用户',
+      nickName: '好名字',
       avatar: 'https://cube.elemecdn.com/3/7c/3ea6beec64369c2642b92c6726f1epng.png'
     }
   },
@@ -73,12 +71,24 @@ export default {
       this.$router.replace(location);
     },
     logout() {
-      this.userName = null;
+      this.nickName = null;
+      localStorage.removeItem('nickname');
       this.$router.replace('/index');
     }
   },
   created() {
-    this.$router.replace('/index');
+    localStorage.setItem('nickname', this.nickName);
+  },
+  computed: {
+    activePath() {
+      if (this.$route.path === '/personalManage' ||
+          this.$route.path === '/orderManage' ||
+          this.$route.path === '/storeManage' ||
+          this.$route.path === '/systemManage') {
+        return '/personal';
+      }
+      else return this.$route.path;
+    }
   }
 
 }
@@ -100,7 +110,7 @@ export default {
   top: 5px;
   float: left;
   padding-left: 40px;
-  color: white;
+  color: black;
   font-family: 'Microsoft YaHei', serif;
   font-size: 30px;
 }
