@@ -8,9 +8,7 @@
       </div>
     </div>
     <div id="container">
-      <transition name="fade">
         <router-view></router-view>
-      </transition>
     </div>
   </div>
 </template>
@@ -20,7 +18,6 @@ export default {
   data() {
     return {
       input: null,
-      price: '￥28.00'
     }
   },
   methods: {
@@ -31,7 +28,7 @@ export default {
     }
   },
   created() {
-    this.$router.replace('/index');
+
   }
 }
 </script>
@@ -42,14 +39,14 @@ export default {
   width: 40%;
   position: fixed;
   left: 30%;
-  top: 70px;
+  top: 68px;
   border: #cccccc solid 1px;
   border-radius: 5px;
 }
 
 #container {
   position: relative;
-  top: 70px;
+  top: 68px;
   z-index: 1;
   width: 70%;
   margin: 0 auto;

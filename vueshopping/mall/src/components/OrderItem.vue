@@ -1,7 +1,7 @@
 <template>
-  <transition name="el-zoom-in-top">
+  <transition>
     <div>
-      <el-row class="cart">
+      <el-row class="order">
         <el-col :span="4">
           <img src="../assets/Hamburger.png" alt="" style="width: 100%; border-radius: 15px"/>
         </el-col>
@@ -14,19 +14,19 @@
         <div class="select" @click="select">
           <i class="el-icon-circle-check" ref="select"></i>
         </div>
-        <span class="price">￥{{ totalPrice }}</span>
+        <span class="price">￥{{ itemData.price }}</span>
         <div style="position: absolute; bottom: 20px; right: 20px; border-radius: 10px">
-          <el-input-number v-model="itemData.amount" @change="change" :min="0" :step="step" label="描述文字"></el-input-number>
+          <el-button type="primary" round>评价</el-button>
+          <el-button type="primary" round @click="showDetail">再次购买</el-button>
         </div>
       </el-row>
     </div>
   </transition>
-
 </template>
 
 <script>
 export default {
-  name: "CartItem",
+  name: "OrderItem",
   props: ['item'],
   data() {
     return {
@@ -36,17 +36,14 @@ export default {
         img: null,
         description: null,
         price: null,
-        amount: 1,
       },
-      totalPrice: null,
       selected: false,
     }
   },
 
   methods: {
-    change() {
-      this.totalPrice = this.itemData.amount * this.itemData.price;
-      this.$emit('check');
+    showDetail() {
+      this.$router.push('/goodsDetail/' + this.itemData.goodsId);
     },
     select() {
       this.selected = !this.selected;
@@ -64,14 +61,13 @@ export default {
   },
   created() {
     this.itemData = this.item;
-    this.totalPrice = this.itemData.price * this.itemData.amount;
   },
 
 }
 </script>
 
 <style scoped>
-.cart {
+.order {
   background-color: #eeeeee;
   border-radius: 20px;
   padding: 20px;

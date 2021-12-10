@@ -1,13 +1,13 @@
 <template>
   <el-card :body-style="{ padding: '15px' }" class="card">
-    <img src="https://shadow.elemecdn.com/app/element/hamburger.9cf7b091-55e9-11e9-a976-7f4d0b07eef6.png"
+    <img :src="goodsData.img"
          class="image"
-         @click="showDetail(id)">
+         @click="showDetail(goodsData.goodsId)" alt="">
     <div style="padding: 14px; text-align: left">
-      <p style="text-align: left">好吃的汉堡，你值得拥有，快来购买吧！！！</p>
+      <p class="description">{{ goodsData.description }}</p>
       <div class="bottom clearfix">
-        <span class="price">￥{{ price }}</span>
-        <el-button type="text" @click="showDetail(id)">查看详情</el-button>
+        <span class="price">￥{{ goodsData.price }}</span>
+        <el-button type="text" @click="showDetail(goodsData.goodsId)">查看详情</el-button>
       </div>
     </div>
   </el-card>
@@ -16,19 +16,25 @@
 <script>
 export default {
   name: "Card",
-  props: ['id'],
+  props: ['data'],
   data() {
     return {
-      goodsId: null,
-      price: 28.00
+      goodsData: {
+        goodsId: null,
+        img: null,
+        description: '',
+        price: null
+      },
     }
   },
   methods: {
-    showDetail(id) {
-      this.$router.push('goodsDetail?id=' + id);
+    showDetail() {
+      this.$router.push('/goodsDetail/' + this.goodsData.goodsId);
     }
+  },
+  mounted() {
+    this.goodsData = this.data;
   }
-
 }
 </script>
 
@@ -40,6 +46,7 @@ export default {
 
 .card:hover {
   transform: scale(1.03);
+  box-shadow: 0 2px 12px 0 rgba(0, 0, 0, 0.5);
 }
 
 .bottom button {
@@ -55,8 +62,18 @@ export default {
 
 .image {
   border-radius: 10px;
-  width: 100%;
+  height: 200px;
   display: block;
+}
+
+.description {
+  text-align: left;
+  height: 100px;
+  overflow-y: scroll
+}
+
+.description::-webkit-scrollbar {
+  display: none
 }
 
 .clearfix:before,
