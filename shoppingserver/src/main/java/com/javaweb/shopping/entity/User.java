@@ -11,13 +11,14 @@ public class User {
     private String nickname;
     private Timestamp regTime; //登入时间
     private boolean enable; //是否为管理员
+    private boolean isVIP; //是否为会员
 
 
     public User() {
     }
 
     public User(int id, String name, String sex, String description, String email, String nickname,
-                Timestamp regTime, boolean enable) {
+                Timestamp regTime, boolean enable,boolean isVIP) {
         this.id = id;
         this.name = name;
         this.sex = sex;
@@ -26,6 +27,15 @@ public class User {
         this.nickname = nickname;
         this.regTime = regTime;
         this.enable = enable;
+        this.isVIP=isVIP;
+    }
+
+    public boolean isVIP() {
+        return isVIP;
+    }
+
+    public void setVIP(boolean VIP) {
+        isVIP = VIP;
     }
 
     public boolean isEnable() {
@@ -103,6 +113,7 @@ public class User {
                 ", nickname='" + nickname + '\'' +
                 ", regTime=" + regTime +
                 ", enable=" + enable +
+                ", isVIP="+isVIP+
                 '}';
     }
 }

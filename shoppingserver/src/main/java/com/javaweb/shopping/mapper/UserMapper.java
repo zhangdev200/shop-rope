@@ -17,6 +17,8 @@ public interface UserMapper {
     //根据用户uid注销用户，成功返回1，失败返回0
     int deleteUserByID(long uid);
     //更改用户权限
-    boolean updateUserEnabled(@Param("enable") boolean  enabled, @Param("id") long uid);
+    boolean updateUserEnabled(@Param("enable") boolean  enable, @Param("id") long uid);
+    //更改用户的会员信息
+    boolean updateUserVIP(@Param("isVIP") boolean  isVIP, @Param("id") long uid);
 
 }

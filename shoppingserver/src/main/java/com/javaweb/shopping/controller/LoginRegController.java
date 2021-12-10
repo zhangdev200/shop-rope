@@ -7,10 +7,10 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 public class LoginRegController {
-    @Autowired
-    UserService userService;
+   /* @Autowired
+    UserService userService;*/
     @RequestMapping("/login")
-    public void login(){
-
+    public String login(){
+        return "hello!";
     }
 }
