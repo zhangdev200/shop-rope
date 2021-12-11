@@ -1,2 +1,0 @@
-(window["webpackJsonp"]=window["webpackJsonp"]||[]).push([["chunk-2d21b848"],{bfb0:function(e,t,n){"use strict";n.r(t);var a=function(){var e=this,t=e.$createElement,n=e._self._c||t;return n("div",{staticStyle:{"font-size":"50px"}},[n("el-empty",{attrs:{description:"空空如也","image-size":400}})],1)},i=[],s={name:"SellerManage"},c=s,l=n("2877"),r=Object(l["a"])(c,a,i,!1,null,"583a4cad",null);t["default"]=r.exports}}]);
-//# sourceMappingURL=chunk-2d21b848.285110b0.js.map

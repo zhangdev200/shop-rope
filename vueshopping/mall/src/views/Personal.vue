@@ -29,7 +29,7 @@
               <span slot="title">我的店铺</span>
             </div>
           </el-menu-item>
-          <el-menu-item index="/sellerManage" class="item" @click="routerLink('/systemManage')">
+          <el-menu-item index="/systemManage" class="item" @click="routerLink('/systemManage')">
             <div class="inner-item">
               <i class="el-icon-s-tools" style="font-size: 20px"></i>
               <span slot="title">系统管理</span>

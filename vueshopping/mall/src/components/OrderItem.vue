@@ -2,11 +2,11 @@
   <transition>
     <div>
       <el-row class="order">
-        <el-col :span="4">
+        <el-col :span="3">
           <img src="../assets/Hamburger.png" alt="" style="width: 100%; border-radius: 15px"/>
         </el-col>
-        <el-col :span="20">
-          <div style="text-align: left; padding: 0 20px; margin-bottom: 70px">
+        <el-col :span="21">
+          <div style="text-align: left; padding: 0 20px; margin-bottom: 70px; font-size: 16px">
             <span style="word-wrap: break-word">{{ itemData.description }}</span>
             <br>
           </div>
@@ -16,7 +16,7 @@
         </div>
         <span class="price">￥{{ itemData.price }}</span>
         <div style="position: absolute; bottom: 20px; right: 20px; border-radius: 10px">
-          <el-button type="primary" round>评价</el-button>
+          <el-button type="primary" round @click="comment">评价</el-button>
           <el-button type="primary" round @click="showDetail">再次购买</el-button>
         </div>
       </el-row>
@@ -33,6 +33,7 @@ export default {
       step: 1,
       itemData: {
         goodsId: null,
+        goodsName: '商品名称',
         img: null,
         description: null,
         price: null,
@@ -51,12 +52,29 @@ export default {
         this.$refs.select.style.color = 'red';
         this.$emit('select', this.itemData.goodsId);
         this.$emit('check');
-      }
-      else {
+      } else {
         this.$refs.select.style.color = 'black';
         this.$emit('unselect', this.itemData.goodsId);
         this.$emit('check');
       }
+    },
+    comment() {
+      this.$prompt('对商品 ' + this.itemData.goodsName + ' 进行评价：', '评价', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        inputPattern: /.{2,100}/,
+        inputErrorMessage: '请输入至少2个字符，至多100个字符！'
+      }).then(() => {
+        this.$message({
+          type: 'success',
+          message: '评价成功！'
+        });
+      }).catch(() => {
+        this.$message({
+          type: 'info',
+          message: '已取消评论！'
+        });
+      });
     }
   },
   created() {

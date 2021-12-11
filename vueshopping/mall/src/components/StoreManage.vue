@@ -52,44 +52,54 @@
 export default {
   data() {
     return {
-      tableData: [{
-        id: '12987122',
-        name: '好滋好味鸡蛋仔',
-        category: '零食',
-        desc: '荷兰优质淡奶，奶香浓而不腻',
-        image: null,
-        address: '上海市普陀区真北路',
-        shop: '王小虎夫妻店',
-        shopId: '10333'
-      }, {
-        id: '12987123',
-        name: '好滋好味鸡蛋仔',
-        category: '零食',
-        desc: '荷兰优质淡奶，奶香浓而不腻',
-        image: null,
-        address: '上海市普陀区真北路',
-        shop: '王小虎夫妻店',
-        shopId: '10333'
-      }, {
-        id: '12987125',
-        name: '好滋好味鸡蛋仔',
-        category: '零食',
-        desc: '荷兰优质淡奶，奶香浓而不腻',
-        image: null,
-        address: '上海市普陀区真北路',
-        shop: '王小虎夫妻店',
-        shopId: '10333'
-      }, {
-        id: '12987126',
-        name: '好滋好味鸡蛋仔',
-        category: '零食',
-        desc: '荷兰优质淡奶，奶香浓而不腻',
-        image: null,
-        address: '上海市普陀区真北路',
-        shop: '王小虎夫妻店',
-        shopId: '10333'
-      }]
+      tableData:[],
     }
+  },
+  created() {
+    //todo 跟据token获得店铺商品信息(需要是店主)
+    this.tableData =
+        [
+          {
+            id: '12987122',
+            name: '好滋好味鸡蛋仔',
+            category: '零食',
+            desc: '荷兰优质淡奶，奶香浓而不腻',
+            image: 'url',
+            address: '上海市普陀区真北路',
+            shop: '王小虎夫妻店',
+            shopId: '10333'
+          },
+          {
+            id: '12987123',
+            name: '好滋好味鸡蛋仔',
+            category: '零食',
+            desc: '荷兰优质淡奶，奶香浓而不腻',
+            image: 'url',
+            address: '上海市普陀区真北路',
+            shop: '王小虎夫妻店',
+            shopId: '10333'
+          },
+          {
+            id: '12987125',
+            name: '好滋好味鸡蛋仔',
+            category: '零食',
+            desc: '荷兰优质淡奶，奶香浓而不腻',
+            image: 'url',
+            address: '上海市普陀区真北路',
+            shop: '王小虎夫妻店',
+            shopId: '10333'
+          },
+          {
+            id: '12987126',
+            name: '好滋好味鸡蛋仔',
+            category: '零食',
+            desc: '荷兰优质淡奶，奶香浓而不腻',
+            image: 'url',
+            address: '上海市普陀区真北路',
+            shop: '王小虎夫妻店',
+            shopId: '10333'
+          }
+        ];
   }
 }
 </script>

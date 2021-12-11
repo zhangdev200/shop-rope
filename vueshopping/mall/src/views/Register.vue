@@ -64,7 +64,13 @@ export default {
     submitForm(formName) {
       this.$refs[formName].validate((valid) => {
         if (valid) {
-          alert('submit!');
+          this.$http.post('user/regist', {
+            username: this.ruleForm.username,
+            password: this.ruleForm.pass
+          })
+          .then(res => {
+            alert(res.msg);
+          })
         } else {
           console.log('error submit!!');
           return false;

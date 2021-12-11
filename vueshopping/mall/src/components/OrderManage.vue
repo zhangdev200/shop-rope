@@ -1,14 +1,14 @@
 <template>
   <div>
     <div id="container">
-      <div v-if="this.cartList.length === 0">
-        <el-empty description="你的购物车还没有商品哦" :image-size="400"></el-empty>
+      <div v-if="this.orderList.length === 0">
+        <el-empty description="您还没有订单哦" :image-size="400"></el-empty>
       </div>
       <OrderItem
-          v-for="i in cartList"
+          v-for="i in orderList"
           :item="i"
           :key="i.goodsId"
-          ref="cart"
+          ref="order"
           @select="select"
           @unselect="unselect"
           @check="checkPriceChange"
@@ -42,9 +42,10 @@ export default {
       selectSet: new Set,
       checkPrice: 0,
       checkId: [],
-      cartList: [
+      orderList: [
         {
           goodsId: 1,
+          goodsName: '商品名称',
           img: null,
           description: 'goodsId:1 描述信息描述信息描述信息描述信息描述信息描述信息描述信息' +
               '描述信息描述信息描述信息描述信息描述信息描述信息描述信息',
@@ -52,6 +53,7 @@ export default {
         },
         {
           goodsId: 2,
+          goodsName: '商品名称',
           img: null,
           description: 'goodsId:2 描述信息描述信息描述信息描述信息描述信息描述信息描述信息' +
               '描述信息描述信息描述信息描述信息描述信息描述信息描述信息',
@@ -59,6 +61,7 @@ export default {
         },
         {
           goodsId: 3,
+          goodsName: '商品名称',
           img: null,
           description: 'goodsId:3 描述信息描述信息描述信息描述信息描述信息描述信息描述信息' +
               '描述信息描述信息描述信息描述信息描述信息描述信息描述信息',
@@ -66,6 +69,7 @@ export default {
         },
         {
           goodsId: 4,
+          goodsName: '商品名称',
           img: null,
           description: 'goodsId:4 描述信息描述信息描述信息描述信息描述信息描述信息描述信息' +
               '描述信息描述信息描述信息描述信息描述信息描述信息描述信息',
@@ -73,6 +77,7 @@ export default {
         },
         {
           goodsId: 5,
+          goodsName: '商品名称',
           img: null,
           description: 'goodsId:5 描述信息描述信息描述信息描述信息描述信息描述信息描述信息' +
               '描述信息描述信息描述信息描述信息描述信息描述信息描述信息',
@@ -80,6 +85,7 @@ export default {
         },
         {
           goodsId: 6,
+          goodsName: '商品名称',
           img: null,
           description: 'goodsId:6 描述信息描述信息描述信息描述信息描述信息描述信息描述信息' +
               '描述信息描述信息描述信息描述信息描述信息描述信息描述信息',
@@ -92,7 +98,7 @@ export default {
     checkPriceChange() {
       this.checkPrice = 0;
       this.checkId = [];
-      for (let i of this.$refs.cart) {
+      for (let i of this.$refs.order) {
         if (i.selected) {
           this.checkPrice += i.totalPrice;
           this.checkId.push(i.itemData.goodsId);
@@ -110,14 +116,14 @@ export default {
     },
     selectAll() {
       if (this.$refs.selectAll.$el.children[0].innerHTML === '全选') {
-        for (let i of this.$refs.cart) {
+        for (let i of this.$refs.order) {
           if (i.selected === false) {
             i.select();
           }
         }
         this.$refs.selectAll.$el.children[0].innerHTML = '取消全选';
       } else {
-        for (let i of this.$refs.cart) {
+        for (let i of this.$refs.order) {
           if (i.selected === true) {
             i.select();
           }
@@ -126,15 +132,15 @@ export default {
       }
     },
     selectReverse() {
-      for (let i of this.$refs.cart) {
+      for (let i of this.$refs.order) {
         i.select();
       }
     },
     deleteItems() {
       for (let i of this.selectSet) {
-        for (let j = 0; j < this.cartList.length; j++) {
-          if (this.cartList[j].goodsId === i) {
-            this.cartList.splice(j, 1);
+        for (let j = 0; j < this.orderList.length; j++) {
+          if (this.orderList[j].goodsId === i) {
+            this.orderList.splice(j, 1);
           }
         }
       }

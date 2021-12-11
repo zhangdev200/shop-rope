@@ -8,12 +8,14 @@
     <el-form :model="ruleForm" status-icon :rules="rules" ref="ruleForm" label-width="80px" class="demo-ruleForm">
       <el-form-item label="用户名" prop="username">
         <el-input type="text" v-model="ruleForm.username" autocomplete="off"></el-input>
-      </el-form-item><br>
+      </el-form-item>
+      <br>
       <el-form-item label="密码" prop="pass">
         <el-input type="password" v-model="ruleForm.pass" autocomplete="off"></el-input>
-      </el-form-item><br>
+      </el-form-item>
+      <br>
       <el-form-item style="float: right">
-        <el-button type="primary" @click="submitForm('ruleForm')">登录</el-button>
+        <el-button type="primary" @click="submitForm">登录</el-button>
         <el-button @click="resetForm('ruleForm')">重置</el-button>
       </el-form-item>
     </el-form>
@@ -26,9 +28,6 @@ export default {
       if (value === '') {
         callback(new Error('请输入用户名'));
       } else {
-        if (this.ruleForm.username !== '') {
-          this.$refs.ruleForm.validateField('username');
-        }
         callback();
       }
     };
@@ -36,9 +35,6 @@ export default {
       if (value === '') {
         callback(new Error('请输入密码'));
       } else {
-        if (this.ruleForm.pass !== '') {
-          this.$refs.ruleForm.validateField('pass');
-        }
         callback();
       }
     };
@@ -58,18 +54,41 @@ export default {
     };
   },
   methods: {
-    submitForm(formName) {
-      this.$refs[formName].validate((valid) => {
+    submitForm() {
+      this.$refs.ruleForm.validate((valid) => {
         if (valid) {
+          //todo 登录后返回数据
+          let data = {
+            token: 'abc',
+            userInfo: {
+              nickname: '好名字',
+              avatar: 'https://cube.elemecdn.com/3/7c/3ea6beec64369c2642b92c6726f1epng.png',
+              isMembership: false,
+            },
+          }
+          localStorage.setItem('token', data.token);
+          localStorage.setItem('nickname', data.userInfo.nickname);
+          localStorage.setItem('avatar', data.userInfo.avatar);
+          localStorage.setItem('isMembership', data.userInfo.isMembership);
           alert('submit!');
+          // this.$http
+          //     .get('user/login', {
+          //       username: this.username,
+          //       password: this.pass
+          //     })
+          //     .then(res => {
+          //       localStorage.setItem('token', res.data.token);
+          //       localStorage.setItem('nickname', res.data.nickname);
+          //       localStorage.setItem('avatar', res.data.avatar);
+          //       localStorage.setItem('isMembership', data.userInfo.isMembership);
+          //     });
         } else {
-          console.log('error submit!!');
           return false;
         }
       });
     },
-    resetForm(formName) {
-      this.$refs[formName].resetFields();
+    resetForm() {
+      this.$refs.ruleForm.resetFields();
     }
   }
 }

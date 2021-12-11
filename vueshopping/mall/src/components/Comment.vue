@@ -19,13 +19,17 @@
         </div>
       </div>
       <div>
-        <span style="font-size: 20px; float: right"> ({{ commentData.numOfCai }})</span>
-        <i class="iconfont icon-ali-cai icons" ref="cai" style="position: relative; top: 2px;" @click="cai">
-        </i>
-        <span style="font-size: 20px; float: right"> ({{ commentData.numOfZan }})</span>
-        <i class="iconfont icon-ali-zan icons" ref="zan" @click="zan">
-        </i>
-        <i class=" el-icon-chat-line-round icons" style="font-size: 28px"></i>
+        <div style="width: 100px; float: right">
+          <i class="iconfont icon-ali-cai icons" ref="cai" style="position: relative; top: 2px;" @click="cai"></i>
+          <span style="font-size: 20px; float: left;"> ({{ commentData.numOfCai }})</span>
+        </div>
+        <div style="width: 100px; float: right">
+          <i class="iconfont icon-ali-zan icons" ref="zan" @click="zan"></i>
+          <span style="font-size: 20px; float: left;"> ({{ commentData.numOfZan }})</span>
+        </div>
+        <div style="width: 60px; float: right">
+          <i class=" el-icon-chat-line-round icons" style="font-size: 28px; position: relative; top: -2px;"></i>
+        </div>
       </div>
     </el-row>
   </div>
@@ -37,18 +41,7 @@ export default {
   props: ['data'],
   data() {
     return {
-      commentData: {
-        id:1,
-        stars: 5,
-        avatar: 'https://cube.elemecdn.com/3/7c/3ea6beec64369c2642b92c6726f1epng.png',
-        nickname: 'a',
-        date: '2021-12-4',
-        content: '评论pt>export default {name: "Comment",data() {return {avatar:' +
-            ' \'https: //cube.elemecdn.com /3/7c/3ea6beec643 69c2642b92c6726f1e png.png\'' +
-            '          }pneumonoul  tramicroscopic silicovolcan oconiosis }}',
-        numOfZan: 100,
-        numOfCai: 100,
-      },
+      commentData: null,
       colors: ['#99A9BF', '#F7BA2A', '#FF9900'],
       zanClicked: false,
       caiClicked: false
@@ -127,9 +120,9 @@ export default {
 }
 
 .icons {
-  margin: 0 20px;
+  margin: 0 5px;
   font-size: 22px;
-  float: right
+  float: left;
 }
 
 .icons:active {
