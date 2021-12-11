@@ -1,8 +1,8 @@
 package com.javaweb.shopping.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.javaweb.shopping.common.ResStatus;
-import com.javaweb.shopping.common.ResultVO;
+import com.javaweb.shopping.vo.ResStatus;
+import com.javaweb.shopping.vo.ResultVO;
 import io.jsonwebtoken.*;
 import org.springframework.stereotype.Component;
 import org.springframework.web.servlet.HandlerInterceptor;
