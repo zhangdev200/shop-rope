@@ -70,7 +70,11 @@ export default {
           localStorage.setItem('nickname', data.userInfo.nickname);
           localStorage.setItem('avatar', data.userInfo.avatar);
           localStorage.setItem('isMembership', data.userInfo.isMembership);
-          alert('submit!');
+          this.$message.success('登录成功！');
+          this.$router.replace('/');
+          setTimeout(() => {
+            location.reload();
+          }, 300);
           // this.$http
           //     .get('user/login', {
           //       username: this.username,
