@@ -1,11 +1,14 @@
 package com.javaweb.shopping.entity;
 
-import java.sql.Timestamp;
+import org.springframework.stereotype.Repository;
 
+import java.sql.Timestamp;
+@Repository
 public class User {
     private int id;
     private String name;
     private String sex;
+    private String password;
     private String description;
     private String email;
     private String nickname;

@@ -1,5 +1,8 @@
 package com.javaweb.shopping.entity;
 
+import org.springframework.stereotype.Repository;
+
+@Repository
 public class Goods {
     private int id;
     private String name;

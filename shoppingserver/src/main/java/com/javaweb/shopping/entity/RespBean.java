@@ -1,5 +1,10 @@
 package com.javaweb.shopping.entity;
 
+import org.springframework.stereotype.Repository;
+
+import javax.annotation.Resource;
+
+@Repository
 public class RespBean {
     private String status;
     private String msg;

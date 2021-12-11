@@ -2,7 +2,7 @@
 
 
 
-create table admin (   /*创建管理员表*/
+create table user (   /*创建管理员表*/
     ad_id INTEGER primary key ,
     ad_name varchar(50) ,
     ad_sex varchar(30),
@@ -26,7 +26,9 @@ create table goods( /*商家的物品*/
     g_description varchar(50)
 
 );
-insert into admin values(1,'胡权富','男','123');
-select  *from admin;
+
+
+
+
 
 
