@@ -58,7 +58,7 @@ export default {
       this.$refs.ruleForm.validate((valid) => {
         if (valid) {
           //todo 登录后返回数据
-          let data = {
+          let info = {
             token: 'abc',
             userInfo: {
               nickname: '好名字',
@@ -66,10 +66,10 @@ export default {
               isMembership: false,
             },
           }
-          localStorage.setItem('token', data.token);
-          localStorage.setItem('nickname', data.userInfo.nickname);
-          localStorage.setItem('avatar', data.userInfo.avatar);
-          localStorage.setItem('isMembership', data.userInfo.isMembership);
+          localStorage.setItem('token', info.token);
+          localStorage.setItem('nickname', info.userInfo.nickname);
+          localStorage.setItem('avatar', info.userInfo.avatar);
+          localStorage.setItem('isMembership', info.userInfo.isMembership);
           this.$message.success('登录成功！');
           this.$router.replace('/');
           setTimeout(() => {

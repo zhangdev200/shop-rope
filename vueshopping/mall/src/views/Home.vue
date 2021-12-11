@@ -79,9 +79,6 @@ export default {
     }
   },
   created() {
-    // localStorage.setItem('token', '123');
-    // localStorage.setItem('nickname', '好名字');
-    // localStorage.setItem('avatar', 'https://cube.elemecdn.com/3/7c/3ea6beec64369c2642b92c6726f1epng.png');
     this.token = localStorage.getItem('token');
     this.nickName = localStorage.getItem('nickname');
     this.avatar = localStorage.getItem('avatar');
