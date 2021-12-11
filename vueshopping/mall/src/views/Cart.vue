@@ -129,56 +129,56 @@ export default {
   },
   computed: {
     isLogin() {
-      return localStorage.getItem('nickname') !== null;
+      return localStorage.getItem('token') !== null;
     }
   },
   created() {
-    //todo
-    this.cartList = [
-      {
-        goodsId: 1,
-        img: null,
-        description: 'goodsId:1 描述信息描述信息描述信息描述信息描述信息描述信息描述信息' +
-            '描述信息描述信息描述信息描述信息描述信息描述信息描述信息',
-        price: 28.0,
-      },
-      {
-        goodsId: 2,
-        img: null,
-        description: 'goodsId:2 描述信息描述信息描述信息描述信息描述信息描述信息描述信息' +
-            '描述信息描述信息描述信息描述信息描述信息描述信息描述信息',
-        price: 28.0,
-      },
-      {
-        goodsId: 3,
-        img: null,
-        description: 'goodsId:3 描述信息描述信息描述信息描述信息描述信息描述信息描述信息' +
-            '描述信息描述信息描述信息描述信息描述信息描述信息描述信息',
-        price: 28.0,
-      },
-      {
-        goodsId: 4,
-        img: null,
-        description: 'goodsId:4 描述信息描述信息描述信息描述信息描述信息描述信息描述信息' +
-            '描述信息描述信息描述信息描述信息描述信息描述信息描述信息',
-        price: 28.0,
-      },
-      {
-        goodsId: 5,
-        img: null,
-        description: 'goodsId:5 描述信息描述信息描述信息描述信息描述信息描述信息描述信息' +
-            '描述信息描述信息描述信息描述信息描述信息描述信息描述信息',
-        price: 28.0,
-      },
-      {
-        goodsId: 6,
-        img: null,
-        description: 'goodsId:6 描述信息描述信息描述信息描述信息描述信息描述信息描述信息' +
-            '描述信息描述信息描述信息描述信息描述信息描述信息描述信息',
-        price: 28.0,
-      },
-    ];
-    alert(this.$refs.cart.keys())
+    //todo 获得用户购物车数据
+    this.cartList =
+        [
+          {
+            goodsId: 1,
+            img: 'url',
+            description: 'goodsId:1 描述信息描述信息描述信息描述信息描述信息描述信息描述信息' +
+                '描述信息描述信息描述信息描述信息描述信息描述信息描述信息',
+            price: 28.0,
+          },
+          {
+            goodsId: 2,
+            img: 'url',
+            description: 'goodsId:2 描述信息描述信息描述信息描述信息描述信息描述信息描述信息' +
+                '描述信息描述信息描述信息描述信息描述信息描述信息描述信息',
+            price: 28.0,
+          },
+          {
+            goodsId: 3,
+            img: 'url',
+            description: 'goodsId:3 描述信息描述信息描述信息描述信息描述信息描述信息描述信息' +
+                '描述信息描述信息描述信息描述信息描述信息描述信息描述信息',
+            price: 28.0,
+          },
+          {
+            goodsId: 4,
+            img: 'url',
+            description: 'goodsId:4 描述信息描述信息描述信息描述信息描述信息描述信息描述信息' +
+                '描述信息描述信息描述信息描述信息描述信息描述信息描述信息',
+            price: 28.0,
+          },
+          {
+            goodsId: 5,
+            img: 'url',
+            description: 'goodsId:5 描述信息描述信息描述信息描述信息描述信息描述信息描述信息' +
+                '描述信息描述信息描述信息描述信息描述信息描述信息描述信息',
+            price: 28.0,
+          },
+          {
+            goodsId: 6,
+            img: 'url',
+            description: 'goodsId:6 描述信息描述信息描述信息描述信息描述信息描述信息描述信息' +
+                '描述信息描述信息描述信息描述信息描述信息描述信息描述信息',
+            price: 28.0,
+          },
+        ];
   }
 }
 </script>
