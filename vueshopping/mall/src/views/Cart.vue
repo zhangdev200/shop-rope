@@ -138,6 +138,7 @@ export default {
         [
           {
             goodsId: 1,
+            goodsName: '',
             img: 'url',
             description: 'goodsId:1 描述信息描述信息描述信息描述信息描述信息描述信息描述信息' +
                 '描述信息描述信息描述信息描述信息描述信息描述信息描述信息',
@@ -145,6 +146,7 @@ export default {
           },
           {
             goodsId: 2,
+            goodsName: '',
             img: 'url',
             description: 'goodsId:2 描述信息描述信息描述信息描述信息描述信息描述信息描述信息' +
                 '描述信息描述信息描述信息描述信息描述信息描述信息描述信息',
@@ -152,6 +154,7 @@ export default {
           },
           {
             goodsId: 3,
+            goodsName: '',
             img: 'url',
             description: 'goodsId:3 描述信息描述信息描述信息描述信息描述信息描述信息描述信息' +
                 '描述信息描述信息描述信息描述信息描述信息描述信息描述信息',
@@ -159,6 +162,7 @@ export default {
           },
           {
             goodsId: 4,
+            goodsName: '',
             img: 'url',
             description: 'goodsId:4 描述信息描述信息描述信息描述信息描述信息描述信息描述信息' +
                 '描述信息描述信息描述信息描述信息描述信息描述信息描述信息',
@@ -166,6 +170,7 @@ export default {
           },
           {
             goodsId: 5,
+            goodsName: '',
             img: 'url',
             description: 'goodsId:5 描述信息描述信息描述信息描述信息描述信息描述信息描述信息' +
                 '描述信息描述信息描述信息描述信息描述信息描述信息描述信息',
@@ -173,6 +178,7 @@ export default {
           },
           {
             goodsId: 6,
+            goodsName: '',
             img: 'url',
             description: 'goodsId:6 描述信息描述信息描述信息描述信息描述信息描述信息描述信息' +
                 '描述信息描述信息描述信息描述信息描述信息描述信息描述信息',
