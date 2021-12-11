@@ -79,7 +79,7 @@ export default {
               'https://cube.elemecdn.com/3/7c/3ea6beec64369c2642b92c6726f1epng.png',
           price: 28.00
         }
-    //todo 根据商品id评论
+    //todo 根据商品id获得评论
     this.comments =
         [
           {
