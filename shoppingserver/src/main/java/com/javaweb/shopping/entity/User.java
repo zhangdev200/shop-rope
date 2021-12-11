@@ -2,99 +2,117 @@ package com.javaweb.shopping.entity;
 
 import org.springframework.stereotype.Repository;
 
-import java.sql.Timestamp;
-@Repository
+import java.sql.Date;
+import javax.persistence.*;
+
+
 public class User {
-    private int id;
-    private String name;
-    private String sex;
+    /**
+     * 主键id 用户id
+     */
+    @Id
+    @Column(name="user_Id")
+    private int userId;
+    /**
+     * 用户名 用户名
+     */
+    private String username;
+    /**
+     * 性别 M(男) or F(女)
+     */
+    @Column(name = "user_sex")
+    private String userSex;
+    /**
+     * 密码 密码
+     */
     private String password;
-    private String description;
-    private String email;
+    /**
+     * 邮箱地址 邮箱地址
+     */
+    @Column(name = "user_email")
+    private String userEmail;
+    /**
+     * 昵称 昵称
+     */
     private String nickname;
-    private Timestamp regTime; //登入时间
-    private boolean enable; //是否为管理员
-    private boolean isVIP; //是否为会员
+    /**
+     * 真实姓名 真实姓名
+     */
+    private String realname;
+    /**
+     * 手机号 手机号
+     */
+    @Column(name = "user_mobile")
+    private String userMobile;
+    /**
+     * 头像 头像
+     */
+    @Column(name = "user_Img")
+    private String userImg;
+    /**
+     * 生日 生日
+     */
+    @Column(name = "user_birth")
+    Date user_birth;
+    /**
+     * 注册时间 创建时间
+     */
+    @Column(name = "user_regtime")
+    Date user_regtime;  /*注册时间*/
+    /**
+     *判断是否为管理员
+     */
+    @Column(name = "isAdmin")
+    private boolean isAdmin; //是否为管理员
+    /**
+     * 判断是否为店家
+     */
+    @Column(name = "isShopKeeper")
+    private boolean isShopKeeper; //是否为店家
+    /**
+     * 判断是否为VIP
+     */
+    @Column(name = "isVIP")
+    private boolean isVIP ;//是否为会员
 
-
-    public User() {
+    public int getUserId() {
+        return userId;
     }
 
-    public User(int id, String name, String sex, String description, String email, String nickname,
-                Timestamp regTime, boolean enable,boolean isVIP) {
-        this.id = id;
-        this.name = name;
-        this.sex = sex;
-        this.description = description;
-        this.email = email;
-        this.nickname = nickname;
-        this.regTime = regTime;
-        this.enable = enable;
-        this.isVIP=isVIP;
+    public void setUserId(int userId) {
+        this.userId = userId;
     }
 
-    public boolean isVIP() {
-        return isVIP;
+    public String getUsername() {
+        return username;
     }
 
-    public void setVIP(boolean VIP) {
-        isVIP = VIP;
+    public void setUsername(String username) {
+        this.username = username;
     }
 
-    public boolean isEnable() {
-        return enable;
+    public String getUserSex() {
+        return userSex;
     }
 
-    public void setEnable(boolean enable) {
-        this.enable = enable;
+    public void setUserSex(String userSex) {
+        this.userSex = userSex;
     }
 
-    public Timestamp getRegTime() {
-        return regTime;
+    public String getPassword() {
+        return password;
     }
 
-    public void setRegTime(Timestamp regTime) {
-        this.regTime = regTime;
+    public void setPassword(String password) {
+        this.password = password;
     }
 
-    public int getId() {
-        return id;
+    public String getUserEmail() {
+        return userEmail;
     }
 
-    public void setId(int id) {
-        this.id = id;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public String getSex() {
-        return sex;
-    }
-
-    public void setSex(String sex) {
-        this.sex = sex;
-    }
-
-    public String getDescription() {
-        return description;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
-    }
-
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
+    public void setUserEmail(String userEmail) {
+        this.userEmail = userEmail;
     }
 
     public String getNickname() {
@@ -105,18 +123,67 @@ public class User {
         this.nickname = nickname;
     }
 
-    @Override
-    public String toString() {
-        return "User{" +
-                "id=" + id +
-                ", name='" + name + '\'' +
-                ", sex='" + sex + '\'' +
-                ", description='" + description + '\'' +
-                ", email='" + email + '\'' +
-                ", nickname='" + nickname + '\'' +
-                ", regTime=" + regTime +
-                ", enable=" + enable +
-                ", isVIP="+isVIP+
-                '}';
+    public String getRealname() {
+        return realname;
+    }
+
+    public void setRealname(String realname) {
+        this.realname = realname;
+    }
+
+    public String getUserMobile() {
+        return userMobile;
+    }
+
+    public void setUserMobile(String userMobile) {
+        this.userMobile = userMobile;
+    }
+
+    public String getUserImg() {
+        return userImg;
+    }
+
+    public void setUserImg(String userImg) {
+        this.userImg = userImg;
+    }
+
+    public Date getUser_birth() {
+        return user_birth;
+    }
+
+    public void setUser_birth(Date user_birth) {
+        this.user_birth = user_birth;
+    }
+
+    public Date getUser_regtime() {
+        return user_regtime;
+    }
+
+    public void setUser_regtime(Date user_regtime) {
+        this.user_regtime = user_regtime;
+    }
+
+    public boolean isAdmin() {
+        return isAdmin;
+    }
+
+    public void setAdmin(boolean admin) {
+        isAdmin = admin;
+    }
+
+    public boolean isShopKeeper() {
+        return isShopKeeper;
+    }
+
+    public void setShopKeeper(boolean shopKeeper) {
+        isShopKeeper = shopKeeper;
+    }
+
+    public boolean isVIP() {
+        return isVIP;
+    }
+
+    public void setVIP(boolean VIP) {
+        isVIP = VIP;
     }
 }

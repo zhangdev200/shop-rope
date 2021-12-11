@@ -1,4 +1,4 @@
-package com.javaweb.shopping.entity;
+package com.javaweb.shopping.common;
 
 import org.springframework.stereotype.Repository;
 

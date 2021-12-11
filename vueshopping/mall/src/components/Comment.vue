@@ -1,29 +1,29 @@
 <template>
   <div class="comment">
     <el-row>
-      <span style="position: absolute; right: 20px; color: #888888">{{ date }}</span>
+      <span style="position: absolute; right: 20px; color: #888888">{{ commentData.date }}</span>
       <div style="position: absolute;">
-        <img :src="avatar" style="width: 50px">
+        <img :src="commentData.avatar" style="width: 50px">
       </div>
       <div style="margin-left: 70px">
         <div style="font-weight: bold; margin-bottom: 10px">
-          {{ username }}
+          {{ commentData.nickname }}
         </div>
         <el-rate
-            v-model="star"
+            v-model="commentData.stars"
             :colors="colors"
             disabled>
         </el-rate>
         <div class="comment-content">
-          {{ content }}
+          {{ commentData.content }}
         </div>
       </div>
       <div>
+        <span style="font-size: 20px; float: right"> ({{ commentData.numOfCai }})</span>
         <i class="iconfont icon-ali-cai icons" ref="cai" style="position: relative; top: 2px;" @click="cai">
-          <span style="font-size: 20px"> ({{ numOfCai }})</span>
         </i>
+        <span style="font-size: 20px; float: right"> ({{ commentData.numOfZan }})</span>
         <i class="iconfont icon-ali-zan icons" ref="zan" @click="zan">
-          <span style="font-size: 20px"> ({{ numOfZan }})</span>
         </i>
         <i class=" el-icon-chat-line-round icons" style="font-size: 28px"></i>
       </div>
@@ -34,25 +34,22 @@
 <script>
 export default {
   name: "Comment",
+  props: ['data'],
   data() {
     return {
-      star: 5,
+      commentData: {
+        id:1,
+        stars: 5,
+        avatar: 'https://cube.elemecdn.com/3/7c/3ea6beec64369c2642b92c6726f1epng.png',
+        nickname: 'a',
+        date: '2021-12-4',
+        content: '评论pt>export default {name: "Comment",data() {return {avatar:' +
+            ' \'https: //cube.elemecdn.com /3/7c/3ea6beec643 69c2642b92c6726f1e png.png\'' +
+            '          }pneumonoul  tramicroscopic silicovolcan oconiosis }}',
+        numOfZan: 100,
+        numOfCai: 100,
+      },
       colors: ['#99A9BF', '#F7BA2A', '#FF9900'],
-      avatar: 'https://cube.elemecdn.com/3/7c/3ea6beec64369c2642b92c6726f1epng.png',
-      username: '用户名',
-      date: '2021-12-4',
-      content: '评论pt>\n' +
-          '          export default {\n' +
-          '          name: "Comment",\n' +
-          '          data() {\n' +
-          '          return {\n' +
-          '          avatar: \'https: //cube.elemecdn.com /3/7c/3ea6beec643 69c2642b92c6726f1e png.png\'\n' +
-          '          }\n' +
-          '          pneumonoul  tramicroscopic silicovolcan oconiosis\n' +
-          '          }\n' +
-          '          }',
-      numOfZan: 100,
-      numOfCai: 100,
       zanClicked: false,
       caiClicked: false
     }
@@ -62,23 +59,23 @@ export default {
       if (this.caiClicked) {
         if (!this.zanClicked) {
           this.zanClicked = true;
-          this.numOfZan++;
+          this.commentData.numOfZan++;
           this.caiClicked = false;
-          this.numOfCai--;
+          this.commentData.numOfCai--;
           this.$refs.zan.style.color = 'rgb(18,150,219)';
           this.$refs.cai.style.color = 'black';
         } else {
           this.zanClicked = false;
-          this.numOfZan--;
+          this.commentData.numOfZan--;
           this.$refs.zan.style.color = 'black';
         }
       } else {
         this.zanClicked = !this.zanClicked;
         if (this.zanClicked) {
-          this.numOfZan++;
+          this.commentData.numOfZan++;
           this.$refs.zan.style.color = 'rgb(18,150,219)';
         } else {
-          this.numOfZan--;
+          this.commentData.numOfZan--;
           this.$refs.zan.style.color = 'black';
         }
       }
@@ -87,9 +84,9 @@ export default {
       if (this.zanClicked) {
         if (!this.caiClicked) {
           this.caiClicked = true;
-          this.numOfCai++;
+          this.commentData.numOfCai++;
           this.zanClicked = false;
-          this.numOfZan--;
+          this.commentData.numOfZan--;
           this.$refs.cai.style.color = 'rgb(18,150,219)';
           this.$refs.zan.style.color = 'black';
         } else {
@@ -100,15 +97,18 @@ export default {
       } else {
         this.caiClicked = !this.caiClicked;
         if (this.caiClicked) {
-          this.numOfCai++;
+          this.commentData.numOfCai++;
           this.$refs.cai.style.color = 'rgb(18,150,219)';
         } else {
-          this.numOfCai--;
+          this.commentData.numOfCai--;
           this.$refs.cai.style.color = 'black';
         }
       }
     }
   },
+  created() {
+    this.commentData = this.data;
+  }
 }
 </script>
 

@@ -10,10 +10,12 @@ const routes = [
         path: '/',
         name: 'Home',
         component: Home,
+        redirect: '/goods',
         children: [
             {
                 path: '/goods',
                 component: () => import('../views/Goods'),
+                redirect: '/index',
                 children: [
                     {
                         path: '/index',
@@ -26,7 +28,7 @@ const routes = [
                 ]
             },
             {
-                path: '/goodsDetail',
+                path: '/goodsDetail/:id',
                 component: () => import('../views/GoodsDetail')
             },
             {
@@ -45,22 +47,23 @@ const routes = [
             {
                 path: '/personal',
                 component: () => import('../views/Personal'),
+                redirect: '/personalManage',
                 children: [
                     {
                         path: '/personalManage',
-                        component: () => import('../components/PersonalManage')
+                        component: () => import('../components/PersonalManage'),
                     },
                     {
                         path: '/orderManage',
-                        component: () => import('../components/OrderManage')
+                        component: () => import('../components/OrderManage'),
                     },
                     {
                         path: '/storeManage',
-                        component: () => import('../components/StoreManage')
+                        component: () => import('../components/StoreManage'),
                     },
                     {
-                        path: '/sellerManage',
-                        component: () => import('../components/SellerManage')
+                        path: '/systemManage',
+                        component: () => import('../components/SystemManage'),
                     },
                 ]
             },
