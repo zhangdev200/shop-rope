@@ -54,6 +54,12 @@
             <version>2.1.5</version>
         </dependency>
 
+        <dependency>
+            <groupId>io.jsonwebtoken</groupId>
+            <artifactId>jjwt</artifactId>
+            <version>0.9.1</version>
+        </dependency>
+
 
         <!-- https://mvnrepository.com/artifact/org.springframework.security/spring-security-core -->
         <dependency>
