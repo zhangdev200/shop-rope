@@ -1,3 +1,4 @@
+/*
 package com.javaweb.shopping.config;
 
 import org.springframework.context.annotation.Bean;
@@ -30,4 +31,4 @@ public class SwaggerConfig {
                 .build();
         return docket;
     }
-}
+}*/

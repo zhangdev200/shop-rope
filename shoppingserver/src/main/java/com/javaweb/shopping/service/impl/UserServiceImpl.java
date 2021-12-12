@@ -19,7 +19,7 @@ import java.util.List;
 
 //用户注册的实现与登入检测的实现
 @Service
-public class UserServiceImpl {
+public class UserServiceImpl implements UserService {
     @Autowired
    private UserMapper userMapper;
 

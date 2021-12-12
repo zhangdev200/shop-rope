@@ -23,7 +23,7 @@ import javax.annotation.Resource;
 public class UserController {
 
     @Resource
-    private UserServiceImpl userService;
+    private UserService userService;
     private Logger logger = LoggerFactory.getLogger(UserController.class);
 
     @ApiOperation("用户登录接口")
@@ -32,11 +32,13 @@ public class UserController {
             @ApiImplicitParam(dataType = "string",name = "password", value = "用户登录密码",required = true)
     })
     @RequestMapping ("user/login")
-    public ResultVO login(@RequestParam("username") String name,
-                          @RequestParam("password") String pwd){
-        ResultVO resultVO = userService.checkLogin(name, pwd);
+    public String login(){
+       /* ResultVO resultVO = userService.checkLogin(name, pwd);
   //      logger.info(resultVO.getMsg());
-        return resultVO;
+        return resultVO;*/
+       System.out.println("hello");
+       return "hello";
+
     }
 
 

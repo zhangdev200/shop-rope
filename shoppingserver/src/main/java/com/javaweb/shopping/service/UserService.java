@@ -2,6 +2,7 @@ package com.javaweb.shopping.service;
 
 
 import com.javaweb.shopping.vo.ResultVO;
+import org.springframework.stereotype.Repository;
 
 
 public interface UserService {

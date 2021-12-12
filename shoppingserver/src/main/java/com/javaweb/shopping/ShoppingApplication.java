@@ -8,7 +8,7 @@ import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.stereotype.Controller;
 import tk.mybatis.spring.annotation.MapperScan;
 
-@Controller
+
 @SpringBootApplication
 @EnableScheduling
 public class ShoppingApplication {

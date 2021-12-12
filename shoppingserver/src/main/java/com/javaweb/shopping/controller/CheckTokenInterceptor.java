@@ -5,6 +5,7 @@ import com.javaweb.shopping.vo.ResStatus;
 import com.javaweb.shopping.vo.ResultVO;
 import io.jsonwebtoken.*;
 import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Repository;
 import org.springframework.web.servlet.HandlerInterceptor;
 
 import javax.servlet.http.HttpServletRequest;
@@ -12,7 +13,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.PrintWriter;
 
-@Component
+@Repository
 public class CheckTokenInterceptor implements HandlerInterceptor {
 
     @Override
