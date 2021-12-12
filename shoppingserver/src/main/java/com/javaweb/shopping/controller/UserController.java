@@ -19,6 +19,7 @@ import javax.annotation.Resource;
 @Api(value = "提供用户的登录和注册接口",tags = "用户管理")
 @CrossOrigin
 public class UserController {
+
     @Resource
     private UserService userService;
     private Logger logger = LoggerFactory.getLogger(UserController.class);
@@ -31,12 +32,12 @@ public class UserController {
     @GetMapping("/login")
     public ResultVO login(@RequestParam("username") String name,
                           @RequestParam(value = "password") String pwd){
-
-      //checkLogin为用户登入函数，未实现
         ResultVO resultVO = userService.checkLogin(name, pwd);
-      //  logger.info(resultVO.getMsg());
+        logger.info(resultVO.getMsg());
         return resultVO;
     }
+
+
 
     @ApiOperation("用户注册接口")
     @ApiImplicitParams({
@@ -45,7 +46,6 @@ public class UserController {
     })
     @PostMapping("/regist")
     public ResultVO regist(@RequestBody User user){
-        //userResgit为用户注册函数，未实现
         ResultVO resultVO = userService.userResgit(user.getUsername(), user.getPassword());
         return resultVO;
     }

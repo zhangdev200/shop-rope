@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div style="margin-top: 300px" v-if="!isLogin">
+    <div v-if="!isLogin" style="margin-top: 300px">
       <h1><i class="el-icon-error" style="color: red"></i> 请先登录！</h1>
     </div>
     <div v-else>
@@ -8,16 +8,32 @@
         <div v-if="this.cartList.length === 0">
           <el-empty description="你的购物车还没有商品哦" :image-size="400"></el-empty>
         </div>
-        <CartItem
-            v-for="i in cartList"
-            :item="i"
-            :key="i.goodsId"
-            ref="cart"
-            @select="select"
-            @unselect="unselect"
-            @check="checkPriceChange"
-        >
-        </CartItem>
+        <div v-else>
+          <div class="search">   <!--搜索框-->
+            <el-row style="width: 50%; margin: 0 auto; position: relative; top: 20px">
+              <el-col :span="8">
+                <el-input></el-input>
+              </el-col>
+              <el-col :span="2" :offset="1">
+                <el-button type="primary" round>搜索</el-button>
+              </el-col>
+            </el-row>
+          </div>
+          <div style="height: 70px"></div>  <!--占位-->
+          <div class="cartItemContainer">
+            <CartItem
+                v-for="i in cartList"
+                :item="i"
+                :key="i.goodsId"
+                ref="cart"
+                @select="select"
+                @unselect="unselect"
+                @check="checkPriceChange"
+            >
+            </CartItem>
+          </div>
+        </div>
+
       </div>
       <div class="bottomBar">
         <div style="width: 50%; margin: 0 auto">
@@ -50,92 +66,40 @@ export default {
   components: {CartItem},
   data() {
     return {
-      selectSet: new Set,
+      selectGoodsIdSet: new Set,
       checkPrice: 0,
-      checkId: [],
-      cartList: [
-        {
-          goodsId: 1,
-          img: null,
-          description: 'goodsId:1 描述信息描述信息描述信息描述信息描述信息描述信息描述信息' +
-              '描述信息描述信息描述信息描述信息描述信息描述信息描述信息',
-          price: 28.0,
-          amount: 1
-        },
-        {
-          goodsId: 2,
-          img: null,
-          description: 'goodsId:2 描述信息描述信息描述信息描述信息描述信息描述信息描述信息' +
-              '描述信息描述信息描述信息描述信息描述信息描述信息描述信息',
-          price: 28.0,
-          amount: 2
-        },
-        {
-          goodsId: 3,
-          img: null,
-          description: 'goodsId:3 描述信息描述信息描述信息描述信息描述信息描述信息描述信息' +
-              '描述信息描述信息描述信息描述信息描述信息描述信息描述信息',
-          price: 28.0,
-          amount: 3
-        },
-        {
-          goodsId: 4,
-          img: null,
-          description: 'goodsId:4 描述信息描述信息描述信息描述信息描述信息描述信息描述信息' +
-              '描述信息描述信息描述信息描述信息描述信息描述信息描述信息',
-          price: 28.0,
-          amount: 1
-        },
-        {
-          goodsId: 5,
-          img: null,
-          description: 'goodsId:5 描述信息描述信息描述信息描述信息描述信息描述信息描述信息' +
-              '描述信息描述信息描述信息描述信息描述信息描述信息描述信息',
-          price: 28.0,
-          amount: 1
-        },
-        {
-          goodsId: 6,
-          img: null,
-          description: 'goodsId:6 描述信息描述信息描述信息描述信息描述信息描述信息描述信息' +
-              '描述信息描述信息描述信息描述信息描述信息描述信息描述信息',
-          price: 28.0,
-          amount: 1
-        },
-      ]
+      cartList: null,
     }
   },
   methods: {
     checkPriceChange() {
       this.checkPrice = 0;
-      this.checkId = [];
       for (let i of this.$refs.cart) {
         if (i.selected) {
           this.checkPrice += i.totalPrice;
-          this.checkId.push(i.itemData.goodsId);
         }
       }
     },
     select(goodsId) {
-      this.selectSet.add(goodsId);
+      this.selectGoodsIdSet.add(goodsId);
     },
     unselect(goodsId) {
-      this.selectSet.delete(goodsId);
+      this.selectGoodsIdSet.delete(goodsId);
     },
     check() {
-      alert(this.checkId.toString() + '\n总金额：' + this.checkPrice);
+      alert(Array.from(this.selectGoodsIdSet).toString() + '\n总金额：' + this.checkPrice);
     },
     selectAll() {
       if (this.$refs.selectAll.$el.children[0].innerHTML === '全选') {
         for (let i of this.$refs.cart) {
-          if (i.selected === false) {
+          if (!i.selected) {
             i.select();
           }
         }
         this.$refs.selectAll.$el.children[0].innerHTML = '取消全选';
       } else {
         for (let i of this.$refs.cart) {
-          if (i.selected === true) {
+          if (i.selected) {
             i.select();
           }
         }
@@ -148,10 +112,16 @@ export default {
       }
     },
     deleteItems() {
-      for (let i of this.selectSet) {
+      let newSet = this.selectGoodsIdSet;
+      for (let i of newSet) {
         for (let j = 0; j < this.cartList.length; j++) {
           if (this.cartList[j].goodsId === i) {
             this.cartList.splice(j, 1);
+          }
+        }
+        for (let k of this.$refs.cart) {
+          if (k.selected && k.itemData.goodsId === i) {
+            k.select();
           }
         }
       }
@@ -162,22 +132,92 @@ export default {
   },
   computed: {
     isLogin() {
-      return localStorage.getItem('nickname') !== null;
+      return localStorage.getItem('token') !== null;
     }
+  },
+  created() {
+    //todo 获得用户购物车数据
+    this.cartList =
+        [
+          {
+            goodsId: 1,
+            goodsName: '',
+            img: 'url',
+            description: 'goodsId:1 描述信息描述信息描述信息描述信息描述信息描述信息描述信息' +
+                '描述信息描述信息描述信息描述信息描述信息描述信息描述信息',
+            price: 28.0,
+          },
+          {
+            goodsId: 2,
+            goodsName: '',
+            img: 'url',
+            description: 'goodsId:2 描述信息描述信息描述信息描述信息描述信息描述信息描述信息' +
+                '描述信息描述信息描述信息描述信息描述信息描述信息描述信息',
+            price: 28.0,
+          },
+          {
+            goodsId: 3,
+            goodsName: '',
+            img: 'url',
+            description: 'goodsId:3 描述信息描述信息描述信息描述信息描述信息描述信息描述信息' +
+                '描述信息描述信息描述信息描述信息描述信息描述信息描述信息',
+            price: 28.0,
+          },
+          {
+            goodsId: 4,
+            goodsName: '',
+            img: 'url',
+            description: 'goodsId:4 描述信息描述信息描述信息描述信息描述信息描述信息描述信息' +
+                '描述信息描述信息描述信息描述信息描述信息描述信息描述信息',
+            price: 28.0,
+          },
+          {
+            goodsId: 5,
+            goodsName: '',
+            img: 'url',
+            description: 'goodsId:5 描述信息描述信息描述信息描述信息描述信息描述信息描述信息' +
+                '描述信息描述信息描述信息描述信息描述信息描述信息描述信息',
+            price: 28.0,
+          },
+          {
+            goodsId: 6,
+            goodsName: '',
+            img: 'url',
+            description: 'goodsId:6 描述信息描述信息描述信息描述信息描述信息描述信息描述信息' +
+                '描述信息描述信息描述信息描述信息描述信息描述信息描述信息',
+            price: 28.0,
+          },
+        ];
   }
 }
 </script>
 
 <style scoped>
 #container {
-  width: 50%;
-  margin: 0 auto 100px auto;
+  /*width: 50%;*/
+  /*margin: 0 auto 100px auto;*/
   z-index: 1;
 }
 
 .myButton {
   width: 120px;
 }
+
+.cartItemContainer {
+  width: 50%;
+  margin: 0 auto 100px auto;
+}
+
+.search {
+  position: fixed;
+  top: 57px;
+  width: 100%;
+  height: 80px;
+  margin: 0 auto;
+  background-color: white;
+  z-index: 12
+}
+
 
 .bottomBar {
   position: fixed;

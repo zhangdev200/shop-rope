@@ -16,8 +16,8 @@
         <el-input type="password" v-model="ruleForm.checkPass" autocomplete="off"></el-input>
       </el-form-item><br>
       <el-form-item style="float: right">
-        <el-button type="primary" @click="submitForm('ruleForm')">注册</el-button>
-        <el-button @click="resetForm('ruleForm')">重置</el-button>
+        <el-button round type="primary" @click="submitForm('ruleForm')">注册</el-button>
+        <el-button round @click="resetForm('ruleForm')">重置</el-button>
       </el-form-item>
     </el-form>
   </div>
@@ -64,9 +64,16 @@ export default {
     submitForm(formName) {
       this.$refs[formName].validate((valid) => {
         if (valid) {
-          alert('submit!');
+          this.$http.post('user/regist', {
+            username: this.ruleForm.username,
+            password: this.ruleForm.pass
+          })
+          .then(res => {
+            this.$message.success(res.msg);
+          })
         } else {
-          console.log('error submit!!');
+          this.$message.error('请验证输入!');
+
           return false;
         }
       });

@@ -23,29 +23,29 @@
               <el-menu-item index="/cart" class="menu-item" @click="routerLink('/cart')">
                 购物车
               </el-menu-item>
-                <div v-if="nickName !== null" style="display: inline-block;">
-                  <el-menu-item index="/personal" class="menu-item"
-                                @click="routerLink('/personal')">
-                    <el-avatar size="small">
-                      <img :src="avatar" alt="">
-                    </el-avatar>
-                    &nbsp;{{ nickName }}
-                  </el-menu-item>
-                    <el-menu-item slot="reference" index="/logout" class="menu-item"
-                                  @click="logout">退出登录
-                    </el-menu-item>
+              <div v-if="hasToken()" style="display: inline-block;">
+                <el-menu-item index="/personal" class="menu-item"
+                              @click="routerLink('/personal')">
+                  <el-avatar size="small">
+                    <img :src="avatar()" alt="">
+                  </el-avatar>
+                  &nbsp;{{ nickname() }}
+                </el-menu-item>
+                <el-menu-item slot="reference" index="/logout" class="menu-item"
+                              @click="logout">退出登录
+                </el-menu-item>
 
-                </div>
-                <div v-else style="display: inline-block;">
-                  <el-menu-item index="/login" class="menu-item"
-                                @click="routerLink('/login')">
-                    登录
-                  </el-menu-item>
-                  <el-menu-item index="/register" class="menu-item"
-                                @click="routerLink('/register')">
-                    注册
-                  </el-menu-item>
-                </div>
+              </div>
+              <div v-else style="display: inline-block;">
+                <el-menu-item index="/login" class="menu-item"
+                              @click="routerLink('/login')">
+                  登录
+                </el-menu-item>
+                <el-menu-item index="/register" class="menu-item"
+                              @click="routerLink('/register')">
+                  注册
+                </el-menu-item>
+              </div>
             </div>
           </el-menu>
         </div>
@@ -58,26 +58,40 @@
 </template>
 
 <script>
+
 export default {
   data() {
     return {
       mallName: '好 名 字 商 城',
-      nickName: '好名字',
-      avatar: 'https://cube.elemecdn.com/3/7c/3ea6beec64369c2642b92c6726f1epng.png'
     }
   },
   methods: {
+    hasToken() {
+      return localStorage.getItem('token') !== null;
+    },
+    nickname() {
+      return localStorage.getItem('nickname');
+    },
+    avatar() {
+      return localStorage.getItem('avatar');
+    },
     routerLink(location) {
       this.$router.replace(location);
     },
     logout() {
-      this.nickName = null;
-      localStorage.removeItem('nickname');
-      this.$router.replace('/index');
+      localStorage.clear();
+      this.$message({
+        type: "success",
+        duration: 1000,
+        message: '已退出登录'
+      });
+      this.$router.replace('/login')
+      this.$router.replace('/')
+
     }
   },
   created() {
-    localStorage.setItem('nickname', this.nickName);
+
   },
   computed: {
     activePath() {
@@ -86,9 +100,9 @@ export default {
           this.$route.path === '/storeManage' ||
           this.$route.path === '/systemManage') {
         return '/personal';
-      }
-      else return this.$route.path;
-    }
+      } else return this.$route.path;
+    },
+
   }
 
 }
@@ -98,11 +112,8 @@ export default {
 #header {
   z-index: 10;
   position: fixed;
-  top: 0;
-  left: 0;
   width: 100%;
   padding: 0;
-
 }
 
 #logo {

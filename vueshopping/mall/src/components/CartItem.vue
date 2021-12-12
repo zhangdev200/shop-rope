@@ -2,13 +2,12 @@
   <transition name="el-zoom-in-top">
     <div>
       <el-row class="cart">
-        <el-col :span="4">
+        <el-col :span="3">
           <img src="../assets/Hamburger.png" alt="" style="width: 100%; border-radius: 15px"/>
         </el-col>
-        <el-col :span="20">
+        <el-col :span="21">
           <div style="text-align: left; padding: 0 20px; margin-bottom: 70px">
-            <span style="word-wrap: break-word">{{ itemData.description }}</span>
-            <br>
+            <span style="word-wrap: break-word; font-size: 16px">{{ itemData.description }}</span>
           </div>
         </el-col>
         <div class="select" @click="select">
@@ -16,7 +15,7 @@
         </div>
         <span class="price">￥{{ totalPrice }}</span>
         <div style="position: absolute; bottom: 20px; right: 20px; border-radius: 10px">
-          <el-input-number v-model="itemData.amount" @change="change" :min="0" :step="step" label="描述文字"></el-input-number>
+          <el-input-number v-model="amount" @change="change" :min="0" :step="step" label="描述文字"></el-input-number>
         </div>
       </el-row>
     </div>
@@ -36,21 +35,21 @@ export default {
         img: null,
         description: null,
         price: null,
-        amount: 1,
       },
-      totalPrice: null,
+      amount: 1,
+      totalPrice: 0,
       selected: false,
     }
   },
 
   methods: {
     change() {
-      this.totalPrice = this.itemData.amount * this.itemData.price;
+      this.totalPrice = this.amount * this.itemData.price;
       this.$emit('check');
     },
     select() {
       this.selected = !this.selected;
-      if (this.selected === true) {
+      if (this.selected) {
         this.$refs.select.style.color = 'red';
         this.$emit('select', this.itemData.goodsId);
         this.$emit('check');
@@ -64,7 +63,7 @@ export default {
   },
   created() {
     this.itemData = this.item;
-    this.totalPrice = this.itemData.price * this.itemData.amount;
+    this.totalPrice = this.itemData.price * this.amount;
   },
 
 }
@@ -73,9 +72,9 @@ export default {
 <style scoped>
 .cart {
   background-color: #eeeeee;
-  border-radius: 20px;
+  border-radius: 10px;
   padding: 20px;
-  margin: 25px auto;
+  margin: 0 auto 25px auto;
 }
 
 .select {

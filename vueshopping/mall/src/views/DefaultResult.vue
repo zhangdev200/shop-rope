@@ -5,40 +5,19 @@
         <img src="../assets/img.png" style="width: 100%; height: 100%; border-radius: 20px" alt="">
       </el-carousel-item>
     </el-carousel>
-    <div>
+    <div v-for="(category, index) in this.categoryList" :key=index>
       <h2 class="category">
-        手机
+        {{ category }}
       </h2>
       <div class="categoryBlock">
         <el-row>
-          <el-col :lg="6" :md="12" :sm="12" :xs="24" v-for="o in goodsData.phone" :key="o.goodsId">
-            <Card :data="o"></Card>
-          </el-col>
-        </el-row>
-      </div>
-      <h2 class="category">
-        家电
-      </h2>
-      <div class="categoryBlock">
-        <el-row>
-          <el-col :span="6" v-for="o in goodsData.appliance" :key="o.goodsId">
-            <Card :data="o"></Card>
-          </el-col>
-        </el-row>
-      </div>
-      <h2 class="category">
-        图书
-      </h2>
-      <div class="categoryBlock">
-        <el-row>
-          <el-col :span="6" v-for="o in goodsData.book" :key="o.goodsId">
+          <el-col :lg="6" :md="12" :sm="12" :xs="24" v-for="o in goodsData[category]" :key="o.goodsId">
             <Card :data="o"></Card>
           </el-col>
         </el-row>
       </div>
     </div>
   </div>
-
 </template>
 
 <script>
@@ -49,8 +28,17 @@ export default {
   name: "DefaultResult",
   data() {
     return {
-      goodsData: {
-        phone: [
+      goodsData: new Map,
+      categoryList: null,
+    }
+  },
+  methods: {},
+  created() {
+    //todo 首页分类列表
+    this.categoryList = ['手机', '家电', '图书'];
+    //todo 各分类的推荐商品
+    this.goodsData[this.categoryList[0]] =
+        [
           {
             goodsId: 1,
             goodsName: '',
@@ -93,8 +81,9 @@ export default {
             description: 'vivo X70 Pro+,全四摄光学防抖,全都稳才是真的稳',
             price: 2499
           }
-        ],
-        appliance: [
+        ];
+    this.goodsData[this.categoryList[1]] =
+        [
           {
             goodsId: 7,
             goodsName: '',
@@ -137,8 +126,9 @@ export default {
             description: 'vivo X70 Pro+,全四摄光学防抖,全都稳才是真的稳',
             price: 4939
           },
-        ],
-        book: [
+        ];
+    this.goodsData[this.categoryList[2]] =
+        [
           {
             goodsId: 13,
             goodsName: '',
@@ -167,14 +157,19 @@ export default {
             description: '以贯穿项目介绍流行的Spring Boot和Vue技术，实现技术与项目的融汇贯通',
             price: 100
           },
-        ],
-
-      }
-
-    }
-  },
-  methods: {
-    
+        ];
+    // this.$http
+    //     .get('api')
+    //     .then(res => {
+    //       this.categoryList = res.data;
+    //       for (let i of this.categoryList) {
+    //         this.$http
+    //             .get('api')
+    //             .then(res2 => {
+    //               this.goodsData[i] = res2.data;
+    //             });
+    //       }
+    //     });
   }
 }
 </script>
