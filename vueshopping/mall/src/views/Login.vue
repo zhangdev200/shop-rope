@@ -2,7 +2,9 @@
   <div id="form">
     <h1>
       欢 迎 登 录
-    </h1><br>
+    </h1>
+    <p style="color: red">任意账号密码可登录</p>
+    <br>
     <hr>
     <br><br>
     <el-form :model="ruleForm" status-icon :rules="rules" ref="ruleForm" label-width="80px" class="demo-ruleForm">
