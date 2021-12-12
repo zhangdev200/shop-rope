@@ -66,43 +66,40 @@ export default {
   components: {CartItem},
   data() {
     return {
-      selectSet: new Set,
+      selectGoodsIdSet: new Set,
       checkPrice: 0,
-      checkId: [],
       cartList: null,
     }
   },
   methods: {
     checkPriceChange() {
       this.checkPrice = 0;
-      this.checkId = [];
       for (let i of this.$refs.cart) {
         if (i.selected) {
           this.checkPrice += i.totalPrice;
-          this.checkId.push(i.itemData.goodsId);
         }
       }
     },
     select(goodsId) {
-      this.selectSet.add(goodsId);
+      this.selectGoodsIdSet.add(goodsId);
     },
     unselect(goodsId) {
-      this.selectSet.delete(goodsId);
+      this.selectGoodsIdSet.delete(goodsId);
     },
     check() {
-      alert(this.checkId.toString() + '\n总金额：' + this.checkPrice);
+      alert(Array.from(this.selectGoodsIdSet).toString() + '\n总金额：' + this.checkPrice);
     },
     selectAll() {
       if (this.$refs.selectAll.$el.children[0].innerHTML === '全选') {
         for (let i of this.$refs.cart) {
-          if (i.selected === false) {
+          if (!i.selected) {
             i.select();
           }
         }
         this.$refs.selectAll.$el.children[0].innerHTML = '取消全选';
       } else {
         for (let i of this.$refs.cart) {
-          if (i.selected === true) {
+          if (i.selected) {
             i.select();
           }
         }
@@ -115,10 +112,16 @@ export default {
       }
     },
     deleteItems() {
-      for (let i of this.selectSet) {
+      let newSet = this.selectGoodsIdSet;
+      for (let i of newSet) {
         for (let j = 0; j < this.cartList.length; j++) {
           if (this.cartList[j].goodsId === i) {
             this.cartList.splice(j, 1);
+          }
+        }
+        for (let k of this.$refs.cart) {
+          if (k.selected && k.itemData.goodsId === i) {
+            k.select();
           }
         }
       }

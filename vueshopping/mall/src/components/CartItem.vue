@@ -49,7 +49,7 @@ export default {
     },
     select() {
       this.selected = !this.selected;
-      if (this.selected === true) {
+      if (this.selected) {
         this.$refs.select.style.color = 'red';
         this.$emit('select', this.itemData.goodsId);
         this.$emit('check');
