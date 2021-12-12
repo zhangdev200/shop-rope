@@ -9,27 +9,33 @@
       </el-form>
     </div>
     <br>
-    <el-table :data="tableData" style="font-size: 20px" border stripe empty-text="暂无数据">
+    <el-table :data="tableData"
+              style="width: 100%; font-size: 16px; border-radius: 15px;box-shadow: 0 2px 12px 0 rgba(0, 0, 0, 0.3);"
+              border
+              stripe
+              empty-text="暂无数据">
       <el-table-column
           label="商品 ID"
-          prop="goodsId">
+          prop="goodsId"
+          >
       </el-table-column>
       <el-table-column
           label="商品名称"
-          prop="name">
+          prop="name"
+          >
       </el-table-column>
       <el-table-column
           label="分类"
           prop="category"
-          width="100">
+          width="120">
       </el-table-column>
       <el-table-column
           label="图片"
           prop="img"
-          width="100">
+          >
         <template slot-scope="scope">
           <el-popover trigger="hover" placement="right-end" close-delay="0">
-            <img :src="scope.row.img">
+            <img :src="scope.row.img" alt="加载失败">
             <div slot="reference" class="name-wrapper" style="width: 70px">
               <el-tag size="medium">查看图片</el-tag>
             </div>
@@ -38,11 +44,12 @@
       </el-table-column>
       <el-table-column
           label="描述"
-          prop="description">
+          prop="description"
+          width="500">
       </el-table-column>
       <el-table-column
           label="操作"
-          width="200">
+          >
         <el-button type="success" round>编辑</el-button>
         <el-button type="danger" round>删除</el-button>
       </el-table-column>
@@ -110,7 +117,27 @@ export default {
             address: '上海市普陀区真北路',
             storeId: '10333',
             storeName: '好名字店铺',
-          }
+          },
+          {
+            goodsId: '12987129',
+            name: '好滋好味鸡蛋仔',
+            category: '零食',
+            description: '荷兰优质淡奶，奶香浓而不腻',
+            img: 'https://2d.zol-img.com.cn/product/211_200x150/655/ce9W4dWqmCrd2.jpg',
+            address: '上海市普陀区真北路',
+            storeId: '10333',
+            storeName: '好名字店铺',
+          },
+          {
+            goodsId: '12987130',
+            name: '好滋好味鸡蛋仔',
+            category: '零食',
+            description: '荷兰优质淡奶，奶香浓而不腻',
+            img: 'https://2d.zol-img.com.cn/product/211_200x150/655/ce9W4dWqmCrd2.jpg',
+            address: '上海市普陀区真北路',
+            storeId: '10333',
+            storeName: '好名字店铺',
+          },
         ];
   }
 }
