@@ -21,20 +21,20 @@ _axios.interceptors.request.use(
 //响应拦截器
 _axios.interceptors.response.use(
     res => {
-        if (res.data.code === 401 ) {
-            Message.error('网络请求失败')
-        }
-        if (res.data.code === 400 ) {
-            Message.error('网络请求失败')
-        }
-        if (res.data.code === 404 ) {
-            Message.error('网络请求失败')
-        }
+        // if (res.data.code === 401 ) {
+        //     Message.error('网络请求失败')
+        // }
+        // if (res.data.code === 400 ) {
+        //     Message.error('网络请求失败')
+        // }
+        // if (res.data.code === 404 ) {
+        //     Message.error('网络请求失败')
+        // }
         return res;
     },
     err => {
         if (err) {
-            Message.error('网络请求失败')
+            Message.error('网络请求失败！')
         }
         return Promise.reject(err);
     }

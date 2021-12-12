@@ -23,13 +23,13 @@
               <el-menu-item index="/cart" class="menu-item" @click="routerLink('/cart')">
                 购物车
               </el-menu-item>
-              <div v-if="this.token !== null" style="display: inline-block;">
+              <div v-if="hasToken()" style="display: inline-block;">
                 <el-menu-item index="/personal" class="menu-item"
                               @click="routerLink('/personal')">
                   <el-avatar size="small">
-                    <img :src="avatar" alt="">
+                    <img :src="avatar()" alt="">
                   </el-avatar>
-                  &nbsp;{{ nickName }}
+                  &nbsp;{{ nickname() }}
                 </el-menu-item>
                 <el-menu-item slot="reference" index="/logout" class="menu-item"
                               @click="logout">退出登录
@@ -58,30 +58,40 @@
 </template>
 
 <script>
+
 export default {
   data() {
     return {
       mallName: '好 名 字 商 城',
-      token: null,
-      nickName: '',
-      avatar: ''
     }
   },
   methods: {
+    hasToken() {
+      return localStorage.getItem('token') !== null;
+    },
+    nickname() {
+      return localStorage.getItem('nickname');
+    },
+    avatar() {
+      return localStorage.getItem('avatar');
+    },
     routerLink(location) {
       this.$router.replace(location);
     },
     logout() {
       localStorage.clear();
-      setTimeout(() => {
-        location.reload();
-      }, 300);
+      this.$message({
+        type: "success",
+        duration: 1000,
+        message: '已退出登录'
+      });
+      this.$router.replace('/login')
+      this.$router.replace('/')
+
     }
   },
   created() {
-    this.token = localStorage.getItem('token');
-    this.nickName = localStorage.getItem('nickname');
-    this.avatar = localStorage.getItem('avatar');
+
   },
   computed: {
     activePath() {
@@ -91,7 +101,8 @@ export default {
           this.$route.path === '/systemManage') {
         return '/personal';
       } else return this.$route.path;
-    }
+    },
+
   }
 
 }

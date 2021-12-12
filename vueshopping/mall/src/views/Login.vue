@@ -15,8 +15,8 @@
       </el-form-item>
       <br>
       <el-form-item style="float: right">
-        <el-button type="primary" @click="submitForm">登录</el-button>
-        <el-button @click="resetForm('ruleForm')">重置</el-button>
+        <el-button type="primary" round @click="submitForm">登录</el-button>
+        <el-button round @click="resetForm('ruleForm')">重置</el-button>
       </el-form-item>
     </el-form>
   </div>
@@ -72,9 +72,7 @@ export default {
           localStorage.setItem('isMembership', info.userInfo.isMembership);
           this.$message.success('登录成功！');
           this.$router.replace('/');
-          setTimeout(() => {
-            location.reload();
-          }, 300);
+
           // this.$http
           //     .get('user/login', {
           //       username: this.username,
