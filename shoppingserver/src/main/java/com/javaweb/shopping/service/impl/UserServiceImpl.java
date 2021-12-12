@@ -7,6 +7,7 @@ import com.javaweb.shopping.vo.ResultVO;
 import io.jsonwebtoken.JwtBuilder;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
+import org.apache.ibatis.annotations.Mapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -18,7 +19,7 @@ import java.util.List;
 
 //用户注册的实现与登入检测的实现
 @Service
-public class UserServiceImpl implements UserService {
+public class UserServiceImpl {
     @Autowired
    private UserMapper userMapper;
 
@@ -51,7 +52,7 @@ public class UserServiceImpl implements UserService {
     }
 
     //检查登入用户
-    @Override
+
     public ResultVO checkLogin( String name, String pwd){
         Example example = new Example(User.class);
         Example.Criteria criteria = example.createCriteria();

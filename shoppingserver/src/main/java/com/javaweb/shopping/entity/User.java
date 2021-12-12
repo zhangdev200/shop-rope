@@ -1,11 +1,12 @@
 package com.javaweb.shopping.entity;
 
+import org.springframework.context.annotation.Bean;
 import org.springframework.stereotype.Repository;
 
 import java.sql.Date;
 import javax.persistence.*;
 
-
+@Repository
 public class User {
     /**
      * 主键id 用户id

@@ -7,8 +7,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Data
-@NoArgsConstructor
-@AllArgsConstructor
+
 @ApiModel(value = "ResultVO对象",description = "封装接口返回给前端的数据")
 public class ResultVO {
     //响应给前端的状态码

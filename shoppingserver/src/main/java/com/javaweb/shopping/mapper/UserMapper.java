@@ -1,11 +1,11 @@
 package com.javaweb.shopping.mapper;
 
 import com.javaweb.shopping.entity.User;
-import org.apache.ibatis.annotations.Param;
+import org.apache.ibatis.annotations.Mapper;
 import org.springframework.stereotype.Repository;
 
-import java.util.List;
+@Mapper
 @Repository
-public interface UserMapper  extends GeneralDao<User>{
+public interface UserMapper  extends GeneralDAO<User>{
 
 }

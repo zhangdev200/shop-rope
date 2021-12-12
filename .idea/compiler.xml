@@ -9,10 +9,10 @@
         <outputRelativeToContentRoot value="true" />
         <module name="shopping" />
         <module name="shopSystem" />
-        <module name="shop-rope" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
+      <module name="shop-rope" target="1.5" />
       <module name="shoppingserver" target="1.8" />
     </bytecodeTargetLevel>
   </component>
