@@ -1,10 +1,6 @@
 <template>
   <div id="personalManage">
     <div style="text-align: left">
-      <h1>修改资料</h1>
-    </div>
-    <el-divider></el-divider>
-    <div style="text-align: left">
       <h4>基本信息</h4>
     </div>
     <div class="card">
