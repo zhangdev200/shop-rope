@@ -18,7 +18,8 @@ public class CategoryTest {
     private CategoryMapper categoryMapper;
     @Test
     public void test(){
-        List<CategoryVO> categoryVOS = categoryMapper.selectAllCategories();
-        System.out.println(categoryVOS.size());
+
+
+        categoryMapper.deleteCategory(52);
     }
 }

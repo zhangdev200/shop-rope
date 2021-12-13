@@ -114,6 +114,15 @@
                category_bg_color
         from category where category_level=1
     </select>
+    
+    <insert id="addCategory" parameterType="com.javaweb.shopping.entity.CategoryVO" >
+        insert into category values(#{categoryId},#{categoryName},#{categoryLevel},#{parentId},#{categoryIcon},#{categorySlogan},
+        #{categoryPic},#{categoryBgColor})
+    </insert>
+
+    <delete id="deleteCategory">
+        delete from category where category_id=#{categoryId};
+    </delete>
 
 </mapper>
 

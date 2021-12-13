@@ -19,4 +19,8 @@ public interface CategoryMapper extends GeneralDAO<Category> {
     //3.查询一级类别
     public List<CategoryVO> selectFirstLevelCategories();
 
+    //4.增加类别
+    void addCategory(CategoryVO categoryvo);
+    //5.删除类别
+    void deleteCategory(int categoryId);
 }
