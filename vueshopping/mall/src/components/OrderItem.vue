@@ -1,5 +1,5 @@
 <template>
-  <transition>
+  <transition name="el-zoom-in-top">
     <div>
       <el-row class="order">
         <el-col :span="3">

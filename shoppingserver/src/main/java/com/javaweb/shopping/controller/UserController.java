@@ -19,7 +19,7 @@ import javax.annotation.Resource;
 @RestController
 @Api(value = "提供用户的登录和注册接口",tags = "用户管理")
 @CrossOrigin
-@Controller
+@RequestMapping("/user")
 public class UserController {
 
     @Resource
@@ -31,15 +31,12 @@ public class UserController {
             @ApiImplicitParam(dataType = "string",name = "username", value = "用户登录账号",required = true),
             @ApiImplicitParam(dataType = "string",name = "password", value = "用户登录密码",required = true)
     })
-    @RequestMapping ("user/login")
-    public String login(){
-       /* ResultVO resultVO = userService.checkLogin(name, pwd);
-  //      logger.info(resultVO.getMsg());
-        return resultVO;*/
-        ResultVO resultVO = userService.userResgit("hqf","123");
-       System.out.println("hello");
-       return "hello";
-
+    @GetMapping("/login")
+    public ResultVO login(@RequestParam("username") String name,
+                          @RequestParam(value = "password") String pwd){
+        ResultVO resultVO = userService.checkLogin(name, pwd);
+        logger.info(resultVO.getMsg());
+        return resultVO;
     }
 
 
@@ -49,10 +46,9 @@ public class UserController {
             @ApiImplicitParam(dataType = "string",name = "username", value = "用户注册账号",required = true),
             @ApiImplicitParam(dataType = "string",name = "password", value = "用户注册密码",required = true)
     })
-    @RequestMapping ("user/regist")
-    public ResultVO regist(@RequestParam("username") String name,
-                           @RequestParam(value = "password") String pwd){
-        ResultVO resultVO = userService.userResgit(name,pwd);
+    @PostMapping("/regist")
+    public ResultVO regist(@RequestBody User user){
+        ResultVO resultVO = userService.userResgit(user.getUsername(), user.getPassword());
         return resultVO;
     }
 

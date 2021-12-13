@@ -76,6 +76,17 @@ public class User {
     @Column(name = "isVIP")
     private boolean isVIP ;//是否为会员
 
+
+
+    @Column(name="user_address")
+    private String user_address;
+    public String getUser_address() {
+        return user_address;
+    }
+
+    public void setUser_address(String user_address) {
+        this.user_address = user_address;
+    }
     public int getUserId() {
         return userId;
     }

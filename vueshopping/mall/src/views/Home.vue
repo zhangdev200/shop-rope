@@ -7,7 +7,7 @@
           <el-menu
               id="header-menu"
               class="el-menu-demo"
-              :default-active="activePath"
+              :default-active="activePath()"
               mode="horizontal"
               background-color="rgba(210,210,210,1)"
               text-color="#000"
@@ -23,7 +23,7 @@
               <el-menu-item index="/cart" class="menu-item" @click="routerLink('/cart')">
                 购物车
               </el-menu-item>
-              <div v-if="hasToken()" style="display: inline-block;">
+              <div v-show="hasToken()" style="display: inline-block;">
                 <el-menu-item index="/personal" class="menu-item"
                               @click="routerLink('/personal')">
                   <el-avatar size="small">
@@ -34,9 +34,8 @@
                 <el-menu-item slot="reference" index="/logout" class="menu-item"
                               @click="logout">退出登录
                 </el-menu-item>
-
               </div>
-              <div v-else style="display: inline-block;">
+              <div v-show="!hasToken()" style="display: inline-block;">
                 <el-menu-item index="/login" class="menu-item"
                               @click="routerLink('/login')">
                   登录
@@ -66,6 +65,15 @@ export default {
     }
   },
   methods: {
+    activePath() {
+      if (this.$route.path === '/personalManage' ||
+          this.$route.path === '/orderManage' ||
+          this.$route.path === '/storeManage' ||
+          this.$route.path === '/systemManage') {
+        return '/personal';
+      }
+      return this.$route.path;
+    },
     hasToken() {
       return localStorage.getItem('token') !== null;
     },
@@ -86,25 +94,12 @@ export default {
         message: '已退出登录'
       });
       this.$router.replace('/login')
-      this.$router.replace('/')
-
+      this.$router.replace('/');
     }
   },
   created() {
 
   },
-  computed: {
-    activePath() {
-      if (this.$route.path === '/personalManage' ||
-          this.$route.path === '/orderManage' ||
-          this.$route.path === '/storeManage' ||
-          this.$route.path === '/systemManage') {
-        return '/personal';
-      } else return this.$route.path;
-    },
-
-  }
-
 }
 </script>
 
@@ -137,6 +132,4 @@ export default {
 #bottom {
   margin-top: 70px;
 }
-
-
 </style>
