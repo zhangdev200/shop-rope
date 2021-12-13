@@ -1,4 +1,4 @@
-package com.javaweb.shopping.mapper;
+package com.javaweb.shopping.general;
 
 import tk.mybatis.mapper.common.Mapper;
 import tk.mybatis.mapper.common.MySqlMapper;
