@@ -69,8 +69,9 @@ public class UserServiceImpl implements UserService {
                 JwtBuilder builder = Jwts.builder();
 
                 HashMap<String,Object> map = new HashMap<>();
-                map.put("key1","value1");
-                map.put("key2","value2");
+                map.put("isAdmin",users.get(0).isAdmin());
+                map.put("isShopKeeper",users.get(0).isShopKeeper());
+                map.put("isVIP",users.get(0).isVIP());
 
                 String token = builder.setSubject(name)                     //主题，就是token中携带的数据
                         .setIssuedAt(new java.util.Date())                            //设置token的生成时间
@@ -86,6 +87,42 @@ public class UserServiceImpl implements UserService {
             }
         }
 
+    }
+
+    public ResultVO becomeVIP(String name){
+        Example example = new Example(User.class);
+        Example.Criteria criteria = example.createCriteria();
+        criteria.andEqualTo("username", name);
+        List<User> users = userMapper.selectByExample(example);
+        if (users.size()==0){
+            return new ResultVO(ResStatus.NO,"用户名不存在！",null);
+        }else{
+            if(users.get(0).isVIP()){
+                return new ResultVO(ResStatus.NO,"用户已经是VIP！",null);
+            }
+            else{
+                users.get(0).setVIP(true);
+                Example example2 = new Example(User.class);
+                Example.Criteria criteria1 = example2.createCriteria();
+                criteria1.andEqualTo("username", name);
+                userMapper.updateByExample(users.get(0),example2);
+                JwtBuilder builder = Jwts.builder();
+
+                HashMap<String,Object> map = new HashMap<>();
+                map.put("isAdmin",users.get(0).isAdmin());
+                map.put("isShopKeeper",users.get(0).isShopKeeper());
+                map.put("isVIP",users.get(0).isVIP());
+
+                String token = builder.setSubject(name)                     //主题，就是token中携带的数据
+                        .setIssuedAt(new java.util.Date())                            //设置token的生成时间
+                        .setId(users.get(0).getUserId() + "")               //设置用户id为token  id
+                        .setClaims(map)                                     //map中可以存放用户的角色权限信息
+                        .setExpiration(new Date(System.currentTimeMillis() + 24*60*60*1000)) //设置token过期时间
+                        .signWith(SignatureAlgorithm.HS256, "xiaofeng")     //设置加密方式和加密密码
+                        .compact();
+                return new ResultVO(ResStatus.OK,token,users.get(0));
+            }
+        }
     }
 
 }

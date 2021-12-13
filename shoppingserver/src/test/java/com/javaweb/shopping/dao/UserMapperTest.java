@@ -18,10 +18,14 @@ public class UserMapperTest {
     @Test
     public void test(){
         User user = new User();
+
         user.setUserAddress("南昌大学");
         user.setUsername("hqf5");
         user.setNickname("hquuanfu");
+
+        user.setUsername("zxf2");
         user.setPassword("123456");
+        user.setUserAddress("南昌");
         userMapper.insert(user);
 
     }

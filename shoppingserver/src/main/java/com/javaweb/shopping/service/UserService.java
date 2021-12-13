@@ -13,5 +13,6 @@ public interface UserService {
     //用户登录
     ResultVO checkLogin(String name, String pwd);
 
-
+    //注册成为VIP
+    ResultVO becomeVIP(String name);
 }

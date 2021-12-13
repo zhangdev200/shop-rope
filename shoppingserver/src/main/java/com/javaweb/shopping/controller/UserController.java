@@ -41,4 +41,8 @@ public class UserController {
         return new ResultVO(ResStatus.OK,"success",null);
     }
 
+    @GetMapping("/becomevip")
+    public ResultVO becomeVIP(@RequestParam("username") String name){
+        return userService.becomeVIP(name);
+    }
 }
