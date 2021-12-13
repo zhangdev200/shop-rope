@@ -75,7 +75,7 @@ public class UserServiceImpl implements UserService {
                         .setId(users.get(0).getUserId() + "")               //设置用户id为token  id
                         .setClaims(map)                                     //map中可以存放用户的角色权限信息
                         .setExpiration(new Date(System.currentTimeMillis() + 24*60*60*1000)) //设置token过期时间
-                        .signWith(SignatureAlgorithm.HS256, "QIANfeng6666")     //设置加密方式和加密密码
+                        .signWith(SignatureAlgorithm.HS256, "xiaofeng")     //设置加密方式和加密密码
                         .compact();
 
                 return new ResultVO(ResStatus.OK,token,users.get(0));
