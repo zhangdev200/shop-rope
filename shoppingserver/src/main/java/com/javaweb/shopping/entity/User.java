@@ -187,4 +187,22 @@ public class User {
     public void setVIP(boolean VIP) {
         isVIP = VIP;
     }
+
+    public User(int userId, String username, String userSex, String password, String userEmail, String nickname, String realname, String userMobile, String userImg, Date user_birth, Date user_regtime) {
+        this.userId = userId;
+        this.username = username;
+        this.userSex = userSex;
+        this.password = password;
+        this.userEmail = userEmail;
+        this.nickname = nickname;
+        this.realname = realname;
+        this.userMobile = userMobile;
+        this.userImg = userImg;
+        this.user_birth = user_birth;
+        this.user_regtime = user_regtime;
+
+    }
+
+    public User() {
+    }
 }

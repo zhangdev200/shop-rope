@@ -8,4 +8,5 @@ spring:
 mybatis:
   mapper-locations: classpath:mapper/*Mapper.xml
   type-aliases-package: com.javaweb.shopping.entity
-
+server:
+  port: 8081

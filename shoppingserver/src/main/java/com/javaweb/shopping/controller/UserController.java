@@ -36,6 +36,7 @@ public class UserController {
        /* ResultVO resultVO = userService.checkLogin(name, pwd);
   //      logger.info(resultVO.getMsg());
         return resultVO;*/
+        ResultVO resultVO = userService.userResgit("hqf","123");
        System.out.println("hello");
        return "hello";
 
@@ -48,9 +49,10 @@ public class UserController {
             @ApiImplicitParam(dataType = "string",name = "username", value = "用户注册账号",required = true),
             @ApiImplicitParam(dataType = "string",name = "password", value = "用户注册密码",required = true)
     })
-    @PostMapping("user/regist")
-    public ResultVO regist(@RequestBody User user){
-        ResultVO resultVO = userService.userResgit(user.getUsername(), user.getPassword());
+    @RequestMapping ("user/regist")
+    public ResultVO regist(@RequestParam("username") String name,
+                           @RequestParam(value = "password") String pwd){
+        ResultVO resultVO = userService.userResgit(name,pwd);
         return resultVO;
     }
 

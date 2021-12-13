@@ -26,6 +26,7 @@ public class UserServiceImpl implements UserService {
     @Transactional
     public ResultVO userResgit(String name, String pwd){
         synchronized (this){ //同步锁
+            System.out.println("我运行了");
             //1.根据用户查询，这个用户是否已经被注册
             Example example = new Example(User.class);
             Example.Criteria criteria = example.createCriteria();
