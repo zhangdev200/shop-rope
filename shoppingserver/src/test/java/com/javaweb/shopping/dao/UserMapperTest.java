@@ -19,8 +19,9 @@ public class UserMapperTest {
     public void test(){
         System.out.println(userMapper);
         User user = new User();
-        user.setNickname("zxf1");
+        user.setUsername("zxf2");
         user.setPassword("123456");
+        user.setUser_address("南昌");
         userMapper.insert(user);
 //        System.out.println(userMapper.selectAll());;
     }
