@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.javaweb.shopping.mapper.ProductImgMapper">
+
+    <resultMap id="BaseResultMap" type="com.javaweb.shopping.entity.ProductImg">
+        <id column="id" jdbcType="VARCHAR" property="id" />
+        <result column="item_id" jdbcType="VARCHAR" property="itemId" />
+        <result column="url" jdbcType="VARCHAR" property="url" />
+        <result column="sort" jdbcType="INTEGER" property="sort" />
+        <result column="is_main" jdbcType="INTEGER" property="isMain" />
+    </resultMap>
+
+
+    <select id="selectProductImgByProductId" resultMap="BaseResultMap">
+    select
+      id,
+      item_id,
+      url,
+      sort,
+      is_main
+    from product_img
+    where item_id=#{productId}
+  </select>
+</mapper>

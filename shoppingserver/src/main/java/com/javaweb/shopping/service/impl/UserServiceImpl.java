@@ -9,6 +9,7 @@ import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import org.apache.ibatis.annotations.Mapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import tk.mybatis.mapper.entity.Example;
@@ -37,8 +38,8 @@ public class UserServiceImpl implements UserService {
             if (users.size()==0){
                 User user = new User();
                 user.setUsername(name);
-                user.setPassword(pwd);
                 user.setUserImg("img/default.png");
+                user.setPassword(pwd);
                 int i = userMapper.insertUseGeneratedKeys(user);
                 if (i > 0) {
                     return new ResultVO(ResStatus.OK, "注册成功！", user);

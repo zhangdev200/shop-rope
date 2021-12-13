@@ -17,6 +17,7 @@ public class User {
     /**
      * 用户名 用户名
      */
+    @Column(name = "username")
     private String username;
     /**
      * 性别 M(男) or F(女)
@@ -26,6 +27,7 @@ public class User {
     /**
      * 密码 密码
      */
+    @Column(name = "password")
     private String password;
     /**
      * 邮箱地址 邮箱地址
@@ -35,10 +37,12 @@ public class User {
     /**
      * 昵称 昵称
      */
+    @Column(name = "nickname")
     private String nickname;
     /**
      * 真实姓名 真实姓名
      */
+    @Column(name = "realname")
     private String realname;
     /**
      * 手机号 手机号
@@ -76,17 +80,18 @@ public class User {
     @Column(name = "isVIP")
     private boolean isVIP ;//是否为会员
 
-
-
     @Column(name="user_address")
-    private String user_address;
-    public String getUser_address() {
-        return user_address;
+    private String userAddress;
+
+    public String getUserAddress() {
+        return userAddress;
     }
 
-    public void setUser_address(String user_address) {
-        this.user_address = user_address;
+    public void setUserAddress(String userAddress) {
+        this.userAddress = userAddress;
     }
+
+
     public int getUserId() {
         return userId;
     }
@@ -199,7 +204,7 @@ public class User {
         isVIP = VIP;
     }
 
-    public User(int userId, String username, String userSex, String password, String userEmail, String nickname, String realname, String userMobile, String userImg, Date user_birth, Date user_regtime) {
+    public User(int userId, String username, String userSex, String password, String userEmail, String nickname, String realname, String userMobile, String userImg, Date user_birth, Date user_regtime,String userAddress) {
         this.userId = userId;
         this.username = username;
         this.userSex = userSex;
@@ -211,7 +216,7 @@ public class User {
         this.userImg = userImg;
         this.user_birth = user_birth;
         this.user_regtime = user_regtime;
-
+        this.userAddress=userAddress;
     }
 
     public User() {

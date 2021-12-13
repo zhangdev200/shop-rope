@@ -1,28 +1,27 @@
 package com.javaweb.shopping.dao;
 
 import com.javaweb.shopping.ShoppingApplication;
-import com.javaweb.shopping.entity.User;
-import com.javaweb.shopping.mapper.UserMapper;
-import com.javaweb.shopping.service.UserService;
+import com.javaweb.shopping.entity.ProductVO;
+import com.javaweb.shopping.mapper.ProductMapper;
+import com.javaweb.shopping.service.ProductService;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
+import java.util.List;
+
 @RunWith(SpringRunner.class)
 @SpringBootTest(classes = ShoppingApplication.class)
-public class UserMapperTest {
+public class ProductMapperTest {
     @Autowired
-    private UserMapper userMapper;
+    private ProductMapper productMapper;
+
     @Test
     public void test(){
-        User user = new User();
-        user.setUserAddress("南昌大学");
-        user.setUsername("hqf5");
-        user.setNickname("hquuanfu");
-        user.setPassword("123456");
-        userMapper.insert(user);
 
+      List<ProductVO> productVOS=productMapper.selectProductByKeyword("商品11",1,9);
+      System.out.println(productVOS.size());
     }
 }

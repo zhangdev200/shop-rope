@@ -7,8 +7,7 @@ import lombok.NoArgsConstructor;
 import java.util.List;
 
 @Data
-@NoArgsConstructor
-@AllArgsConstructor
+
 public class PageHelper<T> {
 
     //总记录数
@@ -20,4 +19,12 @@ public class PageHelper<T> {
     //分页数据
     private List<T> list;
 
+    public PageHelper() {
+    }
+
+    public PageHelper(int count, int pageCount, List<T> list) {
+        this.count = count;
+        this.pageCount = pageCount;
+        this.list = list;
+    }
 }
