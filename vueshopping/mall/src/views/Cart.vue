@@ -125,6 +125,7 @@ export default {
           }
         }
       }
+      this.$message.success('删除成功！');
     },
     toLogin() {
       this.$router.replace('/login');

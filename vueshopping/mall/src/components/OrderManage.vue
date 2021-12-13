@@ -144,6 +144,7 @@ export default {
           }
         }
       }
+      this.$message.success('删除成功！');
     }
   }
 }
