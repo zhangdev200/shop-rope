@@ -73,6 +73,7 @@ public class UserServiceImpl implements UserService {
                 map.put("isShopKeeper",users.get(0).isShopKeeper());
                 map.put("isVIP",users.get(0).isVIP());
                 map.put("username",users.get(0).getUsername());
+                map.put("userId",users.get(0).getUserId());
 
                 String token = builder.setSubject(name)                     //主题，就是token中携带的数据
                         .setIssuedAt(new java.util.Date())                            //设置token的生成时间
