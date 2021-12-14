@@ -25,6 +25,9 @@ public class ShoppingCartServicelmpl implements ShoppingCartService {
     @Override
     public ResultVO addShoppingCart(ShoppingCart cart) {
         cart.setCartTime(sdf.format(new Date()));
+        if(cart.getCartNum()==null){
+            cart.setCartNum("1");
+        }
         int i = shoppingCartMapper.insert(cart);
         if(i>0){
             return new ResultVO(ResStatus.OK,"success",null);
