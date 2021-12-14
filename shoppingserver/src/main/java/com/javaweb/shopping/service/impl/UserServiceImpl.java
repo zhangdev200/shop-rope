@@ -8,6 +8,7 @@ import io.jsonwebtoken.JwtBuilder;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Result;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
@@ -91,6 +92,17 @@ public class UserServiceImpl implements UserService {
 
     }
 
+    public ResultVO getUserInfo(String name){
+        Example example = new Example(User.class);
+        Example.Criteria criteria = example.createCriteria();
+        criteria.andEqualTo("username", name);
+        List<User> users = userMapper.selectByExample(example);
+        if(users.size()==0){
+            return new ResultVO(ResStatus.NO,"用户不存在！",null);
+        }else{
+            return new ResultVO(ResStatus.OK,"返回用户数据",users.get(0));
+        }
+    }
     public ResultVO becomeVIP(String name){
         Example example = new Example(User.class);
         Example.Criteria criteria = example.createCriteria();
@@ -114,6 +126,8 @@ public class UserServiceImpl implements UserService {
                 map.put("isAdmin",users.get(0).isAdmin());
                 map.put("isShopKeeper",users.get(0).isShopKeeper());
                 map.put("isVIP",users.get(0).isVIP());
+                map.put("username",users.get(0).getUsername());
+                map.put("userId",users.get(0).getUserId());
 
                 String token = builder.setSubject(name)                     //主题，就是token中携带的数据
                         .setIssuedAt(new java.util.Date())                            //设置token的生成时间

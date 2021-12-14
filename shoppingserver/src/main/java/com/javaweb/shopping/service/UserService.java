@@ -15,4 +15,6 @@ public interface UserService {
 
     //注册成为VIP
     ResultVO becomeVIP(String name);
+
+    ResultVO getUserInfo(String name);
 }

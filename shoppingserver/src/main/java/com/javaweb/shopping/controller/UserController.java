@@ -3,6 +3,7 @@ package com.javaweb.shopping.controller;
 import com.javaweb.shopping.entity.User;
 import com.javaweb.shopping.service.UserService;
 import com.javaweb.shopping.service.impl.UserServiceImpl;
+import com.javaweb.shopping.utils.TokenUtil;
 import com.javaweb.shopping.vo.ResStatus;
 import com.javaweb.shopping.vo.ResultVO;
 import io.swagger.annotations.Api;
@@ -61,5 +62,10 @@ public class UserController {
     @GetMapping("/becomevip")
     public ResultVO becomeVIP(@RequestParam("username") String name){
         return userService.becomeVIP(name);
+    }
+    @GetMapping("/info")
+    public ResultVO getInfomation(@RequestHeader("token") String token){
+        String username= TokenUtil.getUsername(token);
+        return userService.getUserInfo(username);
     }
 }
