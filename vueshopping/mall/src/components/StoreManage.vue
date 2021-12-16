@@ -1,14 +1,6 @@
 <template>
   <div style="position: relative; left: 250px; width: 80%;">
-    <div style="text-align: left; margin-top: 25px">
-      <el-form label-width="90px">
-        <el-form-item label="店铺名称" class="form1">
-          <el-input v-model="this.tableData[0].storeName" style="width: 300px; margin-right: 30px"></el-input>
-          <el-button type="primary" round>修改</el-button>
-        </el-form-item>
-      </el-form>
-    </div>
-    <br>
+    <h4 style="text-align: left;">商品管理</h4>
     <el-table :data="tableData"
               style="width: 100%; font-size: 16px; border-radius: 15px;box-shadow: 0 2px 12px 0 rgba(0, 0, 0, 0.3);"
               border
@@ -17,12 +9,12 @@
       <el-table-column
           label="商品 ID"
           prop="goodsId"
-          >
+      >
       </el-table-column>
       <el-table-column
           label="商品名称"
           prop="name"
-          >
+      >
       </el-table-column>
       <el-table-column
           label="分类"
@@ -32,9 +24,9 @@
       <el-table-column
           label="图片"
           prop="img"
-          >
+      >
         <template slot-scope="scope">
-          <el-popover trigger="hover" placement="right-end" close-delay="0">
+          <el-popover trigger="hover" placement="right-end" :close-delay=0>
             <img :src="scope.row.img" alt="加载失败">
             <div slot="reference" class="name-wrapper" style="width: 70px">
               <el-tag size="medium">查看图片</el-tag>
@@ -49,11 +41,20 @@
       </el-table-column>
       <el-table-column
           label="操作"
-          >
+      >
         <el-button type="success" round>编辑</el-button>
         <el-button type="danger" round>删除</el-button>
       </el-table-column>
     </el-table>
+    <br>
+    <div style="text-align: left; margin-top: 25px">
+      <el-form label-width="90px">
+        <el-form-item label="店铺名称" class="form1">
+          <span style="font-size: 18px; margin-right: 30px">{{ this.tableData[0].storeName }}</span>
+          <el-button type="primary" round>修改</el-button>
+        </el-form-item>
+      </el-form>
+    </div>
   </div>
 </template>
 

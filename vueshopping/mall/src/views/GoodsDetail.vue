@@ -51,7 +51,16 @@ export default {
   },
   methods: {
     addToCart() {
-      alert(this.$route.params.id);
+      this.$http
+      .post('shopcart/add', {
+        productId: this.$route.params.id,
+        userId: JSON.parse(localStorage.getItem('userInform')).userId,
+      })
+      .then(res => {
+        if (res.code === 10000) {
+          this.$message.success('添加成功！')
+        }
+      });
     },
     buyNow() {
 

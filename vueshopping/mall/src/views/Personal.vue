@@ -6,7 +6,7 @@
             id="menu"
             :default-active="$route.path"
             class="el-menu-vertical-demo"
-            style="height: 110vh;"
+            style="height: 110vh"
             background-color="rgb(217,217,217)"
             text-color="#000"
             active-text-color="rgb(44,138,255)">
@@ -18,30 +18,53 @@
             <el-divider></el-divider>
           </el-menu-item>
           <el-menu-item index="/orderManage" class="item" @click="routerLink('/orderManage')">
-            <div class="inner-item">
+            <div>
               <i class="el-icon-goods" style="font-size: 20px"></i>
               <span slot="title">我的订单</span>
             </div>
           </el-menu-item>
-          <el-menu-item index="/storeManage" class="item" @click="routerLink('/storeManage')">
-            <div class="inner-item">
+          <el-menu-item v-if="isShopKeeper" index="/storeManage" class="item" @click="routerLink('/storeManage')">
+            <div>
               <i class="el-icon-s-shop" style="font-size: 20px"></i>
-              <span slot="title">我的店铺</span>
+              <span>我的店铺</span>
             </div>
           </el-menu-item>
-          <el-menu-item v-if="isAdministrator" index="/systemManage" class="item" @click="routerLink('/systemManage')">
-            <div class="inner-item">
-              <i class="el-icon-s-tools" style="font-size: 20px"></i>
-              <span slot="title">系统管理</span>
-            </div>
-          </el-menu-item>
+          <el-submenu index="1" class="item" v-if="isAdministrator">
+            <template slot="title">
+              <div class="item">
+                <i class="el-icon-s-tools" style="font-size: 20px"></i>
+                <span slot="title">系统管理</span>
+              </div>
+            </template>
+            <el-menu-item index="/system/seller" class="item" @click="routerLink('/system/seller')">
+              <div class="subItem">
+                <span slot="title">商家管理</span>
+              </div>
+            </el-menu-item>
+            <el-menu-item index="/system/recommend" class="item" @click="routerLink('/system/recommend')">
+              <div class="subItem">
+                <span slot="title">推荐管理</span>
+              </div>
+            </el-menu-item>
+            <el-menu-item index="/system/category" class="item" @click="routerLink('/system/category')">
+              <div class="subItem">
+                <span slot="title">类别管理</span>
+              </div>
+            </el-menu-item>
+            <el-menu-item index="/system/carousel" class="item" @click="routerLink('/system/carousel')">
+              <div class="subItem">
+                <span slot="title">轮播图管理</span>
+              </div>
+            </el-menu-item>
+          </el-submenu>
         </el-menu>
       </el-aside>
       <el-main id="container">
-        <router-view></router-view>
+        <keep-alive>
+          <router-view></router-view>
+        </keep-alive>
       </el-main>
     </el-container>
-
   </div>
 </template>
 
@@ -50,7 +73,7 @@ export default {
   name: "Personal",
   data() {
     return {
-      isStoreOwner: false,
+      isShopKeeper: false,
       isAdministrator: false
     };
   },
@@ -59,24 +82,20 @@ export default {
       this.$router.replace(location);
     }
   },
-  created() {
-    let info =
-        {
-          nickname: '好名字',
-          avatar: 'https://cube.elemecdn.com/3/7c/3ea6beec64369c2642b92c6726f1epng.png',
-          address: '江西省南昌市南昌大学前湖校区19栋',
-          phoneNumber: '13888888888',
-          isMembership: true,
-          isStoreOwner: true,
-          isAdministrator: true,
-        };
-    this.isStoreOwner = info.isStoreOwner;
-    this.isAdministrator = info.isAdministrator;
-    // this.$http.get('api')
-    //     .then((res) => {
-    //       this.isStoreOwner = res.data.isStoreOwner;
-    //       this.isAdministrator = res.data.isAdministrator;
-    //     });
+  mounted() {
+    this.$http
+        .get('user/info')
+        .then((res) => {
+          if (res.code === 10000) {
+            this.isShopKeeper = res.data.shopKeeper;
+            this.isAdministrator = res.data.admin;
+          } else {
+            this.$message.error('网络请求失败！');
+          }
+        })
+        .catch(err => {
+          this.$message.error(err + '获取权限信息失败');
+        });
   }
 }
 </script>
@@ -84,7 +103,7 @@ export default {
 <style scoped>
 
 #container {
-
+  width: 100%;
 }
 
 #aside {
@@ -100,10 +119,14 @@ export default {
 }
 
 .item {
-  border-radius: 10px;
-  margin: 15px;
+  margin: 15px 0;
   font-size: 20px;
   text-align: left;
+}
+
+.subItem {
+  position: relative;
+  left: 20px;
 }
 
 </style>

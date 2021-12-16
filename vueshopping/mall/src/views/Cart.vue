@@ -112,20 +112,50 @@ export default {
       }
     },
     deleteItems() {
-      let newSet = this.selectGoodsIdSet;
-      for (let i of newSet) {
-        for (let j = 0; j < this.cartList.length; j++) {
-          if (this.cartList[j].goodsId === i) {
-            this.cartList.splice(j, 1);
+      if (this.selectGoodsIdSet.size === 0) {
+        this.$message.warning('请选择要删除的商品！');
+      } else {
+        let newSet = this.selectGoodsIdSet;
+        for (let i of newSet) {
+          for (let j = 0; j < this.cartList.length; j++) {
+            if (this.cartList[j].goodsId === i) {
+              this.cartList.splice(j, 1);
+            }
+          }
+          for (let k of this.$refs.cart) {
+            if (k.selected && k.itemData.goodsId === i) {
+              k.select();
+            }
           }
         }
-        for (let k of this.$refs.cart) {
-          if (k.selected && k.itemData.goodsId === i) {
-            k.select();
-          }
-        }
+        this.$message.success('删除成功！');
+        // this.$http
+        //     .get('user/login', {
+        //       data: Array.from(this.selectGoodsIdSet)
+        //     })
+        //     .then(res => {
+        //       if (res.code === 10000) {
+        //         let newSet = this.selectGoodsIdSet;
+        //         for (let i of newSet) {
+        //           for (let j = 0; j < this.cartList.length; j++) {
+        //             if (this.cartList[j].goodsId === i) {
+        //               this.cartList.splice(j, 1);
+        //             }
+        //           }
+        //           for (let k of this.$refs.cart) {
+        //             if (k.selected && k.itemData.goodsId === i) {
+        //               k.select();
+        //             }
+        //           }
+        //         }
+        //         this.$message.success('删除成功！');
+        //       }
+        //     })
+        //     .catch(err => {
+        //       this.$message.error(err);
+        //     });
+
       }
-      this.$message.success('删除成功！');
     },
     toLogin() {
       this.$router.replace('/login');
@@ -142,7 +172,7 @@ export default {
         [
           {
             goodsId: 1,
-            goodsName: '',
+            goodsName: '商品名称',
             img: 'url',
             description: 'goodsId:1 描述信息描述信息描述信息描述信息描述信息描述信息描述信息' +
                 '描述信息描述信息描述信息描述信息描述信息描述信息描述信息',
@@ -150,7 +180,7 @@ export default {
           },
           {
             goodsId: 2,
-            goodsName: '',
+            goodsName: '商品名称',
             img: 'url',
             description: 'goodsId:2 描述信息描述信息描述信息描述信息描述信息描述信息描述信息' +
                 '描述信息描述信息描述信息描述信息描述信息描述信息描述信息',
@@ -158,7 +188,7 @@ export default {
           },
           {
             goodsId: 3,
-            goodsName: '',
+            goodsName: '商品名称',
             img: 'url',
             description: 'goodsId:3 描述信息描述信息描述信息描述信息描述信息描述信息描述信息' +
                 '描述信息描述信息描述信息描述信息描述信息描述信息描述信息',
@@ -166,7 +196,7 @@ export default {
           },
           {
             goodsId: 4,
-            goodsName: '',
+            goodsName: '商品名称',
             img: 'url',
             description: 'goodsId:4 描述信息描述信息描述信息描述信息描述信息描述信息描述信息' +
                 '描述信息描述信息描述信息描述信息描述信息描述信息描述信息',
@@ -174,7 +204,7 @@ export default {
           },
           {
             goodsId: 5,
-            goodsName: '',
+            goodsName: '商品名称',
             img: 'url',
             description: 'goodsId:5 描述信息描述信息描述信息描述信息描述信息描述信息描述信息' +
                 '描述信息描述信息描述信息描述信息描述信息描述信息描述信息',
@@ -182,7 +212,7 @@ export default {
           },
           {
             goodsId: 6,
-            goodsName: '',
+            goodsName: '商品名称',
             img: 'url',
             description: 'goodsId:6 描述信息描述信息描述信息描述信息描述信息描述信息描述信息' +
                 '描述信息描述信息描述信息描述信息描述信息描述信息描述信息',

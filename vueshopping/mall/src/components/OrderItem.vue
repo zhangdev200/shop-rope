@@ -7,8 +7,8 @@
         </el-col>
         <el-col :span="21">
           <div style="text-align: left; padding: 0 20px; margin-bottom: 70px; font-size: 16px">
-            <span style="word-wrap: break-word">{{ itemData.description }}</span>
-            <br>
+            <p style="margin: 0; font-weight: bold">{{ itemData.goodsName }}</p>
+            <p style="word-wrap: break-word">{{ itemData.description }}</p>
           </div>
         </el-col>
         <div class="select" @click="select">
@@ -87,7 +87,7 @@ export default {
 <style scoped>
 .order {
   background-color: #eeeeee;
-  border-radius: 20px;
+  border-radius: 10px;
   padding: 20px;
   margin: 25px auto;
 }

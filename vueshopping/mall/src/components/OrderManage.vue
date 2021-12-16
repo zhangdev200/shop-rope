@@ -137,14 +137,25 @@ export default {
       }
     },
     deleteItems() {
-      for (let i of this.selectSet) {
-        for (let j = 0; j < this.orderList.length; j++) {
-          if (this.orderList[j].goodsId === i) {
-            this.orderList.splice(j, 1);
+      if (this.selectSet.size === 0) {
+        this.$message.warning('请选择要删除的订单！');
+      } else {
+        // this.$http
+        //     .get('api', {
+        //       data: Array.from(this.selectSet)
+        //     })
+        //     .then(res => {
+        //
+        //     });
+        for (let i of this.selectSet) {
+          for (let j = 0; j < this.orderList.length; j++) {
+            if (this.orderList[j].goodsId === i) {
+              this.orderList.splice(j, 1);
+            }
           }
         }
+        this.$message.success('删除成功！');
       }
-      this.$message.success('删除成功！');
     }
   }
 }
@@ -166,7 +177,7 @@ export default {
   bottom: 0;
   width: 100%;
   height: 60px;
-  background-color: rgba(217,217,217, 1);
+  background-color: rgba(217, 217, 217, 1);
   z-index: 10;
   padding-top: 20px;
 }

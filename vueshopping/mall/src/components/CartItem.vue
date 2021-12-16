@@ -6,8 +6,9 @@
           <img src="../assets/Hamburger.png" alt="" style="width: 100%; border-radius: 15px"/>
         </el-col>
         <el-col :span="21">
-          <div style="text-align: left; padding: 0 20px; margin-bottom: 70px">
-            <span style="word-wrap: break-word; font-size: 16px">{{ itemData.description }}</span>
+          <div style="text-align: left; padding: 0 20px; margin-bottom: 70px; font-size: 16px">
+            <p style="margin: 0; font-weight: bold">{{ itemData.goodsName }}</p>
+            <p style="word-wrap: break-word; font-size: 16px">{{ itemData.description }}</p>
           </div>
         </el-col>
         <div class="select" @click="select">
@@ -30,12 +31,7 @@ export default {
   data() {
     return {
       step: 1,
-      itemData: {
-        goodsId: null,
-        img: null,
-        description: null,
-        price: null,
-      },
+      itemData: {},
       amount: 1,
       totalPrice: 0,
       selected: false,

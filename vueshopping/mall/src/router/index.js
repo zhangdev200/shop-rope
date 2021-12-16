@@ -62,8 +62,20 @@ const routes = [
                         component: () => import('../components/StoreManage'),
                     },
                     {
-                        path: '/systemManage',
-                        component: () => import('../components/SystemManage'),
+                        path: '/system/seller',
+                        component: () => import('../components/SystemManage/SystemSeller'),
+                    },
+                    {
+                        path: '/system/category',
+                        component: () => import('../components/SystemManage/SystemCategory'),
+                    },
+                    {
+                        path: '/system/recommend',
+                        component: () => import('../components/SystemManage/SystemRecommend'),
+                    },
+                    {
+                        path: '/system/carousel',
+                        component: () => import('../components/SystemManage/SystemCarousel'),
                     },
                 ]
             },

@@ -8,18 +8,28 @@
     <el-form :model="ruleForm" status-icon :rules="rules" ref="ruleForm" label-width="80px" class="demo-ruleForm">
       <el-form-item label="用户名">
         <el-input type="text" v-model="ruleForm.username"></el-input>
-      </el-form-item><br>
+      </el-form-item>
+      <br>
       <el-form-item label="密码" prop="pass">
         <el-input type="password" v-model="ruleForm.pass" autocomplete="off"></el-input>
-      </el-form-item><br>
+      </el-form-item>
+      <br>
       <el-form-item label="确认密码" prop="checkPass">
-        <el-input type="password" v-model="ruleForm.checkPass" autocomplete="off"></el-input>
-      </el-form-item><br>
-      <el-form-item style="float: right">
-        <el-button round type="primary" @click="submitForm('ruleForm')">注册</el-button>
-        <el-button round @click="resetForm('ruleForm')">重置</el-button>
+        <el-input type="password" v-model="ruleForm.checkPass" autocomplete="off" @keyup.enter.native="submitForm"></el-input>
+      </el-form-item>
+      <br>
+      <el-form-item>
+        <div style="float: right; width: 300px">
+          <div style="float: right">
+            <el-button round type="primary" @click="submitForm">注册</el-button>
+            <el-button round @click="resetForm">重置</el-button>
+          </div>
+        </div>
       </el-form-item>
     </el-form>
+    <div style="font-size: 12px; float: right">
+      已有账号？立即<el-button type="text" @click="toLogin">登录</el-button>
+    </div>
   </div>
 </template>
 <script>
@@ -61,25 +71,28 @@ export default {
     };
   },
   methods: {
-    submitForm(formName) {
-      this.$refs[formName].validate((valid) => {
+    submitForm() {
+      this.$refs.ruleForm.validate((valid) => {
         if (valid) {
-          this.$http.post('user/regist', {
-            username: this.ruleForm.username,
-            password: this.ruleForm.pass
-          })
-          .then(res => {
-            this.$message.success(res.msg);
-          })
+          this.$http
+              .post('user/regist', {
+                username: this.ruleForm.username,
+                password: this.ruleForm.pass
+              })
+              .then(res => {
+                this.$message.success(res.msg);
+              })
+              .catch(err => this.$message.error(err));
         } else {
-          this.$message.error('请验证输入!');
-
           return false;
         }
       });
     },
-    resetForm(formName) {
-      this.$refs[formName].resetFields();
+    resetForm() {
+      this.$refs.ruleForm.resetFields();
+    },
+    toLogin() {
+      this.$router.replace('login');
     }
   }
 }

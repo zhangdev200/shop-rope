@@ -12,7 +12,6 @@
     <div style="text-align: left">
       <h1>推荐管理（首页商品推荐）</h1>
     </div>
-
   </div>
 </template>
 

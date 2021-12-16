@@ -27,9 +27,9 @@
                 <el-menu-item index="/personal" class="menu-item"
                               @click="routerLink('/personal')">
                   <el-avatar size="small">
-                    <img :src="avatar()" alt="">
+                    <img :src="this.userInform.userImg" alt="">
                   </el-avatar>
-                  &nbsp;{{ nickname() }}
+                  &nbsp;{{ this.userInform.nickname }}
                 </el-menu-item>
                 <el-menu-item slot="reference" index="/logout" class="menu-item"
                               @click="logout">退出登录
@@ -57,11 +57,15 @@
 </template>
 
 <script>
-
 export default {
   data() {
     return {
       mallName: '好 名 字 商 城',
+      userInform: {
+        nickname: '',
+        userImg: '',
+        vip: false
+      },
     }
   },
   methods: {
@@ -69,7 +73,10 @@ export default {
       if (this.$route.path === '/personalManage' ||
           this.$route.path === '/orderManage' ||
           this.$route.path === '/storeManage' ||
-          this.$route.path === '/systemManage') {
+          this.$route.path === '/system/seller' ||
+          this.$route.path === '/system/recommend' ||
+          this.$route.path === '/system/category' ||
+          this.$route.path === '/system/carousel') {
         return '/personal';
       }
       return this.$route.path;
@@ -77,11 +84,8 @@ export default {
     hasToken() {
       return localStorage.getItem('token') !== null;
     },
-    nickname() {
-      return localStorage.getItem('nickname');
-    },
-    avatar() {
-      return localStorage.getItem('avatar');
+    isVip() {
+      return this.userInform.vip;
     },
     routerLink(location) {
       this.$router.replace(location);
@@ -93,13 +97,26 @@ export default {
         duration: 1000,
         message: '已退出登录'
       });
-      this.$router.replace('/login')
-      this.$router.replace('/');
+      if (this.$route.path !== '/index') {
+        this.$router.replace('/index');
+      } else {
+        this.$forceUpdate();
+      }
+    },
+    getUserinform() {
+      if (JSON.parse(localStorage.getItem('userInform')) !== null){
+        this.userInform = JSON.parse(localStorage.getItem('userInform'));
+      }
     }
   },
   created() {
-
+    this.getUserinform();
   },
+  watch: {
+    $route() {
+      this.getUserinform();
+    }
+  }
 }
 </script>
 

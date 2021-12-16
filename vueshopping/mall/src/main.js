@@ -6,6 +6,8 @@ import 'element-ui/lib/theme-chalk/index.css';
 import './assets/icon/iconfont.css'
 import http from "@/api/http";
 
+ElementUI.Dialog.props.lockScroll.default = false;
+
 Vue.use(ElementUI)
 Vue.config.productionTip = false
 Vue.prototype.$http = http;

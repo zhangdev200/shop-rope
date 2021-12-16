@@ -5,15 +5,19 @@
       <div style="position: absolute;">
         <img :src="commentData.avatar" style="width: 50px">
       </div>
-      <div style="margin-left: 70px">
-        <div style="font-weight: bold; margin-bottom: 10px">
-          {{ commentData.nickname }}
+      <div style="margin-left: 70px;">
+        <div style="height: 30px; margin-top: 10px">
+          <div style="font-weight: bold; margin-bottom: 10px; float: left">
+            {{ commentData.nickname }}
+          </div>
+          <div style="float:left; margin-left: 30px">
+            <el-rate
+                v-model="commentData.stars"
+                :colors="colors"
+                disabled>
+            </el-rate>
+          </div>
         </div>
-        <el-rate
-            v-model="commentData.stars"
-            :colors="colors"
-            disabled>
-        </el-rate>
         <div class="comment-content">
           {{ commentData.content }}
         </div>
