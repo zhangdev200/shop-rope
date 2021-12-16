@@ -1,6 +1,6 @@
 import axios from 'axios' //引入
 
-let baseURL = 'apis/'
+let baseURL = ''
 
 let config = {
     baseURL: baseURL,
