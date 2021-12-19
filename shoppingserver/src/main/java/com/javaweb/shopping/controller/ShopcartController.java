@@ -44,7 +44,5 @@ public class ShopcartController {
         ResultVO resultVO = shoppingCartService.listShoppingCartsByCids(cids);
         return resultVO;
     }
-
-
-
+    
 }

@@ -106,7 +106,7 @@
         from product_params
         where product_id in (
             select product_id
-            from product
+            from product    
             where product_name like #{kw}
         )
     </select>
