@@ -28,6 +28,14 @@ public class ShoppingCartServicelmpl implements ShoppingCartService {
         if(cart.getCartNum()==null){
             cart.setCartNum("1");
         }
+
+        List<ShoppingCartVO> list = shoppingCartMapper.selectShopcartByUserId(Integer.parseInt(cart.getUserId()));
+        for(ShoppingCartVO shoppingCartVO: list){
+            if(shoppingCartVO.getProductId().equals(cart.getProductId())){
+                return updateCartNum(shoppingCartVO.getCartId(),Integer.parseInt(shoppingCartVO.getCartNum())+Integer.parseInt(cart.getCartNum()));
+            }
+        }
+
         int i = shoppingCartMapper.insert(cart);
         if(i>0){
             return new ResultVO(ResStatus.OK,"success",null);
