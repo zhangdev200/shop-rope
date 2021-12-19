@@ -1,22 +1,17 @@
-package com.qfedu.fmmall.controller;
+package com.javaweb.shopping.controller;
 
-import com.qfedu.fmmall.dao.ProductMapper;
-import com.qfedu.fmmall.entity.ProductVO;
-import com.qfedu.fmmall.service.CategoryService;
-import com.qfedu.fmmall.service.IndexImgService;
-import com.qfedu.fmmall.service.ProductService;
-import com.qfedu.fmmall.vo.ResStatus;
-import com.qfedu.fmmall.vo.ResultVO;
+
+import com.javaweb.shopping.service.CategoryService;
+import com.javaweb.shopping.service.IndexImgService;
+import com.javaweb.shopping.service.ProductService;
+import com.javaweb.shopping.vo.ResultVO;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-
-import java.util.List;
 
 @RestController
 @CrossOrigin

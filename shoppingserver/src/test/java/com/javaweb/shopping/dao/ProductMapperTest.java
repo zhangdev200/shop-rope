@@ -20,12 +20,13 @@ public class ProductMapperTest {
 
     @Test
     public void test(){
+        productMapper.selectRecommendProducts();
 
-      List<ProductVO> productVOS=productMapper.selectProductByCategoryId(46,1,100);
-      for (int i=0;i<productVOS.size();i++){
-          System.out.println(productVOS.get(i).getProductId());
-          System.out.println(productVOS.get(i).getCategoryId());
-      }
+//      List<ProductVO> productVOS=productMapper.selectProductByCategoryId(46,1,100);
+//      for (int i=0;i<productVOS.size();i++){
+//          System.out.println(productVOS.get(i).getProductId());
+//          System.out.println(productVOS.get(i).getCategoryId());
+//      }
     /*  System.out.println(productVOS.size());*/
     }
 }

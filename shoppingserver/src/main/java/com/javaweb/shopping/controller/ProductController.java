@@ -1,8 +1,8 @@
-package com.qfedu.fmmall.controller;
+package com.javaweb.shopping.controller;
 
-import com.qfedu.fmmall.service.ProductCommontsService;
-import com.qfedu.fmmall.service.ProductService;
-import com.qfedu.fmmall.vo.ResultVO;
+import com.javaweb.shopping.service.ProductCommentsService;
+import com.javaweb.shopping.service.ProductService;
+import com.javaweb.shopping.vo.ResultVO;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
@@ -19,7 +19,7 @@ public class ProductController {
     @Autowired
     private ProductService productService;
     @Autowired
-    private ProductCommontsService productCommontsService;
+    private ProductCommentsService productCommentsService;
 
     @ApiOperation("商品基本信息查询接口")
     @GetMapping("/detail-info/{pid}")
@@ -34,19 +34,19 @@ public class ProductController {
     }
 
     @ApiOperation("商品评论信息查询接口")
-    @GetMapping("/detail-commonts/{pid}")
+    @GetMapping("/detail-comments/{pid}")
     @ApiImplicitParams({
             @ApiImplicitParam(dataType = "int",name = "pageNum", value = "当前页码",required = true),
             @ApiImplicitParam(dataType = "int",name = "limit", value = "每页显示条数",required = true)
     })
-    public ResultVO getProductCommonts(@PathVariable("pid") String pid,int pageNum,int limit){
-        return productCommontsService.listCommontsByProductId(pid,pageNum,limit);
+    public ResultVO getProductCommonts(@PathVariable("pid") String pid, int pageNum, int limit){
+        return productCommentsService.listCommontsByProductId(pid,pageNum,limit);
     }
 
     @ApiOperation("商品评价统计查询接口")
-    @GetMapping("/detail-commontscount/{pid}")
+    @GetMapping("/detail-commentscount/{pid}")
     public ResultVO getProductCommontsCount(@PathVariable("pid") String pid){
-        return productCommontsService.getCommentsCountByProductId(pid);
+        return productCommentsService.getCommentsCountByProductId(pid);
     }
 
     @ApiOperation("根据类别查询商品接口")
@@ -55,7 +55,7 @@ public class ProductController {
             @ApiImplicitParam(dataType = "int",name = "pageNum", value = "当前页码",required = true),
             @ApiImplicitParam(dataType = "int",name = "limit", value = "每页显示条数",required = true)
     })
-    public ResultVO getProductsByCategoryId(@PathVariable("cid") int cid,int pageNum,int limit){
+    public ResultVO getProductsByCategoryId(@PathVariable("cid") int cid, int pageNum, int limit){
         return productService.getProductsByCategoryId(cid,pageNum,limit);
     }
 
