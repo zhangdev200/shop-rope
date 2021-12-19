@@ -62,7 +62,7 @@
     </update>
 
     <insert id="addShop" parameterType="com.javaweb.shopping.entity.Shop">
-        insert  into shoptable values (#{shopID},#{shopName},#{shopKeeperID},#{shopKeeperName},#{shopDescription},#{shopImg})
+        insert  into shoptable values (#{shopID},#{shopName},#{shopKeeperID},#{shopKeeperName},#{shopDescription},#{shopImg},#{status})
     </insert>
 
     <update id="updateShopKeeperToUser">
