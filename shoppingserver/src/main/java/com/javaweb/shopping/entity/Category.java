@@ -211,4 +211,6 @@ public class Category {
     public void setCategoryBgColor(String categoryBgColor) {
         this.categoryBgColor = categoryBgColor;
     }
+
+
 }

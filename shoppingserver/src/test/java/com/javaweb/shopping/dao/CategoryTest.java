@@ -1,6 +1,7 @@
 package com.javaweb.shopping.dao;
 
 import com.javaweb.shopping.ShoppingApplication;
+import com.javaweb.shopping.entity.Category;
 import com.javaweb.shopping.entity.CategoryVO;
 import com.javaweb.shopping.mapper.CategoryMapper;
 import org.junit.Test;
@@ -18,12 +19,27 @@ public class CategoryTest {
     private CategoryMapper categoryMapper;
     @Test
     public void test(){
-        CategoryVO categoryVO=new CategoryVO();
+      /*  CategoryVO categoryVO=new CategoryVO();
         categoryVO.setCategoryId(52);
         categoryVO.setCategoryName("hqf");
         categoryVO.setCategoryLevel(2);
         categoryVO.setParentId(1);
 
-        categoryMapper.addCategory(categoryVO);
+        categoryMapper.addCategory(categoryVO);*/
+
+
+      /*
+      *  category_id,
+               category_name,
+               category_level,
+               parent_id,
+               category_icon,
+               category_slogan,
+               category_pic,
+               category_bg_color*/
+        List<CategoryVO> categories = categoryMapper.selectFirstLevelCategories();
+        System.out.println(categories.size());
+
+
     }
 }

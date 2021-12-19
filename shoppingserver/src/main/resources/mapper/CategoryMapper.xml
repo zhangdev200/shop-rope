@@ -104,15 +104,7 @@
     </resultMap>
 
     <select id="selectFirstLevelCategories" resultMap="categoryVOMap3">
-        select category_id,
-               category_name,
-               category_level,
-               parent_id,
-               category_icon,
-               category_slogan,
-               category_pic,
-               category_bg_color
-        from category where category_level=1
+        select *from category where category_level=1
     </select>
     
     <insert id="addCategory" parameterType="com.javaweb.shopping.entity.CategoryVO" >

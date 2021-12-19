@@ -1,8 +1,8 @@
-package com.qfedu.fmmall.controller;
+package com.javaweb.shopping.controller;
 
-import com.qfedu.fmmall.service.ProductCommontsService;
-import com.qfedu.fmmall.service.ProductService;
-import com.qfedu.fmmall.vo.ResultVO;
+import com.javaweb.shopping.service.ProductCommentsService;
+import com.javaweb.shopping.service.ProductService;
+import com.javaweb.shopping.vo.ResultVO;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
@@ -19,7 +19,7 @@ public class ProductController {
     @Autowired
     private ProductService productService;
     @Autowired
-    private ProductCommontsService productCommontsService;
+    private ProductCommentsService productCommontsService;
 
     @ApiOperation("商品基本信息查询接口")
     @GetMapping("/detail-info/{pid}")

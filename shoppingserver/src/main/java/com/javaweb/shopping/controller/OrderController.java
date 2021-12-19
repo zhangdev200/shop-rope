@@ -1,11 +1,11 @@
-package com.qfedu.fmmall.controller;
+package com.javaweb.shopping.controller;
 
-import com.github.wxpay.sdk.WXPay;
-import com.qfedu.fmmall.config.MyPayConfig;
-import com.qfedu.fmmall.entity.Orders;
-import com.qfedu.fmmall.service.OrderService;
-import com.qfedu.fmmall.vo.ResStatus;
-import com.qfedu.fmmall.vo.ResultVO;
+
+import com.javaweb.shopping.entity.Orders;
+import com.javaweb.shopping.service.OrderService;
+
+import com.javaweb.shopping.vo.ResStatus;
+import com.javaweb.shopping.vo.ResultVO;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
@@ -45,10 +45,10 @@ public class OrderController {
 
                 //发送请求，获取响应
                 //微信支付：申请支付连接
-                WXPay wxPay = new WXPay(new MyPayConfig());
-                Map<String, String> resp = wxPay.unifiedOrder(data);
-                orderInfo.put("payUrl",resp.get("code_url"));
-                //orderInfo中包含：订单编号，购买的商品名称，支付链接
+
+                //orderInfo中包含：订单编号，购买的商品名称，支付链接/*  WXPay wxPay = new WXPay(new MyPayConfig());
+                //                Map<String, String> resp = wxPay.unifiedOrder(data);
+                //                orderInfo.put("payUrl",resp.get("code_url"));*/
                 resultVO = new ResultVO(ResStatus.OK,"提交订单成功！",orderInfo);
             }else{
                 resultVO = new ResultVO(ResStatus.NO,"提交订单失败！",null);

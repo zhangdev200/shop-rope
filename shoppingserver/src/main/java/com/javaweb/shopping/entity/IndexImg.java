@@ -47,11 +47,13 @@ public class IndexImg {
     /**
      * 轮播图展示顺序 轮播图展示顺序，从小到大
      */
+    @Column(name = "seq")
     private Integer seq;
 
     /**
      * 是否展示:1表示正常显示，0表示下线 是否展示，1：展示    0：不展示
      */
+    @Column(name="status")
     private Integer status;
 
     /**

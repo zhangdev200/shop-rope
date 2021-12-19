@@ -21,11 +21,15 @@ public class ProductMapperTest {
     @Test
     public void test(){
 
-      List<ProductVO> productVOS=productMapper.selectProductByCategoryId(46,1,100);
+/*      List<ProductVO> productVOS=productMapper.selectProductByCategoryId(46,1,100);
       for (int i=0;i<productVOS.size();i++){
           System.out.println(productVOS.get(i).getProductId());
           System.out.println(productVOS.get(i).getCategoryId());
       }
-    /*  System.out.println(productVOS.size());*/
+      System.out.println(productVOS.size());*/
+
+        List<ProductVO> productVOS = productMapper.selectRecommendProducts();
+        System.out.println(productVOS.size());
+
     }
 }

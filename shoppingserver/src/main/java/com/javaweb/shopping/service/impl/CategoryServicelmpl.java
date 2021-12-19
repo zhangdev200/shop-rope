@@ -1,5 +1,6 @@
 package com.javaweb.shopping.service.impl;
 
+import com.javaweb.shopping.entity.Category;
 import com.javaweb.shopping.entity.CategoryVO;
 import com.javaweb.shopping.mapper.CategoryMapper;
 import com.javaweb.shopping.service.CategoryService;
