@@ -47,7 +47,22 @@ public class Product {
     /**
      * 商品内容 商品内容
      */
+    @Column(name = "content")
     private String content;
+
+    /**
+     * 商品在哪家店
+     */
+    @Column(name = "shop_id")
+    private String shopID;
+
+    public String getShopID() {
+        return shopID;
+    }
+
+    public void setShopID(String shopID) {
+        this.shopID = shopID;
+    }
 
     public String getProductId() {
         return productId;

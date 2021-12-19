@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.javaweb.shopping.mapper.ShopMapper">
+    <resultMap id="baseResultMap" type="com.javaweb.shopping.entity.Product">
+        <id column="product_id" jdbcType="VARCHAR" property="productId" />
+        <result column="product_name" jdbcType="VARCHAR" property="productName" />
+        <result column="category_id" jdbcType="INTEGER" property="categoryId" />
+        <result column="root_category_id" jdbcType="INTEGER" property="rootCategoryId" />
+        <result column="sold_num" jdbcType="INTEGER" property="soldNum" />
+        <result column="product_status" jdbcType="INTEGER" property="productStatus" />
+        <result column="content" jdbcType="LONGVARCHAR" property="content" />
+        <result column="shop_id" jdbcType="VARCHAR" property="shopID"/>
+    </resultMap>
+
+    <select id="selectProductFromShopID" resultMap="baseResultMap">
+        select  *from product where product.shop_id=#{CID}
+    </select>
+
+    <resultMap id="UserResultMap" type="com.javaweb.shopping.entity.User"  >
+        <id column="user_id" jdbcType="INTEGER" property="userId" />
+        <result column="username" jdbcType="VARCHAR" property="username" />
+        <result column="password" jdbcType="VARCHAR" property="password" />
+        <result column="nickname" jdbcType="VARCHAR" property="nickname" />
+        <result column="realname" jdbcType="VARCHAR" property="realname" />
+        <result column="user_Img" jdbcType="VARCHAR" property="userImg" />
+        <result column="user_mobile" jdbcType="VARCHAR" property="userMobile" />
+        <result column="user_email" jdbcType="VARCHAR" property="userEmail" />
+        <result column="user_sex" jdbcType="CHAR" property="userSex" />
+        <result column="user_birth" jdbcType="DATE" property="userBirth" />
+        <result column="user_regtime" jdbcType="TIMESTAMP" property="userRegtime" />
+        <result column="isAdmin" javaType="BOOLEAN" property="isAdmin"/>
+        <result column="isShopKeeper" javaType="BOOLEAN" property="isShopKeeper"/>
+        <result column="isVIP" javaType="BOOLEAN" property="isVIP"/>
+        <!--<result column="user_address" javaType="VARCHAR" property="userAddress"/>-->
+
+    </resultMap>
+
+    <resultMap id="shopMap" type="com.javaweb.shopping.entity.Shop">
+        <id column="shop_id" jdbcType="VARCHAR" property="shopID"/>
+        <result column="shop_name" jdbcType="VARCHAR" property="shopName"/>
+        <result column="shopkeeper_id" jdbcType="VARCHAR" property="shopKeeperName"/>
+        <result column="shopkeeper_name" jdbcType="VARCHAR" property="shopKeeperName"/>
+        <result column="shop_description" jdbcType="VARCHAR" property="shopDescription"/>
+        <result column="shop_img" jdbcType="VARCHAR" property="shopImg"/>
+    </resultMap>
+
+
+   <select id="listAllShop" resultMap="shopMap">
+       select  *from shoptable;
+   </select>
+
+    <insert id="addProduct" parameterType="com.javaweb.shopping.entity.Product">
+      INSERT  INTO product values (#{productId},#{productName},#{categoryId},#{rootCategoryId},#{soldNum},#{productStatus},#{content},#{shopID})
+    </insert>
+
+    <delete id="deleteProduct" >
+        delete from product where product_id=#{ID};
+    </delete>
+
+    <update id="updateUserToShopKeeper" >
+        update user  set isShopKeeper=1  where user_Id=#{ID};
+    </update>
+
+    <insert id="addShop" parameterType="com.javaweb.shopping.entity.Shop">
+        insert  into shoptable values (#{shopID},#{shopName},#{shopKeeperID},#{shopKeeperName},#{shopDescription},#{shopImg})
+    </insert>
+
+    <update id="updateShopKeeperToUser">
+        update user  set isShopKeeper=0  where user_Id=#{ID};
+    </update>
+
+    <delete id="deleteShop">
+        delete from shoptable where shopkeeper_id=#{ID}
+    </delete>
+
+</mapper>

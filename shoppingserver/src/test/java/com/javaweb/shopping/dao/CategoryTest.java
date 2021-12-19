@@ -18,8 +18,12 @@ public class CategoryTest {
     private CategoryMapper categoryMapper;
     @Test
     public void test(){
+        CategoryVO categoryVO=new CategoryVO();
+        categoryVO.setCategoryId(52);
+        categoryVO.setCategoryName("hqf");
+        categoryVO.setCategoryLevel(2);
+        categoryVO.setParentId(1);
 
-
-        categoryMapper.deleteCategory(52);
+        categoryMapper.addCategory(categoryVO);
     }
 }
