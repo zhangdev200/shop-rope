@@ -42,11 +42,12 @@
         <result column="shopkeeper_name" jdbcType="VARCHAR" property="shopKeeperName"/>
         <result column="shop_description" jdbcType="VARCHAR" property="shopDescription"/>
         <result column="shop_img" jdbcType="VARCHAR" property="shopImg"/>
+        <result column="status" jdbcType="VARCHAR" property="status"/>
     </resultMap>
 
 
    <select id="listAllShop" resultMap="shopMap">
-       select  *from shoptable;
+       select  *from shoptable where status=1;
    </select>
 
     <insert id="addProduct" parameterType="com.javaweb.shopping.entity.Product">

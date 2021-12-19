@@ -45,7 +45,7 @@ public class ShopTest {
 
      /*  shopMapper.updateUserToShopKeeper(1);*/
 
-        Shop shop=new Shop();
+       /* Shop shop=new Shop();
         shop.setShopID("10");
         shop.setShopName("天虹");
         shop.setShopKeeperID("1");
@@ -53,10 +53,13 @@ public class ShopTest {
         shop.setShopDescription("便宜实惠");
         shop.setShopImg("www.");
         shop.setStatus(1);
-        shopMapper.addShop(shop);
+        shopMapper.addShop(shop); */
 
        /*shopMapper.updateShopKeeperToUser(1);
        shopMapper.deleteShop(1);*/
+
+        List<Shop> shops = shopMapper.listAllShop();
+        System.out.println(shops.size());
 
     }
 }
