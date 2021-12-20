@@ -38,6 +38,10 @@ public class Shop {
     @Column(name = "shop_img")
     private String shopImg;
 
+    /*店铺状态，1为正常，0为待审核*/
+    @Column(name = "status")
+    private int status;
+
     public String getShopID() {
         return shopID;
     }
@@ -46,13 +50,14 @@ public class Shop {
     }
 
     public Shop(String shopID, String shopName, String shopKeeperID, String shopKeeperName,
-                String shopDescription, String shopImg) {
+                String shopDescription, String shopImg,int status) {
         this.shopID = shopID;
         this.shopName = shopName;
         this.shopKeeperID = shopKeeperID;
         this.shopKeeperName = shopKeeperName;
         this.shopDescription = shopDescription;
         this.shopImg = shopImg;
+        this.status=status;
     }
 
     public void setShopID(String shopID) {
@@ -97,5 +102,13 @@ public class Shop {
 
     public void setShopImg(String shopImg) {
         this.shopImg = shopImg;
+    }
+
+    public int getStatus() {
+        return status;
+    }
+
+    public void setStatus(int status) {
+        this.status = status;
     }
 }
