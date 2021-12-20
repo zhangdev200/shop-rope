@@ -71,7 +71,9 @@
     </update>
 
     <delete id="deleteShop">
-        delete from shoptable where shopkeeper_id=#{ID}
+        delete from shoptable where shop_id=#{ID}
     </delete>
+
+
 
 </mapper>

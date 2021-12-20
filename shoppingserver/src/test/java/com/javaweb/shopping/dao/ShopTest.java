@@ -58,8 +58,9 @@ public class ShopTest {
        /*shopMapper.updateShopKeeperToUser(1);
        shopMapper.deleteShop(1);*/
 
-        List<Shop> shops = shopMapper.listAllShop();
-        System.out.println(shops.size());
+      /*  List<Shop> shops = shopMapper.listAllShop();*/
+        shopMapper.deleteShop("2");
+       /* System.out.println(shops.size());*/
 
     }
 }

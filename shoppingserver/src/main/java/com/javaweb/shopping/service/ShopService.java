@@ -22,5 +22,5 @@ public interface ShopService {
     /*根据用户id注销该用户的商店*/
     void updateShopKeeperToUser(int ID);
     /*删除商店表里该用户的店铺*/
-    void deleteShop(int ID);
+    void deleteShop(String ID);
 }

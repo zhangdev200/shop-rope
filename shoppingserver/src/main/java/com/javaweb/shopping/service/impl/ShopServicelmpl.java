@@ -55,7 +55,7 @@ public class ShopServicelmpl implements ShopService {
     }
 
     @Override
-    public void deleteShop(int ID) {
+    public void deleteShop(String ID) {
         shopMapper.deleteShop(ID);
     }
 
