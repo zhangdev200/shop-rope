@@ -28,6 +28,15 @@ public class ShoppingCartVO {
     private double sellPrice;
     private String skuName;
     private int skuStock;  //库存
+    private String content ; //说明
+
+    public String getContent() {
+        return content;
+    }
+
+    public void setContent(String content) {
+        this.content = content;
+    }
 
     public Integer getCartId() {
         return cartId;

@@ -26,15 +26,16 @@
         <result column="original_price" jdbcType="VARCHAR" property="originalPrice" />
         <result column="sell_price" jdbcType="VARCHAR" property="sellPrice" />
         <result column="sku_name" jdbcType="VARCHAR" property="skuName" />
+        <result column="content" jdbcType="VARCHAR" property="content"/>
     </resultMap>
 
     <select id="selectShopcartByUserId" resultMap="ShoppingCartVOMap">
     select c.cart_id, c.product_id,  c.sku_id, c.user_id, c.cart_num, c.cart_time,
-     c.product_price, c.sku_props,  p.product_name, i.url/*,s.original_price*//*,s.sell_price,s.sku_name*/
+     c.product_price, c.sku_props,  p.product_name, i.url,p.content
     from shopping_cart c
     INNER JOIN product p
     INNER JOIN product_img i
- /*   INNER JOIN product_sku s*/
+   /* INNER JOIN product_sku s*/
     ON c.product_id = p.product_id
     and i.item_id=p.product_id
    /* and c.sku_id=s.sku_id*/

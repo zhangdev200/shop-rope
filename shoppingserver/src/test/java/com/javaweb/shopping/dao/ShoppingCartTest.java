@@ -19,6 +19,6 @@ public class ShoppingCartTest {
     @Test
     public  void test(){
         List<ShoppingCartVO> shoppingCartVOS = shoppingCartMapper.selectShopcartByUserId(6);
-        System.out.println(shoppingCartVOS.size());
+        System.out.println(shoppingCartVOS.get(0).getContent());
     }
 }
