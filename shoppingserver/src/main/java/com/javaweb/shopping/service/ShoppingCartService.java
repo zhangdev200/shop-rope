@@ -11,4 +11,6 @@ public interface ShoppingCartService {
     public ResultVO updateCartNum(int cartId,int cartNum);
 
     public ResultVO listShoppingCartsByCids(String cids);
+
+    public ResultVO deleteShoppingCart(String cids);
 }

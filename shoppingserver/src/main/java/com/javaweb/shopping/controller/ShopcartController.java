@@ -23,6 +23,13 @@ public class ShopcartController {
         return resultVO;
     }
 
+    @GetMapping("/deletebycids")
+    public ResultVO deleteByCids(String cids, @RequestHeader("token")String token){
+        ResultVO resultVO = shoppingCartService.deleteShoppingCart(cids);
+        return resultVO;
+    }
+
+
     @GetMapping("/list")
     @ApiImplicitParam(dataType = "int",name = "userId", value = "用户ID",required = true)
     public ResultVO list(Integer userId,@RequestHeader("token")String token){

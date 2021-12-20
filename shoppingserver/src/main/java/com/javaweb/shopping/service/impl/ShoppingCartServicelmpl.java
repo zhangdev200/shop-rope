@@ -1,5 +1,6 @@
 package com.javaweb.shopping.service.impl;
 
+import com.javaweb.shopping.entity.Product;
 import com.javaweb.shopping.entity.ShoppingCart;
 import com.javaweb.shopping.entity.ShoppingCartVO;
 import com.javaweb.shopping.mapper.ShoppingCartMapper;
@@ -10,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
+import tk.mybatis.mapper.entity.Example;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -73,4 +75,31 @@ public class ShoppingCartServicelmpl implements ShoppingCartService {
         ResultVO resultVO = new ResultVO(ResStatus.OK, "success", list);
         return resultVO;
     }
+    @Override
+    public ResultVO deleteShoppingCart(String cids) {
+        String[] arr = cids.split(",");
+        List<Integer> cartIds = new ArrayList<>();
+        for (int i=0; i<arr.length; i++){
+            cartIds.add(Integer.parseInt(arr[i]));
+        }
+
+        Example example = new Example(ShoppingCart.class);
+        Example.Criteria criteria = example.createCriteria();
+        for(int cartId: cartIds){
+            criteria.orEqualTo("cartId",cartId);
+        }
+        int ret = shoppingCartMapper.deleteByExample(example);
+
+        if(ret==0){
+            return new ResultVO(ResStatus.NO, "找不到记录", null);
+        }else if(cartIds.size()==ret){
+            return new ResultVO(ResStatus.OK, "success", null);
+        }else{
+            return new ResultVO(ResStatus.NO, "部分删除失败", null);
+        }
+//        List<ShoppingCartVO> list = shoppingCartMapper.selectShopcartByCids(cartIds);
+//        ResultVO resultVO = new ResultVO(ResStatus.OK, "success", list);
+//        return resultVO;
+    }
+
 }
