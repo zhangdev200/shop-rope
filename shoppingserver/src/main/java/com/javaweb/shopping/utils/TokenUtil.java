@@ -26,9 +26,9 @@ public class TokenUtil {
         }
     }
     public static String getUsername(String token){
-        return (String)getAttribute(token,"username");
+        return String.valueOf(getAttribute(token,"username"));
     }
     public static String getUserId(String token){
-        return (String)getAttribute(token,"userId");
+        return String.valueOf(getAttribute(token,"userId"));
     }
 }

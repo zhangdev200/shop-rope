@@ -9,18 +9,19 @@ import org.apache.ibatis.annotations.Param;
 import java.util.List;
 
 public interface ShopService {
-    List <Product> selectProductFromShopID(String shopID);
-    List<Shop> listAllShop();
+    ResultVO selectProductFromShopID(String shopID);
+    ResultVO listAllShop();
 
-    void addProduct(Product product);
-    void deleteProduct(int ID);
+    ResultVO addProduct(Product product);
+    ResultVO deleteProduct(int ID);
 
-    void updateUserToShopKeeper(int ID);
+    ResultVO updateUserToShopKeeper(int ID);
 
-    void addShop(Shop shop);
+    ResultVO addShop(Shop shop,String userId);
 
     /*根据用户id注销该用户的商店*/
-    void updateShopKeeperToUser(int ID);
+    ResultVO updateShopKeeperToUser(int ID);
     /*删除商店表里该用户的店铺*/
-    void deleteShop(String ID);
+    ResultVO deleteShop(String ID,String userId);
+
 }

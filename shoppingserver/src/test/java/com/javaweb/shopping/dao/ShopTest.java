@@ -24,7 +24,7 @@ public class ShopTest {
 
     @Test
     public  void test(){
-
+        shopMapper.deleteShop(21);
    /*    Product product=new Product();
        product.setProductId("21");
        product.setProductName("旺旺雪饼");
@@ -58,9 +58,8 @@ public class ShopTest {
        /*shopMapper.updateShopKeeperToUser(1);
        shopMapper.deleteShop(1);*/
 
-      /*  List<Shop> shops = shopMapper.listAllShop();*/
-        shopMapper.deleteShop("2");
-       /* System.out.println(shops.size());*/
+//        List<Shop> shops = shopMapper.listAllShop();
+//        System.out.println(shops.size());
 
     }
 }
