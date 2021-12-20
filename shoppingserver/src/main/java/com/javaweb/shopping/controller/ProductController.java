@@ -34,7 +34,7 @@ public class ProductController {
     }
 
     @ApiOperation("商品评论信息查询接口")
-    @GetMapping("/detail-commonts/{pid}")
+    @GetMapping("/detail-comments/{pid}")
     @ApiImplicitParams({
             @ApiImplicitParam(dataType = "int",name = "pageNum", value = "当前页码",required = true),
             @ApiImplicitParam(dataType = "int",name = "limit", value = "每页显示条数",required = true)
@@ -44,7 +44,7 @@ public class ProductController {
     }
 
     @ApiOperation("商品评价统计查询接口")
-    @GetMapping("/detail-commontscount/{pid}")
+    @GetMapping("/detail-commentscount/{pid}")
     public ResultVO getProductCommontsCount(@PathVariable("pid") String pid){
         return productCommontsService.getCommentsCountByProductId(pid);
     }
