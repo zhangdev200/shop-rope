@@ -14,6 +14,22 @@ public class ProductParams {
     @Column(name = "param_id")
     private String paramId;
 
+    public ProductParams(String paramId, String productId, String productPlace, String footPeriod, String brand, String factoryName, String factoryAddress, String packagingMethod, String weight, String storageMethod, String eatMethod, Date createTime, Date updateTime) {
+        this.paramId = paramId;
+        this.productId = productId;
+        this.productPlace = productPlace;
+        this.footPeriod = footPeriod;
+        this.brand = brand;
+        this.factoryName = factoryName;
+        this.factoryAddress = factoryAddress;
+        this.packagingMethod = packagingMethod;
+        this.weight = weight;
+        this.storageMethod = storageMethod;
+        this.eatMethod = eatMethod;
+        this.createTime = createTime;
+        this.updateTime = updateTime;
+    }
+
     /**
      * 商品id
      */

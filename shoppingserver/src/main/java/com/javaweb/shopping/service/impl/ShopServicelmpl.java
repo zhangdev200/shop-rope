@@ -51,20 +51,62 @@ public class ShopServicelmpl implements ShopService {
 
 
     @Override
-    public ResultVO addProduct(Product product) {
-        try{
+    public ResultVO addProduct(ProductVO productVO) {
+//        try{
+            productVO.setProductStatus(0);
+            Product product = new Product(productVO.getProductId(),productVO.getProductName(),productVO.getCategoryId(),productVO.getRootCategoryId(),productVO.getSoldNum(),productVO.getProductStatus(),productVO.getContent(),productVO.getShopID());
             shopMapper.addProduct(product);
+            if(productVO.getSkus()!=null){
+                for(ProductSku productSku: productVO.getSkus()){
+                    productSkuMapper.insert(productSku);
+                }
+            }
+            if(productVO.getImgs()!=null){
+                for(ProductImg productImg: productVO.getImgs()){
+                    productImgMapper.insert(productImg);
+                }
+            }
+            return new ResultVO(ResStatus.OK,"success",productVO.getProductId());
+//        }catch (Exception e){
+//            System.out.println(e);
+//            return new ResultVO(ResStatus.NO,"数据库层插入失败！",null);
+//        }
+    }
+
+    @Override
+    public ResultVO addProductParams(ProductParams productParams) {
+        try{
+            if(productParams.getParamId()==null){
+                productParams.setParamId(String.valueOf(System.currentTimeMillis()));
+            }
+            productParamsMapper.insert(productParams);
             return new ResultVO(ResStatus.OK,"success",null);
         }catch (Exception e){
+            System.out.println(e);
             return new ResultVO(ResStatus.NO,"数据库层插入失败！",null);
         }
 
 
     }
+
     @Override
-    public ResultVO deleteProduct(int ID) {
+    public ResultVO deleteProduct(String ID) {
         try{
-            shopMapper.deleteProduct(ID);
+
+            //Product表
+            shopMapper.deleteProduct(Integer.parseInt(ID));
+            //评论表
+            productCommentsMapper.deleteProductComment(ID);
+            //product_params表
+            Example example1 = new Example(ProductParams.class);
+            Example.Criteria criteria1 = example1.createCriteria();
+            criteria1.andEqualTo("productId",ID);//状态为1表示上架商品
+            productParamsMapper.deleteByExample(example1);
+            //product_sku表
+            Example example2 = new Example(ProductSku.class);
+            Example.Criteria criteria2 = example2.createCriteria();
+            criteria2.andEqualTo("productId",ID);//状态为1表示上架商品
+            productSkuMapper.deleteByExample(example2);
             return new ResultVO(ResStatus.OK,"success",null);
         }catch (Exception e){
             return new ResultVO(ResStatus.NO,"数据库层删除失败！",null);
@@ -124,11 +166,7 @@ public class ShopServicelmpl implements ShopService {
                 List<ProductVO> products = shopMapper.selectProductFromShopID(String.valueOf(ID));
                 for(ProductVO product:products){
                     String id=product.getProductId();
-                    //先删除该店铺所有的商品
-                    Example example = new Example(Product.class);
-                    Example.Criteria criteria = example.createCriteria();
-                    criteria.andEqualTo("productId",id);//状态为1表示上架商品
-                    productMapper.deleteByExample(example);
+                    deleteProduct(id);
                 }
                 shopMapper.deleteShop(ID);
                 shopMapper.updateShopKeeperToUser(Integer.parseInt(userId));

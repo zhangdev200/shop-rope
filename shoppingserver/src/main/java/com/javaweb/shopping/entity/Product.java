@@ -12,6 +12,17 @@ public class Product {
     @Column(name = "product_id")
     private String productId;
 
+    public Product(String productId, String productName, Integer categoryId, Integer rootCategoryId, Integer soldNum, Integer productStatus, String content, String shopID) {
+        this.productId = productId;
+        this.productName = productName;
+        this.categoryId = categoryId;
+        this.rootCategoryId = rootCategoryId;
+        this.soldNum = soldNum;
+        this.productStatus = productStatus;
+        this.content = content;
+        this.shopID = shopID;
+    }
+
     /**
      * 商品名称 商品名称
      */

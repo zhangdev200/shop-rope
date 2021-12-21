@@ -1,8 +1,7 @@
 package com.javaweb.shopping.controller;
 
 
-import com.javaweb.shopping.entity.Shop;
-import com.javaweb.shopping.entity.User;
+import com.javaweb.shopping.entity.*;
 import com.javaweb.shopping.service.ShopService;
 import com.javaweb.shopping.service.UserService;
 import com.javaweb.shopping.service.impl.UserServiceImpl;
@@ -56,5 +55,27 @@ public class ShopController {
         ResultVO resultVO = shopService.deleteShop(shopID,TokenUtil.getUserId(token));
         return resultVO;
     }
+
+    //添加商品基本信息
+    @PostMapping("/addproduct")
+    public ResultVO delete(@RequestBody ProductVO productVO, @RequestHeader("token")String token){
+        ResultVO resultVO = shopService.addProduct(productVO);
+        return resultVO;
+    }
+
+    //添加商品参数信息
+    @PostMapping("/addproductparam")
+    public ResultVO delete(@RequestBody ProductParams productParams, @RequestHeader("token")String token){
+        ResultVO resultVO = shopService.addProductParams(productParams);
+        return resultVO;
+    }
+
+    //删除商品
+    @GetMapping("/deleteproduct")
+    public ResultVO deleteProduct(String productId,@RequestHeader("token")String token){
+        ResultVO resultVO = shopService.deleteProduct(productId);
+        return resultVO;
+    }
+
 
 }

@@ -1,8 +1,6 @@
 package com.javaweb.shopping.service;
 
-import com.javaweb.shopping.entity.Product;
-import com.javaweb.shopping.entity.Shop;
-import com.javaweb.shopping.entity.User;
+import com.javaweb.shopping.entity.*;
 import com.javaweb.shopping.vo.ResultVO;
 import org.apache.ibatis.annotations.Param;
 
@@ -12,8 +10,12 @@ public interface ShopService {
     ResultVO selectProductFromShopID(String shopID);
     ResultVO listAllShop();
 
-    ResultVO addProduct(Product product);
-    ResultVO deleteProduct(int ID);
+    ResultVO addProduct(ProductVO productVO);
+    //添加商品参数信息
+    ResultVO addProductParams(ProductParams params);
+
+
+        ResultVO deleteProduct(String ID);
 
     ResultVO updateUserToShopKeeper(int ID);
 
