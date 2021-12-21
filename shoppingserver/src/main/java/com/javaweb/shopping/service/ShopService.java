@@ -15,7 +15,7 @@ public interface ShopService {
     ResultVO addProductParams(ProductParams params);
 
 
-        ResultVO deleteProduct(String ID);
+    ResultVO deleteProduct(String ID);
 
     ResultVO updateUserToShopKeeper(int ID);
 
@@ -25,5 +25,8 @@ public interface ShopService {
     ResultVO updateShopKeeperToUser(int ID);
     /*删除商店表里该用户的店铺*/
     ResultVO deleteShop(String ID,String userId);
+    ResultVO updateProduct(ProductVO productVO);
+
+    ResultVO updateProductParams(ProductParams productParams);
 
 }

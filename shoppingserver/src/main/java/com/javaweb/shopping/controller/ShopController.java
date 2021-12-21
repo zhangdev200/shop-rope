@@ -58,15 +58,29 @@ public class ShopController {
 
     //添加商品基本信息
     @PostMapping("/addproduct")
-    public ResultVO delete(@RequestBody ProductVO productVO, @RequestHeader("token")String token){
+    public ResultVO addProduct(@RequestBody ProductVO productVO, @RequestHeader("token")String token){
         ResultVO resultVO = shopService.addProduct(productVO);
+        return resultVO;
+    }
+
+    //更新商品基本信息
+    @PostMapping("/updateproduct")
+    public ResultVO updateProduct(@RequestBody ProductVO productVO, @RequestHeader("token")String token){
+        ResultVO resultVO = shopService.updateProduct(productVO);
         return resultVO;
     }
 
     //添加商品参数信息
     @PostMapping("/addproductparam")
-    public ResultVO delete(@RequestBody ProductParams productParams, @RequestHeader("token")String token){
+    public ResultVO addProductParam(@RequestBody ProductParams productParams, @RequestHeader("token")String token){
         ResultVO resultVO = shopService.addProductParams(productParams);
+        return resultVO;
+    }
+
+    //更新商品参数信息
+    @PostMapping("/updateproductparam")
+    public ResultVO updateProductParam(@RequestBody ProductParams productParams, @RequestHeader("token")String token){
+        ResultVO resultVO = shopService.updateProductParams(productParams);
         return resultVO;
     }
 
@@ -76,6 +90,7 @@ public class ShopController {
         ResultVO resultVO = shopService.deleteProduct(productId);
         return resultVO;
     }
+
 
 
 }

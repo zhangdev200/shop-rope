@@ -52,7 +52,7 @@ public class ShopServicelmpl implements ShopService {
 
     @Override
     public ResultVO addProduct(ProductVO productVO) {
-//        try{
+        try{
             productVO.setProductStatus(0);
             Product product = new Product(productVO.getProductId(),productVO.getProductName(),productVO.getCategoryId(),productVO.getRootCategoryId(),productVO.getSoldNum(),productVO.getProductStatus(),productVO.getContent(),productVO.getShopID());
             shopMapper.addProduct(product);
@@ -67,10 +67,44 @@ public class ShopServicelmpl implements ShopService {
                 }
             }
             return new ResultVO(ResStatus.OK,"success",productVO.getProductId());
-//        }catch (Exception e){
-//            System.out.println(e);
-//            return new ResultVO(ResStatus.NO,"数据库层插入失败！",null);
-//        }
+        }catch (Exception e){
+            System.out.println(e);
+            return new ResultVO(ResStatus.NO,"数据库层插入失败！",null);
+        }
+    }
+
+    @Override
+    public ResultVO updateProduct(ProductVO productVO) {
+        try{
+            Product product = new Product(productVO.getProductId(),productVO.getProductName(),productVO.getCategoryId(),productVO.getRootCategoryId(),productVO.getSoldNum(),productVO.getProductStatus(),productVO.getContent(),productVO.getShopID());
+            Example example = new Example(Product.class);
+            Example.Criteria criteria = example.createCriteria();
+            criteria.andEqualTo("productId",product.getProductId());//状态为1表示上架商品
+            productMapper.updateByExample(product,example);
+
+            if(productVO.getSkus()!=null){
+                Example example1 = new Example(ProductSku.class);
+                Example.Criteria criteria1 = example1.createCriteria();
+                criteria1.andEqualTo("productId",product.getProductId());//状态为1表示上架商品
+                productSkuMapper.deleteByExample(example);
+                for(ProductSku productSku: productVO.getSkus()){
+                    productSkuMapper.insert(productSku);
+                }
+            }
+            if(productVO.getImgs()!=null){
+                Example example2 = new Example(ProductImg.class);
+                Example.Criteria criteria2 = example2.createCriteria();
+                criteria2.andEqualTo("productId",product.getProductId());//状态为1表示上架商品
+                productImgMapper.deleteByExample(example);
+                for(ProductImg productImg: productVO.getImgs()){
+                    productImgMapper.insert(productImg);
+                }
+            }
+            return new ResultVO(ResStatus.OK,"success",productVO.getProductId());
+        }catch (Exception e){
+            System.out.println(e);
+            return new ResultVO(ResStatus.NO,"数据库层更新失败！",null);
+        }
     }
 
     @Override
@@ -80,13 +114,25 @@ public class ShopServicelmpl implements ShopService {
                 productParams.setParamId(String.valueOf(System.currentTimeMillis()));
             }
             productParamsMapper.insert(productParams);
-            return new ResultVO(ResStatus.OK,"success",null);
+            return new ResultVO(ResStatus.OK,"success",productParams.getParamId());
         }catch (Exception e){
             System.out.println(e);
             return new ResultVO(ResStatus.NO,"数据库层插入失败！",null);
         }
+    }
 
-
+    @Override
+    public ResultVO updateProductParams(ProductParams productParams) {
+        try{
+            Example example = new Example(ProductParams.class);
+            Example.Criteria criteria = example.createCriteria();
+            criteria.andEqualTo("productId",productParams.getProductId());//状态为1表示上架商品
+            productParamsMapper.updateByExample(productParams,example);
+            return new ResultVO(ResStatus.OK,"success",null);
+        }catch (Exception e){
+            System.out.println(e);
+            return new ResultVO(ResStatus.NO,"数据库层更新失败！",null);
+        }
     }
 
     @Override
