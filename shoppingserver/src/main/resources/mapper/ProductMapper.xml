@@ -21,18 +21,22 @@
         <result column="product_status" jdbcType="INTEGER" property="productStatus" />
         <result column="content" jdbcType="LONGVARCHAR" property="content" />
         <collection property="imgs" select="com.javaweb.shopping.mapper.ProductImgMapper.selectProductImgByProductId" column="product_id"/>
+        <collection property="comments" select="com.javaweb.shopping.mapper.ProductCommentsMapper.selectCommontsByProductId" column="product_id"/>
     </resultMap>
 
     <select id="selectRecommendProducts" resultMap="ProductVOMap">
     select
-      product_id,
-      product_name,
-      category_id,
-      root_category_id,
-      sold_num,
-      product_status,
-      content
-    from product
+      p.product_id,
+      p.product_name,
+      p.category_id,
+      p.root_category_id,
+      p.sold_num,
+      p.product_status,
+      p.content,
+      pc.comm_content
+    from product p
+    inner join product_comments pc
+    where p.product_id=pc.product_id
     limit 0,3
   </select>
 

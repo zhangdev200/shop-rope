@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.javaweb.shopping.mapper.ShopMapper">
-    <resultMap id="baseResultMap" type="com.javaweb.shopping.entity.Product">
+    <resultMap id="baseResultMap" type="com.javaweb.shopping.entity.ProductVO">
         <id column="product_id" jdbcType="VARCHAR" property="productId" />
         <result column="product_name" jdbcType="VARCHAR" property="productName" />
         <result column="category_id" jdbcType="INTEGER" property="categoryId" />
@@ -10,6 +10,9 @@
         <result column="product_status" jdbcType="INTEGER" property="productStatus" />
         <result column="content" jdbcType="LONGVARCHAR" property="content" />
         <result column="shop_id" jdbcType="VARCHAR" property="shopID"/>
+        <collection property="comments" select="com.javaweb.shopping.mapper.ProductCommentsMapper.selectCommontsByProductId" column="comm_content"/>
+
+
     </resultMap>
 
     <select id="selectProductFromShopID" resultMap="baseResultMap">

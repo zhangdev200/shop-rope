@@ -1,9 +1,6 @@
 package com.javaweb.shopping.service.impl;
 
-import com.javaweb.shopping.entity.Product;
-import com.javaweb.shopping.entity.ProductImg;
-import com.javaweb.shopping.entity.Shop;
-import com.javaweb.shopping.entity.User;
+import com.javaweb.shopping.entity.*;
 import com.javaweb.shopping.mapper.*;
 import com.javaweb.shopping.service.ShopService;
 import com.javaweb.shopping.vo.ResStatus;
@@ -34,7 +31,7 @@ public class ShopServicelmpl implements ShopService {
     @Override
     public ResultVO selectProductFromShopID(String shopID) {
         try{
-            List <Product> shopProduct=shopMapper.selectProductFromShopID(shopID);
+            List <ProductVO> shopProduct=shopMapper.selectProductFromShopID(shopID);
             return new ResultVO(ResStatus.OK,"success",shopProduct);
         }catch (Exception e){
             return new ResultVO(ResStatus.NO,"数据库层获取失败！",null);
@@ -124,8 +121,8 @@ public class ShopServicelmpl implements ShopService {
         synchronized (this){
             try{
                 //先删除该店铺所有的商品
-                List<Product> products = shopMapper.selectProductFromShopID(String.valueOf(ID));
-                for(Product product:products){
+                List<ProductVO> products = shopMapper.selectProductFromShopID(String.valueOf(ID));
+                for(ProductVO product:products){
                     String id=product.getProductId();
                     //先删除该店铺所有的商品
                     Example example = new Example(Product.class);

@@ -80,4 +80,14 @@ public class ProductCommentsServiceImpl implements ProductCommentsService {
         return success;
     }
 
+    @Override
+    public void insertProductComment(ProductComments productComments) {
+        productCommentsMapper.insertProductComment(productComments);
+    }
+
+    @Override
+    public void deleteProductComment(String ID) {
+        productCommentsMapper.deleteProductComment(ID);
+    }
+
 }

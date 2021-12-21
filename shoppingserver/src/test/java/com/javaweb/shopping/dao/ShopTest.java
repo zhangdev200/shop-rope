@@ -24,7 +24,7 @@ public class ShopTest {
 
     @Test
     public  void test(){
-        shopMapper.deleteShop(21);
+        shopMapper.deleteShop("21");
    /*    Product product=new Product();
        product.setProductId("21");
        product.setProductName("旺旺雪饼");

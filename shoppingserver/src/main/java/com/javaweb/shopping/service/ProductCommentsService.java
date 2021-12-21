@@ -1,5 +1,6 @@
 package com.javaweb.shopping.service;
 
+import com.javaweb.shopping.entity.ProductComments;
 import com.javaweb.shopping.vo.ResultVO;
 
 public interface ProductCommentsService {
@@ -18,4 +19,8 @@ public interface ProductCommentsService {
      * @return
      */
     public ResultVO getCommentsCountByProductId(String productId);
+
+    public void insertProductComment(ProductComments productComments);
+
+    void deleteProductComment(String ID);
 }
