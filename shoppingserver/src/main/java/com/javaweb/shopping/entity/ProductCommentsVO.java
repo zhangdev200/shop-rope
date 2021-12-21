@@ -8,7 +8,7 @@ import java.util.Date;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class ProductCommentsVO {
+public class    ProductCommentsVO {
     private String commId;
     private String productId;
     private String productName;
