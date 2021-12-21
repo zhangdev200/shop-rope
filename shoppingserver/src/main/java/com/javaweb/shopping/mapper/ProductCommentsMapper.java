@@ -19,4 +19,13 @@ public interface ProductCommentsMapper extends GeneralDAO<ProductComments> {
     public List<ProductCommentsVO> selectCommontsByProductId(@Param("productId") String productId,
                                                              @Param("start") int start,
                                                              @Param("limit") int limit);
+
+    /*通过前端获取评论产品的product_id 将该评论放在评论表中*/
+    void insertProductComment(ProductComments productComments);
+
+    /*通过删除的产品id删除该产品的评论*/
+    void deleteProductComment(String ID);
+
+    /*删除某商品特定的评论*/
+    void deleteOneComment(String comm_ID);
 }

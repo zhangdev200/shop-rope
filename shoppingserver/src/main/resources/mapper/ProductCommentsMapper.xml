@@ -41,7 +41,7 @@
         <result column="user_img" jdbcType="VARCHAR" property="userImg" />
     </resultMap>
 
-    <select id="selectCommontsByProductId" resultMap="ProductCommentsVOMap">
+    <select id="selectCommontsByProductId" resultMap="ProductCommentsVOMap">   <!---->
     select u.username,  u.nickname, u.user_img,
       c.comm_id, c.product_id, c.product_name,
       c.order_item_id, c.user_id, c.is_anonymous,
@@ -54,5 +54,19 @@
     WHERE c.product_id =#{productId}
 
   </select>
+
+    <insert id="insertProductComment" parameterType="com.javaweb.shopping.entity.ProductComments">
+        insert into product_comments values (#{commId},#{productId},#{productName},#{orderItemId},#{userId},#{isAnonymous},#{commType},#{commLevel},
+        #{commContent},#{commImgs},#{sepcName},#{replyStatus},#{replyContent},#{replyTime},#{isShow})
+    </insert>
+
+    <delete id="deleteProductComment">
+        delete from product_comments where product_id=#{ID};
+    </delete>
+
+    <delete id="deleteOneComment">
+        delete from product_comments where comm_id=#{comm_ID}
+    </delete>
+
 
 </mapper>

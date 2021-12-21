@@ -1,6 +1,7 @@
 package com.javaweb.shopping.mapper;
 
 import com.javaweb.shopping.entity.Product;
+import com.javaweb.shopping.entity.ProductVO;
 import com.javaweb.shopping.entity.Shop;
 import com.javaweb.shopping.entity.User;
 import com.javaweb.shopping.general.GeneralDAO;
@@ -14,7 +15,7 @@ public interface ShopMapper  extends GeneralDAO<Shop> {
 
     /*
     * 根据店的id获取改该店的产品*/
-    List <Product> selectProductFromShopID(@Param("CID") String shopID);
+    List <ProductVO> selectProductFromShopID(@Param("CID") String shopID);
 
     /*找出所有的商店*/
     List <Shop> listAllShop();

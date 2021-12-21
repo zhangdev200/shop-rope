@@ -29,7 +29,7 @@ public class ProductMapperTest {
       System.out.println(productVOS.size());*/
 
         List<ProductVO> productVOS = productMapper.selectRecommendProducts();
-        System.out.println(productVOS.size());
+        System.out.println(productVOS.get(1).getComments().get(0));
 
     }
 }
