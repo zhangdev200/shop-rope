@@ -83,15 +83,26 @@ public class ShopServicelmpl implements ShopService {
     public ResultVO addProduct(ProductVO productVO) {
         try{
             productVO.setProductStatus(0);
+            if(productVO.getProductId()==null){
+                productVO.setProductId(String.valueOf(IDUtils.getId()));
+            }
             Product product = new Product(productVO.getProductId(),productVO.getProductName(),productVO.getCategoryId(),productVO.getRootCategoryId(),productVO.getSoldNum(),productVO.getProductStatus(),productVO.getContent(),productVO.getShopID());
             shopMapper.addProduct(product);
             if(productVO.getSkus()!=null){
                 for(ProductSku productSku: productVO.getSkus()){
+                    if(productSku.getSkuId()==null){
+                        productSku.setSkuId(IDUtils.getId());
+                    }
+                    productSku.setProductId(productVO.getProductId());
                     productSkuMapper.insert(productSku);
                 }
             }
             if(productVO.getImgs()!=null){
                 for(ProductImg productImg: productVO.getImgs()){
+                    if(productImg.getId()==null){
+                        productImg.setId(IDUtils.getId());
+                    }
+                    productImg.setItemId(productVO.getProductId());
                     productImgMapper.insert(productImg);
                 }
             }
