@@ -26,8 +26,19 @@ public class ShopServicelmpl implements ShopService {
     private ProductParamsMapper productParamsMapper;
     @Autowired
     private ProductSkuMapper productSkuMapper;
-
-
+    @Override
+    public ResultVO listShopByUserId(String userId){
+        try{
+            Example example = new Example(Shop.class);
+            Example.Criteria criteria = example.createCriteria();
+            criteria.andEqualTo("shopKeeperID",userId);//状态为1表示上架商品
+            List <Shop> shops = shopMapper.selectByExample(example);
+            return new ResultVO(ResStatus.OK,"success",shops);
+        }catch (Exception e){
+            e.printStackTrace();
+            return new ResultVO(ResStatus.NO,"数据库层获取失败！",null);
+        }
+    }
     @Override
     public ResultVO selectProductFromShopID(String shopID) {
         try{
