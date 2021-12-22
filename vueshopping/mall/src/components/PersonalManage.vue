@@ -1,14 +1,11 @@
 <template>
-  <div id="personalManage"
-       v-loading.fullscreen="this.loading"
-       element-loading-background="rgba(0, 0, 0, 0)">
+  <div id="personalManage">
     <div style="height: 100px">
       <div style="text-align: left; float:left;">
         <el-upload
             style="width: 100px"
             class="upload-demo"
             action="https://jsonplaceholder.typicode.com/posts/"
-            :on-preview="handlePreview"
             :show-file-list="false"
             :file-list="fileList">
           <el-avatar :size="100" :src="fileList[0].url"></el-avatar>
@@ -18,8 +15,8 @@
         {{ form1.nickname }}
       </div>
     </div>
-
-    <el-divider></el-divider>
+    <br>
+    <hr style="color: black">
     <div style="text-align: left">
       <h4>基本信息</h4>
     </div>
@@ -120,7 +117,6 @@ export default {
       isStoreOwner: true,
       isAdministrator: true,
       dialogVisible: false,
-      loading: true
     }
   },
   methods: {
@@ -159,12 +155,9 @@ export default {
           .then((res) => {
             if (res.code === 10000) {
               this.$message.info('注册会员成功！');
-              this.userInform.vip = true;
+              this.form1.vip = true;
             }
           });
-    },
-    handlePreview() {
-
     },
   },
   created() {
@@ -175,13 +168,8 @@ export default {
             this.fileList[0].url = res.data.userImg;
             this.form1 = res.data;
           } else {
-            this.$message.error('网络请求失败！');
+            this.$message.error(res.msg);
           }
-          this.loading = false;
-        })
-        .catch(err => {
-          this.$message.error(err + '获取个人信息失败');
-          this.loading = false
         });
   },
 }
@@ -192,9 +180,11 @@ export default {
   position: relative;
   left: 250px;
   width: 84%;
+  margin: 20px 0;
 }
 
 .card {
+  background: rgba(255, 255, 255, 0.5);
   padding: 30px 50px 30px 30px;
   border-radius: 15px;
   box-shadow: 0 2px 12px 0 rgba(0, 0, 0, 0.3);

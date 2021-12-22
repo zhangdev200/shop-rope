@@ -1,6 +1,14 @@
 <template>
   <div style="position: relative; left: 250px; width: 80%;">
     <h4 style="text-align: left;">商品管理</h4>
+    <div style="height: 30px">
+      <el-button
+          type="primary"
+          round
+          style="float: left; margin-bottom: 20px">
+        添加商品
+      </el-button>
+    </div>
     <el-table :data="tableData"
               style="width: 100%; font-size: 16px; border-radius: 15px;box-shadow: 0 2px 12px 0 rgba(0, 0, 0, 0.3);"
               border
@@ -42,19 +50,70 @@
       <el-table-column
           label="操作"
       >
-        <el-button type="success" round>编辑</el-button>
-        <el-button type="danger" round>删除</el-button>
+        //todo
+        <template slot-scope="scope">
+          <el-button type="success" round @click="dialogFormVisible = true">编辑</el-button>
+          <el-button type="danger" round @click="deleteGoods(scope.row.goodsId)">删除</el-button>
+        </template>
+
       </el-table-column>
     </el-table>
+    <br>
+    <el-pagination
+        background
+        layout="prev, pager, next"
+        :total="1000">
+    </el-pagination>
     <br>
     <div style="text-align: left; margin-top: 25px">
       <el-form label-width="90px">
         <el-form-item label="店铺名称" class="form1">
-          <span style="font-size: 18px; margin-right: 30px">{{ this.tableData[0].storeName }}</span>
+          <span style="font-size: 18px; margin-right: 30px">{{ this.storeName }}</span>
           <el-button type="primary" round>修改</el-button>
         </el-form-item>
       </el-form>
     </div>
+    <el-dialog title="编辑商品" :visible.sync="dialogFormVisible">
+      <el-form :model="form" style="text-align: left">
+        <el-form-item label="商品名称" :label-width="formLabelWidth">
+          <el-input v-model="form.productName" autocomplete="off" class="inputWidth"></el-input>
+        </el-form-item>
+        <el-form-item label="商品类别" :label-width="formLabelWidth">
+          <el-select v-model="form.category" placeholder="请选择商品类别">
+            <el-option label="零食" value="零食"></el-option>
+            <el-option label="图书" value="图书"></el-option>
+          </el-select>
+        </el-form-item>
+        <el-form-item label="商品图片" :label-width="formLabelWidth">
+          <el-upload
+              style="width: 300px"
+              class="upload-demo"
+              ref="upload"
+              action="https://jsonplaceholder.typicode.com/posts/"
+              :limit="1"
+              list-type="picture"
+              :auto-upload="false">
+            <el-button slot="trigger" size="small" type="primary">选取文件</el-button>
+            <div slot="tip" class="el-upload__tip">图片比例为1:1</div>
+          </el-upload>
+        </el-form-item>
+        <el-form-item label="售价" :label-width="formLabelWidth">
+          <el-input v-model="form.price" autocomplete="off" class="inputWidth"></el-input>
+        </el-form-item>
+        <el-form-item label="描述信息" :label-width="formLabelWidth">
+          <el-input
+              type="textarea"
+              :rows="3"
+              placeholder="请输入描述信息"
+              v-model="form.content">
+          </el-input>
+        </el-form-item>
+      </el-form>
+      <div slot="footer" class="dialog-footer">
+        <el-button @click="dialogFormVisible = false">取 消</el-button>
+        <el-button type="primary" @click="submitModify">确 定</el-button>
+      </div>
+    </el-dialog>
   </div>
 </template>
 
@@ -62,84 +121,127 @@
 export default {
   data() {
     return {
+      storeName: '好名字店铺',
       tableData: [],
+      dialogFormVisible: false,
+      form: {
+        productName: '',
+        category: '',
+        productImg: '',
+        price: null,
+        content: '',
+      },
+      formLabelWidth: '120px',
+    }
+  },
+  methods: {
+    submitModify() {
+      this.dialogFormVisible = false;
+
+    },
+    deleteGoods(a) {
+      alert(a);
+    },
+
+    submitAdd() {
+
     }
   },
   created() {
-    //todo 跟据token获得店铺商品信息(需要是店主)
-    this.tableData =
-        [
-          {
-            goodsId: '12987122',
-            name: '好滋好味鸡蛋仔',
-            category: '零食',
-            description: '荷兰优质淡奶，奶香浓而不腻',
-            img: 'https://2d.zol-img.com.cn/product/211_200x150/655/ce9W4dWqmCrd2.jpg',
-            address: '上海市普陀区真北路',
-            storeId: '10333',
-            storeName: '好名字店铺',
-          },
-          {
-            goodsId: '12987123',
-            name: '好滋好味鸡蛋仔',
-            category: '零食',
-            description: '荷兰优质淡奶，奶香浓而不腻',
-            img: 'https://2d.zol-img.com.cn/product/211_200x150/655/ce9W4dWqmCrd2.jpg',
-            address: '上海市普陀区真北路',
-            storeId: '10333',
-            storeName: '好名字店铺',
-          },
-          {
-            goodsId: '12987125',
-            name: '好滋好味鸡蛋仔',
-            category: '零食',
-            description: '荷兰优质淡奶，奶香浓而不腻',
-            img: 'https://2d.zol-img.com.cn/product/211_200x150/655/ce9W4dWqmCrd2.jpg',
-            address: '上海市普陀区真北路',
-            storeId: '10333',
-            storeName: '好名字店铺',
-          },
-          {
-            goodsId: '12987126',
-            name: '好滋好味鸡蛋仔',
-            category: '零食',
-            description: '荷兰优质淡奶，奶香浓而不腻',
-            img: 'https://2d.zol-img.com.cn/product/211_200x150/655/ce9W4dWqmCrd2.jpg',
-            address: '上海市普陀区真北路',
-            storeId: '10333',
-            storeName: '好名字店铺',
-          },
-          {
-            goodsId: '12987128',
-            name: '好滋好味鸡蛋仔',
-            category: '零食',
-            description: '荷兰优质淡奶，奶香浓而不腻',
-            img: 'https://2d.zol-img.com.cn/product/211_200x150/655/ce9W4dWqmCrd2.jpg',
-            address: '上海市普陀区真北路',
-            storeId: '10333',
-            storeName: '好名字店铺',
-          },
-          {
-            goodsId: '12987129',
-            name: '好滋好味鸡蛋仔',
-            category: '零食',
-            description: '荷兰优质淡奶，奶香浓而不腻',
-            img: 'https://2d.zol-img.com.cn/product/211_200x150/655/ce9W4dWqmCrd2.jpg',
-            address: '上海市普陀区真北路',
-            storeId: '10333',
-            storeName: '好名字店铺',
-          },
-          {
-            goodsId: '12987130',
-            name: '好滋好味鸡蛋仔',
-            category: '零食',
-            description: '荷兰优质淡奶，奶香浓而不腻',
-            img: 'https://2d.zol-img.com.cn/product/211_200x150/655/ce9W4dWqmCrd2.jpg',
-            address: '上海市普陀区真北路',
-            storeId: '10333',
-            storeName: '好名字店铺',
-          },
-        ];
+
+    this.$http
+        .get('shop/list', {
+          shopID: 1
+        })
+        .then(res => {
+          if (res.code === 10000) {
+            for (let item of res.data) {
+              this.tableData.push({
+                goodsId: item.productId,
+                name: item.productName,
+                category: item.categoryId,
+                description: item.content,
+                img: null,
+              })
+            }
+          } else {
+            this.$message.error('获取店铺信息失败')
+          }
+        });
+    this.storeName = '好名字店铺';
+    // this.tableData =
+    //     [
+    //       {
+    //         goodsId: '12987122',
+    //         name: '好滋好味鸡蛋仔',
+    //         category: '零食',
+    //         description: '荷兰优质淡奶，奶香浓而不腻',
+    //         img: 'https://2d.zol-img.com.cn/product/211_200x150/655/ce9W4dWqmCrd2.jpg',
+    //         address: '上海市普陀区真北路',
+    //         storeId: '10333',
+    //         storeName: '好名字店铺',
+    //       },
+    //       {
+    //         goodsId: '12987123',
+    //         name: '好滋好味鸡蛋仔',
+    //         category: '零食',
+    //         description: '荷兰优质淡奶，奶香浓而不腻',
+    //         img: 'https://2d.zol-img.com.cn/product/211_200x150/655/ce9W4dWqmCrd2.jpg',
+    //         address: '上海市普陀区真北路',
+    //         storeId: '10333',
+    //         storeName: '好名字店铺',
+    //       },
+    //       {
+    //         goodsId: '12987125',
+    //         name: '好滋好味鸡蛋仔',
+    //         category: '零食',
+    //         description: '荷兰优质淡奶，奶香浓而不腻',
+    //         img: 'https://2d.zol-img.com.cn/product/211_200x150/655/ce9W4dWqmCrd2.jpg',
+    //         address: '上海市普陀区真北路',
+    //         storeId: '10333',
+    //         storeName: '好名字店铺',
+    //       },
+    //       {
+    //         goodsId: '12987126',
+    //         name: '好滋好味鸡蛋仔',
+    //         category: '零食',
+    //         description: '荷兰优质淡奶，奶香浓而不腻',
+    //         img: 'https://2d.zol-img.com.cn/product/211_200x150/655/ce9W4dWqmCrd2.jpg',
+    //         address: '上海市普陀区真北路',
+    //         storeId: '10333',
+    //         storeName: '好名字店铺',
+    //       },
+    //       {
+    //         goodsId: '12987128',
+    //         name: '好滋好味鸡蛋仔',
+    //         category: '零食',
+    //         description: '荷兰优质淡奶，奶香浓而不腻',
+    //         img: 'https://2d.zol-img.com.cn/product/211_200x150/655/ce9W4dWqmCrd2.jpg',
+    //         address: '上海市普陀区真北路',
+    //         storeId: '10333',
+    //         storeName: '好名字店铺',
+    //       },
+    //       {
+    //         goodsId: '12987129',
+    //         name: '好滋好味鸡蛋仔',
+    //         category: '零食',
+    //         description: '荷兰优质淡奶，奶香浓而不腻',
+    //         img: 'https://2d.zol-img.com.cn/product/211_200x150/655/ce9W4dWqmCrd2.jpg',
+    //         address: '上海市普陀区真北路',
+    //         storeId: '10333',
+    //         storeName: '好名字店铺',
+    //       },
+    //       {
+    //         goodsId: '12987130',
+    //         name: '好滋好味鸡蛋仔',
+    //         category: '零食',
+    //         description: '荷兰优质淡奶，奶香浓而不腻',
+    //         img: 'https://2d.zol-img.com.cn/product/211_200x150/655/ce9W4dWqmCrd2.jpg',
+    //         address: '上海市普陀区真北路',
+    //         storeId: '10333',
+    //         storeName: '好名字店铺',
+    //       },
+    //     ];
   }
 }
 </script>
@@ -149,6 +251,10 @@ export default {
 .form1 .el-form-item__label {
   font-size: 18px;
   font-weight: bold;
+}
+
+.inputWidth {
+  width: 300px;
 }
 
 .demo-table-expand {

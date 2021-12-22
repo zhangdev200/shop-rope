@@ -10,7 +10,7 @@
         </div>
         <div v-else>
           <div class="search">   <!--搜索框-->
-            <el-row style="width: 50%; margin: 0 auto; position: relative; top: 20px">
+            <el-row style="width: 60%; margin: 0 auto; position: relative; top: 20px">
               <el-col :span="8">
                 <el-input></el-input>
               </el-col>
@@ -28,15 +28,13 @@
                 ref="cart"
                 @select="select"
                 @unselect="unselect"
-                @check="checkPriceChange"
-            >
+                @check="checkPriceChange">
             </CartItem>
           </div>
         </div>
-
       </div>
       <div class="bottomBar">
-        <div style="width: 50%; margin: 0 auto">
+        <div style="width: 60%; margin: 0 auto">
           <div style="width: 50%; display: inline-block; text-align: left">
             <el-button type="primary" round @click="selectReverse" class="myButton">反选</el-button>
             <el-button type="primary" round @click="selectAll" ref="selectAll" class="myButton">全选</el-button>
@@ -66,9 +64,9 @@ export default {
   components: {CartItem},
   data() {
     return {
-      selectGoodsIdSet: new Set,
+      selectCartIdSet: new Set,
       checkPrice: 0,
-      cartList: null,
+      cartList: [],
     }
   },
   methods: {
@@ -80,81 +78,71 @@ export default {
         }
       }
     },
-    select(goodsId) {
-      this.selectGoodsIdSet.add(goodsId);
+    select(cartId) {
+      this.selectCartIdSet.add(cartId);
     },
-    unselect(goodsId) {
-      this.selectGoodsIdSet.delete(goodsId);
+    unselect(cartId) {
+      this.selectCartIdSet.delete(cartId);
     },
     check() {
-      alert(Array.from(this.selectGoodsIdSet).toString() + '\n总金额：' + this.checkPrice);
+
+      alert(Array.from(this.selectCartIdSet).toString() + '\n总金额：' + this.checkPrice);
     },
     selectAll() {
-      if (this.$refs.selectAll.$el.children[0].innerHTML === '全选') {
-        for (let i of this.$refs.cart) {
-          if (!i.selected) {
-            i.select();
+      if (this.$refs.cart) {
+        if (this.$refs.selectAll.$el.children[0].innerHTML === '全选') {
+          for (let i of this.$refs.cart) {
+            if (!i.selected) {
+              i.select();
+            }
           }
-        }
-        this.$refs.selectAll.$el.children[0].innerHTML = '取消全选';
-      } else {
-        for (let i of this.$refs.cart) {
-          if (i.selected) {
-            i.select();
+          this.$refs.selectAll.$el.children[0].innerHTML = '取消全选';
+        } else {
+          for (let i of this.$refs.cart) {
+            if (i.selected) {
+              i.select();
+            }
           }
+          this.$refs.selectAll.$el.children[0].innerHTML = '全选';
         }
-        this.$refs.selectAll.$el.children[0].innerHTML = '全选';
       }
     },
     selectReverse() {
-      for (let i of this.$refs.cart) {
-        i.select();
+      if (this.$refs.cart) {
+        for (let i of this.$refs.cart) {
+          i.select();
+        }
       }
     },
     deleteItems() {
-      if (this.selectGoodsIdSet.size === 0) {
+      if (this.selectCartIdSet.size === 0) {
         this.$message.warning('请选择要删除的商品！');
       } else {
-        let newSet = this.selectGoodsIdSet;
-        for (let i of newSet) {
-          for (let j = 0; j < this.cartList.length; j++) {
-            if (this.cartList[j].goodsId === i) {
-              this.cartList.splice(j, 1);
-            }
-          }
-          for (let k of this.$refs.cart) {
-            if (k.selected && k.itemData.goodsId === i) {
-              k.select();
-            }
-          }
+        let str = '';
+        for (let i of this.selectCartIdSet) {
+          str += i + ',';
         }
-        this.$message.success('删除成功！');
-        // this.$http
-        //     .get('user/login', {
-        //       data: Array.from(this.selectGoodsIdSet)
-        //     })
-        //     .then(res => {
-        //       if (res.code === 10000) {
-        //         let newSet = this.selectGoodsIdSet;
-        //         for (let i of newSet) {
-        //           for (let j = 0; j < this.cartList.length; j++) {
-        //             if (this.cartList[j].goodsId === i) {
-        //               this.cartList.splice(j, 1);
-        //             }
-        //           }
-        //           for (let k of this.$refs.cart) {
-        //             if (k.selected && k.itemData.goodsId === i) {
-        //               k.select();
-        //             }
-        //           }
-        //         }
-        //         this.$message.success('删除成功！');
-        //       }
-        //     })
-        //     .catch(err => {
-        //       this.$message.error(err);
-        //     });
-
+        str = str.substring(0, str.length - 1)
+        this.$http
+            .get('/shopcart/deletebycids?cids=' + str)
+            .then(res => {
+              if (res.code === 10000) {
+                let newSet = this.selectCartIdSet;
+                for (let i of newSet) {
+                  for (let j = 0; j < this.cartList.length; j++) {
+                    if (this.cartList[j].cartId === i) {
+                      this.cartList.splice(j, 1);
+                    }
+                  }
+                  for (let k of this.$refs.cart) {
+                    if (k.selected && k.itemData.cartId === i) {
+                      k.select();
+                    }
+                  }
+                }
+                this.$message.success('删除成功！');
+              }
+            });
       }
     },
     toLogin() {
@@ -167,66 +155,33 @@ export default {
     }
   },
   created() {
-    //todo 获得用户购物车数据
-    this.cartList =
-        [
-          {
-            goodsId: 1,
-            goodsName: '商品名称',
-            img: 'url',
-            description: 'goodsId:1 描述信息描述信息描述信息描述信息描述信息描述信息描述信息' +
-                '描述信息描述信息描述信息描述信息描述信息描述信息描述信息',
-            price: 28.0,
-          },
-          {
-            goodsId: 2,
-            goodsName: '商品名称',
-            img: 'url',
-            description: 'goodsId:2 描述信息描述信息描述信息描述信息描述信息描述信息描述信息' +
-                '描述信息描述信息描述信息描述信息描述信息描述信息描述信息',
-            price: 28.0,
-          },
-          {
-            goodsId: 3,
-            goodsName: '商品名称',
-            img: 'url',
-            description: 'goodsId:3 描述信息描述信息描述信息描述信息描述信息描述信息描述信息' +
-                '描述信息描述信息描述信息描述信息描述信息描述信息描述信息',
-            price: 28.0,
-          },
-          {
-            goodsId: 4,
-            goodsName: '商品名称',
-            img: 'url',
-            description: 'goodsId:4 描述信息描述信息描述信息描述信息描述信息描述信息描述信息' +
-                '描述信息描述信息描述信息描述信息描述信息描述信息描述信息',
-            price: 28.0,
-          },
-          {
-            goodsId: 5,
-            goodsName: '商品名称',
-            img: 'url',
-            description: 'goodsId:5 描述信息描述信息描述信息描述信息描述信息描述信息描述信息' +
-                '描述信息描述信息描述信息描述信息描述信息描述信息描述信息',
-            price: 28.0,
-          },
-          {
-            goodsId: 6,
-            goodsName: '商品名称',
-            img: 'url',
-            description: 'goodsId:6 描述信息描述信息描述信息描述信息描述信息描述信息描述信息' +
-                '描述信息描述信息描述信息描述信息描述信息描述信息描述信息',
-            price: 28.0,
-          },
-        ];
+    this.$http
+        .get('/shopcart/list', {
+          userId: JSON.parse(localStorage.getItem('userInform')).userId
+        })
+        .then(res1 => {
+          if (res1.code === 10000) {
+            for (let cart of res1.data) {
+              this.cartList.push({
+                cartId: cart.cartId,
+                amount: cart.cartNum,
+                goodsId: cart.productId,
+                goodsName: cart.productName,
+                img: cart.productImg,
+                description: cart.content,
+                price: cart.productPrice,
+              });
+            }
+          } else {
+            this.$message.error('未知错误');
+          }
+        });
   }
 }
 </script>
 
 <style scoped>
 #container {
-  /*width: 50%;*/
-  /*margin: 0 auto 100px auto;*/
   z-index: 1;
 }
 
@@ -235,7 +190,7 @@ export default {
 }
 
 .cartItemContainer {
-  width: 50%;
+  width: 60%;
   margin: 0 auto 100px auto;
 }
 
@@ -245,8 +200,8 @@ export default {
   width: 100%;
   height: 80px;
   margin: 0 auto;
-  background-color: white;
-  z-index: 12
+  background: linear-gradient(35deg, #CCFFFF, #FFCCCC) fixed;
+  z-index: 12;
 }
 
 

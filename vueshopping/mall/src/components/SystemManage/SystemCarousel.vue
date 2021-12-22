@@ -42,6 +42,7 @@ export default {
 
 <style scoped>
 #carousel {
+  margin: 20px 0;
   position: relative;
   left: 250px;
   width: 84%;

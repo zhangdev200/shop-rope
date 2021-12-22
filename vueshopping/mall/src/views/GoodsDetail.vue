@@ -30,10 +30,18 @@
       </h3>
       <hr>
       <br>
-      <Comment v-for="comment in comments"
+      <div v-if="comments.length === 0">
+        <p>暂无评价</p>
+      </div>
+      <Comment v-else v-for="comment in comments"
                :data="comment"
                :key="comment.id">
       </Comment>
+      <el-pagination
+          background
+          layout="prev, pager, next"
+          :total="1000">
+      </el-pagination>
     </div>
   </div>
 </template>
@@ -46,21 +54,23 @@ export default {
   data() {
     return {
       detail: null,
+      commentsTotal: 0,
       comments: []
     }
   },
   methods: {
     addToCart() {
       this.$http
-      .post('shopcart/add', {
-        productId: this.$route.params.id,
-        userId: JSON.parse(localStorage.getItem('userInform')).userId,
-      })
-      .then(res => {
-        if (res.code === 10000) {
-          this.$message.success('添加成功！')
-        }
-      });
+          .post('shopcart/add', {
+            productId: this.$route.params.id,
+            userId: JSON.parse(localStorage.getItem('userInform')).userId,
+            productPrice: this.detail.price,
+          })
+          .then(res => {
+            if (res.code === 10000) {
+              this.$message.success('添加成功！')
+            }
+          });
     },
     buyNow() {
 
@@ -70,7 +80,7 @@ export default {
     // this.$http
     //     .get('api')
     //     .then(res => {
-    //       this.detail = res.data;
+    //         this.detail = res.data;
     //     });
     // this.$http
     //     .get('api')
@@ -89,89 +99,111 @@ export default {
           price: 28.00
         }
     //todo 根据商品id获得评论
-    this.comments =
-        [
-          {
-            id: 1,
-            stars: 5,
-            avatar: 'https://cube.elemecdn.com/3/7c/3ea6beec64369c2642b92c6726f1epng.png',
-            nickname: '用户名',
-            date: '2021-12-5',
-            content: '五星好评！！！',
-            numOfZan: 100,
-            numOfCai: 100,
-          },
-          {
-            id: 2,
-            stars: 3,
-            avatar: 'https://cube.elemecdn.com/3/7c/3ea6beec64369c2642b92c6726f1epng.png',
-            nickname: '用户名',
-            date: '2021-12-4',
-            content: '评论pt>export default {name: "Comment",data() {return {avatar:' +
-                ' \'https: //cube.elemecdn.com /3/7c/3ea6beec643 69c2642b92c6726f1e png.png\'' +
-                '          }pneumonoul  tramicroscopic silicovolcan oconiosis }}',
-            numOfZan: 50,
-            numOfCai: 50,
-          },
-          {
-            id: 3,
-            stars: 1,
-            avatar: 'https://cube.elemecdn.com/3/7c/3ea6beec64369c2642b92c6726f1epng.png',
-            nickname: '用户名',
-            date: '2021-12-4',
-            content: '差评！！！',
-            numOfZan: 100,
-            numOfCai: 100,
-          },
-          {
-            id: 4,
-            stars: 4,
-            avatar: 'https://cube.elemecdn.com/3/7c/3ea6beec64369c2642b92c6726f1epng.png',
-            nickname: '用户名',
-            date: '2021-12-4',
-            content: '评论pt>export default {name: "Comment",data() {return {avatar:' +
-                ' \'https: //cube.elemecdn.com /3/7c/3ea6beec643 69c2642b92c6726f1e png.png\'' +
-                '          }pneumonoul  tramicroscopic silicovolcan oconiosis }}',
-            numOfZan: 100,
-            numOfCai: 100,
-          },
-          {
-            id: 5,
-            stars: 5,
-            avatar: 'https://cube.elemecdn.com/3/7c/3ea6beec64369c2642b92c6726f1epng.png',
-            nickname: '用户名',
-            date: '2021-12-4',
-            content: '评论pt>export default {name: "Comment",data() {return {avatar:' +
-                ' \'https: //cube.elemecdn.com /3/7c/3ea6beec643 69c2642b92c6726f1e png.png\'' +
-                '          }pneumonoul  tramicroscopic silicovolcan oconiosis }}',
-            numOfZan: 100,
-            numOfCai: 100,
-          },
-          {
-            id: 6,
-            stars: 5,
-            avatar: 'https://cube.elemecdn.com/3/7c/3ea6beec64369c2642b92c6726f1epng.png',
-            nickname: '用户名',
-            date: '2021-12-4',
-            content: '评论pt>export default {name: "Comment",data() {return {avatar:' +
-                ' \'https: //cube.elemecdn.com /3/7c/3ea6beec643 69c2642b92c6726f1e png.png\'' +
-                '          }pneumonoul  tramicroscopic silicovolcan oconiosis }}',
-            numOfZan: 100,
-            numOfCai: 100,
-          },
-          {
-            id: 7,
-            stars: 5,
-            avatar: 'https://cube.elemecdn.com/3/7c/3ea6beec64369c2642b92c6726f1epng.png',
-            nickname: '用户名',
-            date: '2021-12-4',
-            content: '评论pt>export default {name: "Comment",data() {return {avatar:' +
-                ' \'https: //cube.elemecdn.com /3/7c/3ea6beec643 69c2642b92c6726f1e png.png\'' +
-                '          }pneumonoul  tramicroscopic silicovolcan oconiosis }}',
-            numOfZan: 100,
-            numOfCai: 100,
-          },
-        ];
+    this.$http
+        .get('/product/detail-comments/' + this.$route.params.id, {
+          pageNum: 1,
+          limit: 3
+        })
+        .then(res => {
+          if (res.code === 10000) {
+            this.comments = [];
+            for (let item of res.data.list) {
+              this.comments.push({
+                id: item.commId,
+                stars: item.commType === 1 ? 5 : item.commType === 0 ? 3 : 1,
+                avatar: item.userImg,
+                nickname: item.nickname,
+                date: item.replyTime,
+                content: item.commContent,
+                numOfZan: Math.floor((Math.random() * 100)),
+                numOfCai: Math.floor((Math.random() * 100)),
+              })
+            }
+          }
+        })
+    // this.comments =
+    //     [
+    //       {
+    //         id: 1,
+    //         stars: 5,
+    //         avatar: 'https://cube.elemecdn.com/3/7c/3ea6beec64369c2642b92c6726f1epng.png',
+    //         nickname: '用户名',
+    //         date: '2021-12-5',
+    //         content: '五星好评！！！',
+    //         numOfZan: 100,
+    //         numOfCai: 100,
+    //       },
+    //       {
+    //         id: 2,
+    //         stars: 3,
+    //         avatar: 'https://cube.elemecdn.com/3/7c/3ea6beec64369c2642b92c6726f1epng.png',
+    //         nickname: '用户名',
+    //         date: '2021-12-4',
+    //         content: '评论pt>export default {name: "Comment",data() {return {avatar:' +
+    //             ' \'https: //cube.elemecdn.com /3/7c/3ea6beec643 69c2642b92c6726f1e png.png\'' +
+    //             '          }pneumonoul  tramicroscopic silicovolcan oconiosis }}',
+    //         numOfZan: 50,
+    //         numOfCai: 50,
+    //       },
+    //       {
+    //         id: 3,
+    //         stars: 1,
+    //         avatar: 'https://cube.elemecdn.com/3/7c/3ea6beec64369c2642b92c6726f1epng.png',
+    //         nickname: '用户名',
+    //         date: '2021-12-4',
+    //         content: '差评！！！',
+    //         numOfZan: 100,
+    //         numOfCai: 100,
+    //       },
+    //       {
+    //         id: 4,
+    //         stars: 4,
+    //         avatar: 'https://cube.elemecdn.com/3/7c/3ea6beec64369c2642b92c6726f1epng.png',
+    //         nickname: '用户名',
+    //         date: '2021-12-4',
+    //         content: '评论pt>export default {name: "Comment",data() {return {avatar:' +
+    //             ' \'https: //cube.elemecdn.com /3/7c/3ea6beec643 69c2642b92c6726f1e png.png\'' +
+    //             '          }pneumonoul  tramicroscopic silicovolcan oconiosis }}',
+    //         numOfZan: 100,
+    //         numOfCai: 100,
+    //       },
+    //       {
+    //         id: 5,
+    //         stars: 5,
+    //         avatar: 'https://cube.elemecdn.com/3/7c/3ea6beec64369c2642b92c6726f1epng.png',
+    //         nickname: '用户名',
+    //         date: '2021-12-4',
+    //         content: '评论pt>export default {name: "Comment",data() {return {avatar:' +
+    //             ' \'https: //cube.elemecdn.com /3/7c/3ea6beec643 69c2642b92c6726f1e png.png\'' +
+    //             '          }pneumonoul  tramicroscopic silicovolcan oconiosis }}',
+    //         numOfZan: 100,
+    //         numOfCai: 100,
+    //       },
+    //       {
+    //         id: 6,
+    //         stars: 5,
+    //         avatar: 'https://cube.elemecdn.com/3/7c/3ea6beec64369c2642b92c6726f1epng.png',
+    //         nickname: '用户名',
+    //         date: '2021-12-4',
+    //         content: '评论pt>export default {name: "Comment",data() {return {avatar:' +
+    //             ' \'https: //cube.elemecdn.com /3/7c/3ea6beec643 69c2642b92c6726f1e png.png\'' +
+    //             '          }pneumonoul  tramicroscopic silicovolcan oconiosis }}',
+    //         numOfZan: 100,
+    //         numOfCai: 100,
+    //       },
+    //       {
+    //         id: 7,
+    //         stars: 5,
+    //         avatar: 'https://cube.elemecdn.com/3/7c/3ea6beec64369c2642b92c6726f1epng.png',
+    //         nickname: '用户名',
+    //         date: '2021-12-4',
+    //         content: '评论pt>export default {name: "Comment",data() {return {avatar:' +
+    //             ' \'https: //cube.elemecdn.com /3/7c/3ea6beec643 69c2642b92c6726f1e png.png\'' +
+    //             '          }pneumonoul  tramicroscopic silicovolcan oconiosis }}',
+    //         numOfZan: 100,
+    //         numOfCai: 100,
+    //       },
+    //     ];
   }
 }
 </script>

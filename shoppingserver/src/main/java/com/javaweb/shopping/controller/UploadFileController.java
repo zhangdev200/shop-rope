@@ -49,7 +49,7 @@ public class UploadFileController {
      */
     private String getFileName(String fileName) {
         int index = fileName.lastIndexOf(".");
-        final SimpleDateFormat sDateFormate = new SimpleDateFormat("yyyymmddHHmmss");  //设置时间格式
+        final SimpleDateFormat sDateFormate = new SimpleDateFormat("yyyyMMddHHmmss");  //设置时间格式
         String nowTimeStr = sDateFormate.format(new Date()); // 当前时间
         fileName = fileName.substring(0, index) + "_" + nowTimeStr + fileName.substring(index);
         return fileName;

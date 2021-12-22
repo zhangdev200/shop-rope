@@ -1,8 +1,6 @@
 <template>
-  <div id="form"
-       v-loading.fullscreen="this.loading"
-       element-loading-background="rgba(0, 0, 0, 0)">
-    <h1>
+  <div id="form">
+    <h1 style="color: #444444">
       欢 迎 登 录
     </h1>
     <br>
@@ -13,14 +11,30 @@
         status-icon
         :rules="rules"
         ref="ruleForm"
-        label-width="80px"
         class="demo-ruleForm">
-      <el-form-item label="用户名" prop="username">
-        <el-input type="text" v-model="ruleForm.username" autocomplete="off"></el-input>
+      <el-form-item prop="username">
+        <el-input
+            placeholder="请输入用户名"
+            prefix-icon="el-icon-user"
+            type="text"
+            v-model="ruleForm.username"
+            ref="username"
+            autocomplete="off"
+            @keyup.down.native="focusPassword">
+        </el-input>
       </el-form-item>
       <br>
-      <el-form-item label="密码" prop="pass">
-        <el-input type="password" v-model="ruleForm.pass" autocomplete="off" @keyup.enter.native="submitForm"></el-input>
+      <el-form-item prop="pass">
+        <el-input
+            placeholder="请输入密码"
+            prefix-icon="el-icon-lock"
+            type="password"
+            v-model="ruleForm.pass"
+            ref="password"
+            autocomplete="off"
+            @keyup.up.native="focusUsername"
+            @keyup.enter.native="submitForm">
+        </el-input>
       </el-form-item>
       <br>
       <el-form-item style="width: 100%; height: 40px">
@@ -33,7 +47,8 @@
       </el-form-item>
     </el-form>
     <div style="font-size: 12px; float: right">
-      还没有账号？立即<el-button type="text" @click="toRegister">注册</el-button>
+      还没有账号？立即
+      <el-button type="text" @click="toRegister">注册</el-button>
     </div>
   </div>
 </template>
@@ -55,7 +70,6 @@ export default {
       }
     };
     return {
-      loading: false,
       ruleForm: {
         username: '',
         pass: '',
@@ -72,7 +86,6 @@ export default {
   },
   methods: {
     submitForm() {
-      this.loading = true;
       this.$refs.ruleForm.validate((valid) => {
         if (valid) {
           this.$http
@@ -81,7 +94,6 @@ export default {
                 password: this.ruleForm.pass
               })
               .then(res => {
-                this.loading = false;
                 if (res.code === 10000) {
                   this.$message.success('登录成功！');
                   localStorage.setItem('token', res.msg);
@@ -90,16 +102,18 @@ export default {
                 } else {
                   this.$message.error(res.msg);
                 }
-              })
-              .catch(err => {
-                this.loading = false;
-                this.$message.error(err);
               });
         } else {
           return false;
         }
       });
       this.$emit('login');
+    },
+    focusUsername() {
+      this.$refs.username.focus();
+    },
+    focusPassword() {
+      this.$refs.password.focus();
     },
     resetForm() {
       this.$refs.ruleForm.resetFields();
@@ -113,7 +127,8 @@ export default {
 
 <style scoped>
 #form {
-  padding: 50px 50px 120px 50px;
+  background: rgba(255, 255, 255, 0.7);
+  padding: 40px 50px 80px 50px;
   width: 20%;
   margin: 160px auto;
   border-radius: 20px;

@@ -1,6 +1,10 @@
 <template>
   <div>
-    <div style="width: 100%; height: 120px; z-index: 3; background-color: white; position: fixed; top: 0">
+    <div style="width: 100%;
+    height: 120px;
+    z-index: 3;
+    background: linear-gradient(35deg, #CCFFFF, #FFCCCC) fixed;
+    position: fixed; top: 0">
       <div id="search">
         <el-input placeholder="搜索您想要的商品" v-model="input">
           <el-button slot="append" icon="el-icon-search" id="button" @click="search"></el-button>
@@ -8,7 +12,7 @@
       </div>
     </div>
     <div id="container">
-        <router-view></router-view>
+      <router-view></router-view>
     </div>
   </div>
 </template>
@@ -23,7 +27,7 @@ export default {
   methods: {
     search() {
       if (this.input !== null) {
-        this.$router.push('/searchResult');
+        this.$router.push('/search');
       }
     }
   },

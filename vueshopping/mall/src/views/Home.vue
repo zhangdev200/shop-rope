@@ -70,9 +70,9 @@ export default {
   },
   methods: {
     activePath() {
-      if (this.$route.path === '/personalManage' ||
-          this.$route.path === '/orderManage' ||
-          this.$route.path === '/storeManage' ||
+      if (this.$route.path === '/personal/personal' ||
+          this.$route.path === '/personal/order' ||
+          this.$route.path === '/personal/store' ||
           this.$route.path === '/system/seller' ||
           this.$route.path === '/system/recommend' ||
           this.$route.path === '/system/category' ||

@@ -10,20 +10,20 @@
             background-color="rgb(217,217,217)"
             text-color="#000"
             active-text-color="rgb(44,138,255)">
-          <el-menu-item index="/personalManage" class="item" @click="routerLink('/personalManage')">
+          <el-menu-item index="/personal/personal" class="item" @click="routerLink('/personal/personal')">
             <div class="inner-item">
               <i class="el-icon-user" style="font-size: 20px"></i>
               <span slot="title">个人中心</span>
             </div>
             <el-divider></el-divider>
           </el-menu-item>
-          <el-menu-item index="/orderManage" class="item" @click="routerLink('/orderManage')">
+          <el-menu-item index="/personal/order" class="item" @click="routerLink('/personal/order')">
             <div>
               <i class="el-icon-goods" style="font-size: 20px"></i>
               <span slot="title">我的订单</span>
             </div>
           </el-menu-item>
-          <el-menu-item v-if="isShopKeeper" index="/storeManage" class="item" @click="routerLink('/storeManage')">
+          <el-menu-item v-if="isShopKeeper" index="/personal/store" class="item" @click="routerLink('/personal/store')">
             <div>
               <i class="el-icon-s-shop" style="font-size: 20px"></i>
               <span>我的店铺</span>
@@ -59,11 +59,9 @@
           </el-submenu>
         </el-menu>
       </el-aside>
-      <el-main id="container">
-        <keep-alive>
-          <router-view></router-view>
-        </keep-alive>
-      </el-main>
+      <keep-alive>
+        <router-view></router-view>
+      </keep-alive>
     </el-container>
   </div>
 </template>
@@ -104,6 +102,7 @@ export default {
 
 #container {
   width: 100%;
+  padding: 20px 0;
 }
 
 #aside {

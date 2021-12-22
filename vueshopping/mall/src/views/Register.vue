@@ -1,21 +1,21 @@
 <template>
   <div id="form">
-    <h1>
+    <h1 style="color: #444444">
       欢 迎 注 册
     </h1><br>
     <hr>
     <br><br>
-    <el-form :model="ruleForm" status-icon :rules="rules" ref="ruleForm" label-width="80px" class="demo-ruleForm">
-      <el-form-item label="用户名">
-        <el-input type="text" v-model="ruleForm.username"></el-input>
+    <el-form :model="ruleForm" status-icon :rules="rules" ref="ruleForm" class="demo-ruleForm">
+      <el-form-item prop="username">
+        <el-input prefix-icon="el-icon-user" placeholder="请输入用户名" type="text" v-model="ruleForm.username"></el-input>
       </el-form-item>
       <br>
-      <el-form-item label="密码" prop="pass">
-        <el-input type="password" v-model="ruleForm.pass" autocomplete="off"></el-input>
+      <el-form-item prop="pass">
+        <el-input prefix-icon="el-icon-lock" placeholder="请输入密码" type="password" v-model="ruleForm.pass" autocomplete="off"></el-input>
       </el-form-item>
       <br>
-      <el-form-item label="确认密码" prop="checkPass">
-        <el-input type="password" v-model="ruleForm.checkPass" autocomplete="off" @keyup.enter.native="submitForm"></el-input>
+      <el-form-item prop="checkPass">
+        <el-input prefix-icon="el-icon-lock" placeholder="请输入确认密码" type="password" v-model="ruleForm.checkPass" autocomplete="off" @keyup.enter.native="submitForm"></el-input>
       </el-form-item>
       <br>
       <el-form-item>
@@ -35,6 +35,13 @@
 <script>
 export default {
   data() {
+    let validateUsername = (rule, value, callback) => {
+      if (value === '') {
+        callback(new Error('请输入用户名'));
+      } else {
+        callback();
+      }
+    };
     let validatePass = (rule, value, callback) => {
       if (value === '') {
         callback(new Error('请输入密码'));
@@ -61,6 +68,9 @@ export default {
         checkPass: '',
       },
       rules: {
+        username: [
+          {validator: validateUsername, trigger: 'blur'}
+        ],
         pass: [
           {validator: validatePass, trigger: 'blur'}
         ],
@@ -81,8 +91,7 @@ export default {
               })
               .then(res => {
                 this.$message.success(res.msg);
-              })
-              .catch(err => this.$message.error(err));
+              });
         } else {
           return false;
         }
@@ -100,7 +109,8 @@ export default {
 
 <style scoped>
 #form {
-  padding: 50px 50px 120px 50px;
+  background: rgba(255, 255, 255, 0.7);
+  padding: 40px 50px 80px 50px;
   width: 20%;
   margin: 160px auto;
   border-radius: 20px;

@@ -24,5 +24,12 @@ export default {
   text-align: center;
   color: #2c3e50;
 }
+body {
+  margin: 0;
+  background: linear-gradient(35deg, #CCFFFF, #FFCCCC) fixed;
+  padding: 0 !important;
+  overflow-y: scroll !important; /*解决messageBox打开关闭页面抖动问题*/
+}
+
 
 </style>

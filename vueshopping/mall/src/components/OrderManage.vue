@@ -11,18 +11,17 @@
           ref="order"
           @select="select"
           @unselect="unselect"
-          @check="checkPriceChange"
-      >
+          @check="checkPriceChange">
       </OrderItem>
     </div>
     <div class="bottomBar">
-      <div style="width: 50%; margin: 0 auto">
+      <div style="width: 71%; margin: 0 0 0 300px">
         <div style="width: 50%; display: inline-block; text-align: left">
           <el-button type="primary" round @click="selectReverse" class="myButton">反选</el-button>
           <el-button type="primary" round @click="selectAll" ref="selectAll" class="myButton">全选</el-button>
         </div>
         <div style="width: 50%; display: inline-block; text-align: right">
-          <el-popconfirm title="确定删除吗？" @confirm="deleteItems" class="myButton" style="margin: 0 10px">
+          <el-popconfirm title="确定删除吗？" @confirm="deleteItems" style="margin: 0 10px">
             <el-button type="danger" round class="myButton" slot="reference">删除</el-button>
           </el-popconfirm>
         </div>
@@ -163,19 +162,19 @@ export default {
 
 <style scoped>
 #container {
-  width: 50%;
-  margin: 0 auto 100px auto;
+  width: 1350px;
+  margin: 0 10px 100px 300px;
   z-index: 1;
 }
 
 .myButton {
-  width: 120px;
+  width: 20%;
 }
 
 .bottomBar {
   position: fixed;
   bottom: 0;
-  width: 100%;
+  width: 1920px;
   height: 60px;
   background-color: rgba(217, 217, 217, 1);
   z-index: 10;

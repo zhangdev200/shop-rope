@@ -2,10 +2,10 @@
   <transition name="el-zoom-in-top">
     <div>
       <el-row class="order">
-        <el-col :span="3">
+        <el-col :span="2">
           <img src="../assets/Hamburger.png" alt="" style="width: 100%; border-radius: 15px"/>
         </el-col>
-        <el-col :span="21">
+        <el-col :span="22">
           <div style="text-align: left; padding: 0 20px; margin-bottom: 70px; font-size: 16px">
             <p style="margin: 0; font-weight: bold">{{ itemData.goodsName }}</p>
             <p style="word-wrap: break-word">{{ itemData.description }}</p>
@@ -16,10 +16,31 @@
         </div>
         <span class="price">￥{{ itemData.price }}</span>
         <div style="position: absolute; bottom: 20px; right: 20px; border-radius: 10px">
-          <el-button type="primary" round @click="comment">评价</el-button>
+          <el-button type="primary" round @click="dialogVisible = true; form.textarea = ''">评价</el-button>
           <el-button type="primary" round @click="showDetail">再次购买</el-button>
         </div>
       </el-row>
+      <el-dialog
+          title="评价"
+          :visible.sync="dialogVisible"
+          width="25%"
+          :lock-scroll="false">
+        <p style="font-size: 16px">{{ '对商品 ' + this.itemData.goodsName + ' 进行评价：' }}</p>
+        <el-form :model="form">
+          <el-form-item>
+            <el-input
+                type="textarea"
+                :rows="4"
+                placeholder="请输入评价内容"
+                v-model="form.textarea">
+            </el-input>
+          </el-form-item>
+        </el-form>
+        <span slot="footer" class="dialog-footer">
+          <el-button @click="dialogVisible = false">取 消</el-button>
+          <el-button type="primary" @click="comment()">确 定</el-button>
+        </span>
+      </el-dialog>
     </div>
   </transition>
 </template>
@@ -39,6 +60,10 @@ export default {
         price: null,
       },
       selected: false,
+      dialogVisible: false,
+      form: {
+        textarea: '',
+      },
     }
   },
 
@@ -59,22 +84,18 @@ export default {
       }
     },
     comment() {
-      this.$prompt('对商品 ' + this.itemData.goodsName + ' 进行评价：', '评价', {
-        confirmButtonText: '确定',
-        cancelButtonText: '取消',
-        inputPattern: /.{2,100}/,
-        inputErrorMessage: '请输入至少2个字符，至多100个字符！'
-      }).then(() => {
-        this.$message({
-          type: 'success',
-          message: '评价成功！'
+      if (this.form.textarea.match(/.{2,100}/)) {
+        this.$http.post('api', {
+          content: this.form.textarea,
+        })
+        .then(res => {
+          if (res === 10000) {
+            this.$message.success('评价成功！');
+          } else this.$message.error(res.msg);
         });
-      }).catch(() => {
-        this.$message({
-          type: 'info',
-          message: '已取消评论！'
-        });
-      });
+      } else {
+        this.$message.warning('输入字符数应在2-100之间！');
+      }
     }
   },
   created() {
@@ -86,7 +107,8 @@ export default {
 
 <style scoped>
 .order {
-  background-color: #eeeeee;
+  width: 100%;
+  background-color: #eee;
   border-radius: 10px;
   padding: 20px;
   margin: 25px auto;

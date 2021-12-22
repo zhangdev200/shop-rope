@@ -12,6 +12,7 @@ export default {
 
 <style scoped>
 #category {
+  margin: 20px 0;
   position: relative;
   left: 250px;
   width: 84%;

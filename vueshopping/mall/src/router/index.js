@@ -10,10 +10,10 @@ const routes = [
         path: '/',
         name: 'Home',
         component: Home,
-        redirect: '/goods',
+        redirect: '/main',
         children: [
             {
-                path: '/goods',
+                path: '/main',
                 component: () => import('../views/Goods'),
                 redirect: '/index',
                 children: [
@@ -22,13 +22,13 @@ const routes = [
                         component: () => import('../views/DefaultResult')
                     },
                     {
-                        path: '/searchResult',
+                        path: '/search',
                         component: () => import('../views/SearchResult')
                     }
                 ]
             },
             {
-                path: '/goodsDetail/:id',
+                path: '/goods/:id',
                 component: () => import('../views/GoodsDetail')
             },
             {
@@ -47,18 +47,18 @@ const routes = [
             {
                 path: '/personal',
                 component: () => import('../views/Personal'),
-                redirect: '/personalManage',
+                redirect: '/personal/personal',
                 children: [
                     {
-                        path: '/personalManage',
+                        path: '/personal/personal',
                         component: () => import('../components/PersonalManage'),
                     },
                     {
-                        path: '/orderManage',
+                        path: '/personal/order',
                         component: () => import('../components/OrderManage'),
                     },
                     {
-                        path: '/storeManage',
+                        path: '/personal/store',
                         component: () => import('../components/StoreManage'),
                     },
                     {
@@ -80,11 +80,11 @@ const routes = [
                 ]
             },
         ]
-
     },
 ]
 
 const router = new VueRouter({
+    // mode: 'history',
     routes
 })
 

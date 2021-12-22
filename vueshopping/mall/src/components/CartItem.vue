@@ -41,24 +41,25 @@ export default {
   methods: {
     change() {
       this.totalPrice = this.amount * this.itemData.price;
+      this.$http.put('/shopcart/update/' + this.itemData.cartId + '/' + this.amount);
       this.$emit('check');
     },
     select() {
       this.selected = !this.selected;
       if (this.selected) {
         this.$refs.select.style.color = 'red';
-        this.$emit('select', this.itemData.goodsId);
+        this.$emit('select', this.itemData.cartId);
         this.$emit('check');
-      }
-      else {
+      } else {
         this.$refs.select.style.color = 'black';
-        this.$emit('unselect', this.itemData.goodsId);
+        this.$emit('unselect', this.itemData.cartId);
         this.$emit('check');
       }
     }
   },
   created() {
     this.itemData = this.item;
+    this.amount = this.itemData.amount;
     this.totalPrice = this.itemData.price * this.amount;
   },
 

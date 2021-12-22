@@ -4,6 +4,7 @@
          class="image"
          @click="showDetail(goodsData.goodsId)" alt="">
     <div style="padding: 14px; text-align: left">
+      <p>{{goodsData.goodsName ? goodsData.goodsName : '加载失败'}}</p>
       <p class="description">{{ goodsData.description }}</p>
       <div class="bottom clearfix">
         <span class="price">￥{{ goodsData.price }}</span>
@@ -21,6 +22,7 @@ export default {
     return {
       goodsData: {
         goodsId: null,
+        goodsName: '',
         img: null,
         description: '',
         price: null
@@ -29,7 +31,7 @@ export default {
   },
   methods: {
     showDetail() {
-      this.$router.push('/goodsDetail/' + this.goodsData.goodsId);
+      this.$router.push('/goods/' + this.goodsData.goodsId);
     }
   },
   mounted() {
@@ -67,8 +69,9 @@ export default {
 }
 
 .description {
+  color: #444444;
   text-align: left;
-  height: 100px;
+  height: 80px;
   overflow-y: scroll
 }
 
