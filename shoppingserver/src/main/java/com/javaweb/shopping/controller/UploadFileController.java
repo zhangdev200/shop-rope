@@ -2,6 +2,7 @@ package com.javaweb.shopping.controller;
 
 import com.javaweb.shopping.vo.ResStatus;
 import com.javaweb.shopping.vo.ResultVO;
+import org.springframework.util.ClassUtils;
 import org.springframework.util.ResourceUtils;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -24,7 +25,8 @@ public class UploadFileController {
         }
         try {
             byte[] bytes = file.getBytes();
-            Path path = Paths.get("src/main/resources/static/img/"+file.getOriginalFilename());
+            String s= ClassUtils.getDefaultClassLoader().getResource("static/img").getPath();
+            Path path = Paths.get(s+file.getOriginalFilename());
             Files.write(path, bytes);
             return new ResultVO(ResStatus.OK,"上传成功",null);
         } catch (IOException e) {

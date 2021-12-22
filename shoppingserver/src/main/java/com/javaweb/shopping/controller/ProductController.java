@@ -1,5 +1,6 @@
 package com.javaweb.shopping.controller;
 
+import com.javaweb.shopping.entity.ProductComments;
 import com.javaweb.shopping.service.ProductCommentsService;
 import com.javaweb.shopping.service.ProductService;
 import com.javaweb.shopping.vo.ResultVO;
@@ -27,6 +28,11 @@ public class ProductController {
         return productService.getProductBasicInfo(pid);
     }
 
+    @GetMapping("/imgs/{pid}")
+    public ResultVO getProductImgs(@PathVariable("pid") String pid){
+        return productService.getProductImgById(pid);
+    }
+
     @ApiOperation("商品参数信息查询接口")
     @GetMapping("/detail-params/{pid}")
     public ResultVO getProductParams(@PathVariable("pid") String pid){
@@ -39,8 +45,16 @@ public class ProductController {
             @ApiImplicitParam(dataType = "int",name = "pageNum", value = "当前页码",required = true),
             @ApiImplicitParam(dataType = "int",name = "limit", value = "每页显示条数",required = true)
     })
-    public ResultVO getProductCommonts(@PathVariable("pid") String pid,int pageNum,int limit){
+    public ResultVO getProductComments(@PathVariable("pid") String pid,int pageNum,int limit){
         return productCommontsService.listCommontsByProductId(pid,pageNum,limit);
+    }
+
+    @PostMapping("/addcomment")
+    public ResultVO addProductComment(@RequestBody ProductComments productComments){
+        if(productComments.getCommId()==null){
+            productComments.setCommId(String.valueOf(System.currentTimeMillis()));
+        }
+        return productCommontsService.insertProductComment(productComments);
     }
 
     @ApiOperation("商品评价统计查询接口")

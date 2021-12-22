@@ -81,13 +81,24 @@ public class ProductCommentsServiceImpl implements ProductCommentsService {
     }
 
     @Override
-    public void insertProductComment(ProductComments productComments) {
-        productCommentsMapper.insertProductComment(productComments);
+    public ResultVO insertProductComment(ProductComments productComments) {
+        try{
+            productCommentsMapper.insertProductComment(productComments);
+            return new ResultVO(ResStatus.OK,"success",null);
+        }catch (Exception e){
+            e.printStackTrace();
+            return new ResultVO(ResStatus.NO,"数据库层操作失败",null);
+        }
     }
 
     @Override
-    public void deleteProductComment(String ID) {
-        productCommentsMapper.deleteProductComment(ID);
+    public ResultVO deleteProductComment(String ID) {
+        try{
+            productCommentsMapper.deleteProductComment(ID);
+            return new ResultVO(ResStatus.OK,"success",null);
+        }catch (Exception e){
+            return new ResultVO(ResStatus.NO,"数据库层操作失败",null);
+        }
     }
 
 }

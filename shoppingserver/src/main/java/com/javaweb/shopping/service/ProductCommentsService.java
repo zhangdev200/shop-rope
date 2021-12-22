@@ -18,9 +18,9 @@ public interface ProductCommentsService {
      * @param productId
      * @return
      */
-    public ResultVO getCommentsCountByProductId(String productId);
+    ResultVO getCommentsCountByProductId(String productId);
 
-    public void insertProductComment(ProductComments productComments);
+    ResultVO insertProductComment(ProductComments productComments);
 
-    void deleteProductComment(String ID);
+    ResultVO deleteProductComment(String ID);
 }

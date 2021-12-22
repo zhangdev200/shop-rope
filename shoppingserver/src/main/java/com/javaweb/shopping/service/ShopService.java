@@ -9,7 +9,6 @@ import java.util.List;
 public interface ShopService {
     ResultVO selectProductFromShopID(String shopID);
     ResultVO listAllShop();
-
     ResultVO listShopByUserId(String userId);
     ResultVO addProduct(ProductVO productVO);
     //添加商品参数信息

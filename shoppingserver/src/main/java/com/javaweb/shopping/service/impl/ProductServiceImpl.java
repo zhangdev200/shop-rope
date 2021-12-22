@@ -79,6 +79,18 @@ public class ProductServiceImpl  implements ProductService {
         }
     }
 
+
+    @Override
+    public ResultVO getProductImgById(String productId) {
+
+        Example example = new Example(ProductImg.class);
+        Example.Criteria criteria = example.createCriteria();
+        criteria.andEqualTo("itemId",productId);
+        List<ProductImg> productImgs = productImgMapper.selectByExample(example);
+        return new ResultVO(ResStatus.OK,"success",productImgs);
+
+    }
+
     @Override
     public ResultVO getProductsByCategoryId(int categoryId, int pageNum, int limit) {
         //1.查询分页数据

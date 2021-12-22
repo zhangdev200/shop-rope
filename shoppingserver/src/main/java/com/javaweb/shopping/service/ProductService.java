@@ -16,4 +16,6 @@ public interface ProductService {
     ResultVO searchProduct(String kw,int pageNum,int limit); //搜索产品
 
     ResultVO listBrands(String kw); //根据关键词获取品牌
+
+    ResultVO getProductImgById(String productId); //根据产品ID获取图片
 }
