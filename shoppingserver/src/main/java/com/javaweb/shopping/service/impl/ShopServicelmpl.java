@@ -3,6 +3,7 @@ package com.javaweb.shopping.service.impl;
 import com.javaweb.shopping.entity.*;
 import com.javaweb.shopping.mapper.*;
 import com.javaweb.shopping.service.ShopService;
+import com.javaweb.shopping.utils.IDUtils;
 import com.javaweb.shopping.vo.ResStatus;
 import com.javaweb.shopping.vo.ResultVO;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -139,7 +140,7 @@ public class ShopServicelmpl implements ShopService {
     public ResultVO addProductParams(ProductParams productParams) {
         try{
             if(productParams.getParamId()==null){
-                productParams.setParamId(String.valueOf(System.currentTimeMillis()));
+                productParams.setParamId(String.valueOf(IDUtils.getId()));
             }
             productParamsMapper.insert(productParams);
             return new ResultVO(ResStatus.OK,"success",productParams.getParamId());
@@ -210,7 +211,7 @@ public class ShopServicelmpl implements ShopService {
         synchronized (this){
             try{
                 if(shop.getShopID()==null){
-                    shop.setShopID(String.valueOf(System.currentTimeMillis()%1000000000));
+                    shop.setShopID(String.valueOf(IDUtils.getId()));
                 }
                 //状态设为0表示管理员还未审核同意
                 shop.setStatus(0);

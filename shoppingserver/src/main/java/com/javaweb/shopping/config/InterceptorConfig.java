@@ -19,6 +19,15 @@ public class InterceptorConfig implements WebMvcConfigurer {
                 .addPathPatterns("/orders/**")
                 .addPathPatterns("/useraddr/**")
                 .addPathPatterns("/user/check")
-                .addPathPatterns("/user/becomevip");
+                .addPathPatterns("/user/becomevip")
+                .addPathPatterns("/user/info")
+                .addPathPatterns("/product/addcomment")
+                .addPathPatterns("/shop/add")
+                .addPathPatterns("/shop/listshopsbyuserid")
+                .addPathPatterns("/shop/delete")
+                .addPathPatterns("/shop/updateproduct")
+                .addPathPatterns("/shop/addproductparam")
+                .addPathPatterns("/shop/updateproductparam")
+                .addPathPatterns("/shop/deleteproduct");
     }
 }
