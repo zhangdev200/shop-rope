@@ -21,10 +21,14 @@ import java.util.List;
 public class ShopTest {
     @Autowired
     private ShopMapper shopMapper;
+    @Autowired
+    private ShopService shopService;
 
     @Test
     public  void test(){
-        shopMapper.deleteProduct(106);
+        ResultVO resultVO = shopService.listShopByUserId("3");
+        System.out.println(resultVO.getData().toString());
+//        shopMapper.deleteProduct(106);
    /*    Product product=new Product();
        product.setProductId("21");
        product.setProductName("旺旺雪饼");

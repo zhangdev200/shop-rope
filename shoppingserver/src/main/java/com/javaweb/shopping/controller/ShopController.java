@@ -49,6 +49,13 @@ public class ShopController {
         return resultVO;
     }
 
+    @GetMapping("/listshopsbyuserid")
+    public ResultVO listShopByUserId(@RequestParam String userId){
+        ResultVO resultVO = shopService.listShopByUserId(userId);
+        return resultVO;
+    }
+
+
     //删除店铺
     @GetMapping("/delete")
     public ResultVO delete(String shopID,@RequestHeader("token")String token){
