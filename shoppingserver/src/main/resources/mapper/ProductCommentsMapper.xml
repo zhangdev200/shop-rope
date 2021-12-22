@@ -52,7 +52,7 @@
     INNER JOIN user u
     ON u.user_id = c.user_id
     WHERE c.product_id =#{productId}
-
+    limit #{start},#{limit}
   </select>
 
     <insert id="insertProductComment" parameterType="com.javaweb.shopping.entity.ProductComments">

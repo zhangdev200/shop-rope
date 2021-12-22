@@ -213,7 +213,7 @@ public class ShopServicelmpl implements ShopService {
     public ResultVO deleteShop(String ID,String userId) {
         synchronized (this){
             try{
-                //先删除该店铺所有的商品
+                //先删除该店铺所有的商品shop_name
                 List<ProductVO> products = shopMapper.selectProductFromShopID(String.valueOf(ID));
                 for(ProductVO product:products){
                     String id=product.getProductId();
