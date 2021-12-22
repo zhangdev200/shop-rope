@@ -29,4 +29,6 @@ public interface ShopService {
 
     ResultVO updateProductParams(ProductParams productParams);
 
+    String [] getShopIdByUserID(int userID);
+
 }

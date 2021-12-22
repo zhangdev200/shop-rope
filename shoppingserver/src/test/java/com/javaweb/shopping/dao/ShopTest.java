@@ -61,5 +61,8 @@ public class ShopTest {
 //        List<Shop> shops = shopMapper.listAllShop();
 //        System.out.println(shops.size());
 
+        String[] shopIdByUserID = shopMapper.getShopIdByUserID(8);
+        System.out.println(shopIdByUserID[0]);
+
     }
 }

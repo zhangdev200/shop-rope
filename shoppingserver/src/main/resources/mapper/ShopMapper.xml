@@ -77,6 +77,10 @@
         delete from shoptable where shop_id=#{ID}
     </delete>
 
+    <select id="getShopIdByUserID" resultType="String">
+        select shop_id from shoptable where shopkeeper_id=#{userID};
+    </select>
+
 
 
 </mapper>

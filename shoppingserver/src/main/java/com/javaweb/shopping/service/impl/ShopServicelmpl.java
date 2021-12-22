@@ -136,6 +136,11 @@ public class ShopServicelmpl implements ShopService {
     }
 
     @Override
+    public String[] getShopIdByUserID(int userID) {
+        return shopMapper.getShopIdByUserID(userID);
+    }
+
+    @Override
     public ResultVO deleteProduct(String ID) {
         try{
 
