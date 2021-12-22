@@ -28,8 +28,8 @@ class ShoppingApplicationTests {
  @Autowired
  UserMapper userMapper;
 
-    @Test
-    void contextLoads() throws SQLException {
-    }
+//    @Test
+//    void contextLoads() throws SQLException {
+//    }
 
 }
