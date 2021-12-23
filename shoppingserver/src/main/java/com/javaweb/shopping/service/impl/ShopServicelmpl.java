@@ -128,6 +128,10 @@ public class ShopServicelmpl implements ShopService {
                 criteria1.andEqualTo("productId",product.getProductId());//状态为1表示上架商品
                 productSkuMapper.deleteByExample(example);
                 for(ProductSku productSku: productVO.getSkus()){
+                    if(productSku.getSkuId()==null){
+                        productSku.setSkuId(IDUtils.getId());
+                    }
+                    productSku.setProductId(productVO.getProductId());
                     productSkuMapper.insert(productSku);
                 }
             }
@@ -137,6 +141,10 @@ public class ShopServicelmpl implements ShopService {
                 criteria2.andEqualTo("productId",product.getProductId());//状态为1表示上架商品
                 productImgMapper.deleteByExample(example);
                 for(ProductImg productImg: productVO.getImgs()){
+                    if(productImg.getId()==null){
+                        productImg.setId(IDUtils.getId());
+                    }
+                    productImg.setItemId(productVO.getProductId());
                     productImgMapper.insert(productImg);
                 }
             }
