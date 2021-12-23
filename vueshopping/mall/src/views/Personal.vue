@@ -90,9 +90,6 @@ export default {
           } else {
             this.$message.error('网络请求失败！');
           }
-        })
-        .catch(err => {
-          this.$message.error(err + '获取权限信息失败');
         });
   }
 }

@@ -1,10 +1,11 @@
 <template>
-  <div style="position: relative; left: 250px; width: 80%;">
+  <div style="position: relative; left: 250px; width: 84%;">
     <h4 style="text-align: left;">商品管理</h4>
     <div style="height: 30px">
       <el-button
           type="primary"
           round
+          @click="add"
           style="float: left; margin-bottom: 20px">
         添加商品
       </el-button>
@@ -16,23 +17,25 @@
               empty-text="暂无数据">
       <el-table-column
           label="商品 ID"
-          prop="goodsId"
-      >
+          prop="goodsId">
       </el-table-column>
       <el-table-column
           label="商品名称"
-          prop="name"
-      >
+          prop="name">
+      </el-table-column>
+      <el-table-column
+          label="价格"
+          width="120"
+          prop="sellPrice">
       </el-table-column>
       <el-table-column
           label="分类"
           prop="category"
-          width="120">
+          width="150">
       </el-table-column>
       <el-table-column
           label="图片"
-          prop="img"
-      >
+          prop="img">
         <template slot-scope="scope">
           <el-popover trigger="hover" placement="right-end" :close-delay=0>
             <img :src="scope.row.img" alt="加载失败">
@@ -49,10 +52,9 @@
       </el-table-column>
       <el-table-column
           label="操作"
-      >
-        //todo
+          width="200">
         <template slot-scope="scope">
-          <el-button type="success" round @click="dialogFormVisible = true">编辑</el-button>
+          <el-button type="success" round @click="modify(scope.row.goodsId)">编辑</el-button>
           <el-button type="danger" round @click="deleteGoods(scope.row.goodsId)">删除</el-button>
         </template>
 
@@ -73,15 +75,18 @@
         </el-form-item>
       </el-form>
     </div>
-    <el-dialog title="编辑商品" :visible.sync="dialogFormVisible">
+    <el-dialog :visible.sync="dialogFormVisible" @close="closeDialog">
       <el-form :model="form" style="text-align: left">
         <el-form-item label="商品名称" :label-width="formLabelWidth">
           <el-input v-model="form.productName" autocomplete="off" class="inputWidth"></el-input>
         </el-form-item>
         <el-form-item label="商品类别" :label-width="formLabelWidth">
-          <el-select v-model="form.category" placeholder="请选择商品类别">
-            <el-option label="零食" value="零食"></el-option>
-            <el-option label="图书" value="图书"></el-option>
+          <el-select v-model="form.categoryId" placeholder="请选择商品类别">
+            <el-option v-for="item in this.categories"
+                       :key="item.categoryId"
+                       :label="item.categoryName"
+                       :value="item.categoryId">
+            </el-option>
           </el-select>
         </el-form-item>
         <el-form-item label="商品图片" :label-width="formLabelWidth">
@@ -111,7 +116,7 @@
       </el-form>
       <div slot="footer" class="dialog-footer">
         <el-button @click="dialogFormVisible = false">取 消</el-button>
-        <el-button type="primary" @click="submitModify">确 定</el-button>
+        <el-button type="primary" @click="submitForm1">确 定</el-button>
       </div>
     </el-dialog>
   </div>
@@ -121,127 +126,145 @@
 export default {
   data() {
     return {
-      storeName: '好名字店铺',
+      storeId: 0,
+      storeName: '',
       tableData: [],
+      selectedGoodsId: null,
       dialogFormVisible: false,
+      dialogType: 0, //0为新增，1为编辑
       form: {
         productName: '',
-        category: '',
+        categoryId: '',
         productImg: '',
         price: null,
         content: '',
       },
+      categories: [],
       formLabelWidth: '120px',
     }
   },
   methods: {
-    submitModify() {
-      this.dialogFormVisible = false;
-
+    add() {
+      this.dialogFormVisible = true;
+      this.dialogType = 0
+    },
+    modify(goodsId) {
+      this.selectedGoodsId = goodsId;
+      this.dialogFormVisible = true;
+      this.dialogType = 1;
+      for (let i of this.tableData) {
+        if (this.selectedGoodsId === i.goodsId) {
+          this.form.productName = i.name;
+          this.form.categoryId = i.categoryId;
+          this.form.price = i.sellPrice;
+          this.form.content = i.description;
+          break;
+        }
+      }
     },
     deleteGoods(a) {
       alert(a);
     },
-
-    submitAdd() {
-
+    closeDialog() {
+      this.form = {
+        productName: '',
+        categoryId: '',
+        productImg: '',
+        price: null,
+        content: '',
+      };
+    },
+    submitForm1() {
+      let obj = {
+        productName: this.form.productName,
+        categoryId: this.form.categoryId,
+        rootCategoryId: 0,
+        content: this.form.content,
+        shopID: this.storeId,
+        productStatus: 1,
+        skus:
+            [
+              {
+                sellPrice: this.form.price,
+                status: 1,
+              }
+            ],
+      };
+      if (this.dialogType === 1) {
+        obj.productId = this.selectedGoodsId;
+      }
+      this.$http
+          .post(this.dialogType === 1 ? '/shop/updateproduct' : '/shop/addproduct', obj)
+          .then(res => {
+            if (res.code === 10000) {
+              this.$message.success('操作成功');
+              this.getOrders();
+            } else {
+              this.$message.error('未知错误')
+            }
+          });
+      this.dialogFormVisible = false;
+    },
+    getOrders() {
+      this.$http
+          .get('shop/list', {
+            shopID: this.storeId,
+          })
+          .then(res => {
+            if (res.code === 10000) {
+              this.tableData = [];
+              for (let item of res.data) {
+                let categoryName;
+                for (let i of this.categories) {
+                  if (i.categoryId === item.categoryId) {
+                    categoryName = i.categoryName;
+                  }
+                }
+                this.tableData.push({
+                  goodsId: item.productId,
+                  name: item.productName,
+                  sellPrice: item.skus !== null && item.skus.length !== 0 ? item.skus[0].sellPrice : null,
+                  categoryId: item.categoryId,
+                  category: categoryName,
+                  description: item.content,
+                  img: item.imgs !== null ? item.imgs[0].url : null,
+                });
+              }
+              alert(this.tableData[0].category)
+            } else {
+              this.$message.error('获取店铺信息失败')
+            }
+          });
     }
   },
   created() {
-
     this.$http
-        .get('shop/list', {
-          shopID: 1
-        })
+        .get('/index/category-recommends')
         .then(res => {
           if (res.code === 10000) {
             for (let item of res.data) {
-              this.tableData.push({
-                goodsId: item.productId,
-                name: item.productName,
-                category: item.categoryId,
-                description: item.content,
-                img: null,
-              })
+              this.categories.push({
+                categoryId: item.categoryId,
+                categoryName: item.categoryName,
+              });
             }
+            this.$http
+                .get('/shop/listshopsbyuserid', {
+                  userId: JSON.parse(localStorage.getItem('userInform')).userId
+                })
+                .then(res => {
+                  if (res.code === 10000) {
+                    this.storeId = res.data[0].shopID;
+                    this.storeName = res.data[0].shopName;
+                    this.getOrders();
+                  } else {
+                    this.$message.error('未知错误');
+                  }
+                });
           } else {
-            this.$message.error('获取店铺信息失败')
+            this.$message.error('未知错误')
           }
         });
-    this.storeName = '好名字店铺';
-    // this.tableData =
-    //     [
-    //       {
-    //         goodsId: '12987122',
-    //         name: '好滋好味鸡蛋仔',
-    //         category: '零食',
-    //         description: '荷兰优质淡奶，奶香浓而不腻',
-    //         img: 'https://2d.zol-img.com.cn/product/211_200x150/655/ce9W4dWqmCrd2.jpg',
-    //         address: '上海市普陀区真北路',
-    //         storeId: '10333',
-    //         storeName: '好名字店铺',
-    //       },
-    //       {
-    //         goodsId: '12987123',
-    //         name: '好滋好味鸡蛋仔',
-    //         category: '零食',
-    //         description: '荷兰优质淡奶，奶香浓而不腻',
-    //         img: 'https://2d.zol-img.com.cn/product/211_200x150/655/ce9W4dWqmCrd2.jpg',
-    //         address: '上海市普陀区真北路',
-    //         storeId: '10333',
-    //         storeName: '好名字店铺',
-    //       },
-    //       {
-    //         goodsId: '12987125',
-    //         name: '好滋好味鸡蛋仔',
-    //         category: '零食',
-    //         description: '荷兰优质淡奶，奶香浓而不腻',
-    //         img: 'https://2d.zol-img.com.cn/product/211_200x150/655/ce9W4dWqmCrd2.jpg',
-    //         address: '上海市普陀区真北路',
-    //         storeId: '10333',
-    //         storeName: '好名字店铺',
-    //       },
-    //       {
-    //         goodsId: '12987126',
-    //         name: '好滋好味鸡蛋仔',
-    //         category: '零食',
-    //         description: '荷兰优质淡奶，奶香浓而不腻',
-    //         img: 'https://2d.zol-img.com.cn/product/211_200x150/655/ce9W4dWqmCrd2.jpg',
-    //         address: '上海市普陀区真北路',
-    //         storeId: '10333',
-    //         storeName: '好名字店铺',
-    //       },
-    //       {
-    //         goodsId: '12987128',
-    //         name: '好滋好味鸡蛋仔',
-    //         category: '零食',
-    //         description: '荷兰优质淡奶，奶香浓而不腻',
-    //         img: 'https://2d.zol-img.com.cn/product/211_200x150/655/ce9W4dWqmCrd2.jpg',
-    //         address: '上海市普陀区真北路',
-    //         storeId: '10333',
-    //         storeName: '好名字店铺',
-    //       },
-    //       {
-    //         goodsId: '12987129',
-    //         name: '好滋好味鸡蛋仔',
-    //         category: '零食',
-    //         description: '荷兰优质淡奶，奶香浓而不腻',
-    //         img: 'https://2d.zol-img.com.cn/product/211_200x150/655/ce9W4dWqmCrd2.jpg',
-    //         address: '上海市普陀区真北路',
-    //         storeId: '10333',
-    //         storeName: '好名字店铺',
-    //       },
-    //       {
-    //         goodsId: '12987130',
-    //         name: '好滋好味鸡蛋仔',
-    //         category: '零食',
-    //         description: '荷兰优质淡奶，奶香浓而不腻',
-    //         img: 'https://2d.zol-img.com.cn/product/211_200x150/655/ce9W4dWqmCrd2.jpg',
-    //         address: '上海市普陀区真北路',
-    //         storeId: '10333',
-    //         storeName: '好名字店铺',
-    //       },
-    //     ];
   }
 }
 </script>

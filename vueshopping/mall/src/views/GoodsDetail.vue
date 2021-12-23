@@ -38,9 +38,12 @@
                :key="comment.id">
       </Comment>
       <el-pagination
+          ref="page"
           background
-          layout="prev, pager, next"
-          :total="1000">
+          layout="total, prev, pager, next"
+          :page-size="5"
+          :total="totalComments"
+      @current-change="currentChange">
       </el-pagination>
     </div>
   </div>
@@ -54,7 +57,8 @@ export default {
   data() {
     return {
       detail: null,
-      commentsTotal: 0,
+      totalComments: 0,
+      totalCommentsPages: 0,
       comments: []
     }
   },
@@ -74,19 +78,38 @@ export default {
     },
     buyNow() {
 
-    }
+    },
+    getCommentByPage(pageNum, limit) {
+      this.$http
+          .get('/product/detail-comments/' + this.$route.params.id, {
+            pageNum: pageNum,
+            limit: limit,
+          })
+          .then(res => {
+            if (res.code === 10000) {
+              this.totalComments = res.data.count;
+              this.totalCommentsPages = res.data.pageCount;
+              this.comments = [];
+              for (let item of res.data.list) {
+                this.comments.push({
+                  id: item.commId,
+                  stars: item.commType === 1 ? 5 : item.commType === 0 ? 3 : 1,
+                  avatar: item.userImg,
+                  nickname: item.nickname,
+                  date: item.replyTime,
+                  content: item.commContent,
+                  numOfZan: Math.floor((Math.random() * 100)),
+                  numOfCai: Math.floor((Math.random() * 100)),
+                })
+              }
+            }
+          });
+    },
+    currentChange(pageNum) {
+      this.getCommentByPage(pageNum, 5);
+    },
   },
   created() {
-    // this.$http
-    //     .get('api')
-    //     .then(res => {
-    //         this.detail = res.data;
-    //     });
-    // this.$http
-    //     .get('api')
-    //     .then(res => {
-    //       this.comments = res.data;
-    //     });
     //todo 根据商品id获得商品详情
     this.detail =
         {
@@ -98,29 +121,7 @@ export default {
               'https://cube.elemecdn.com/3/7c/3ea6beec64369c2642b92c6726f1epng.png',
           price: 28.00
         }
-    //todo 根据商品id获得评论
-    this.$http
-        .get('/product/detail-comments/' + this.$route.params.id, {
-          pageNum: 1,
-          limit: 3
-        })
-        .then(res => {
-          if (res.code === 10000) {
-            this.comments = [];
-            for (let item of res.data.list) {
-              this.comments.push({
-                id: item.commId,
-                stars: item.commType === 1 ? 5 : item.commType === 0 ? 3 : 1,
-                avatar: item.userImg,
-                nickname: item.nickname,
-                date: item.replyTime,
-                content: item.commContent,
-                numOfZan: Math.floor((Math.random() * 100)),
-                numOfCai: Math.floor((Math.random() * 100)),
-              })
-            }
-          }
-        })
+    this.getCommentByPage(1, 5);
     // this.comments =
     //     [
     //       {
@@ -211,7 +212,7 @@ export default {
 <style scoped>
 #container {
   width: 55%;
-  margin: 0 auto;
+  margin: 85px auto 20px auto;
 
 }
 
