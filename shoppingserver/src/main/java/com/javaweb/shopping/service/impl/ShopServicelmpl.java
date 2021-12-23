@@ -44,21 +44,21 @@ public class ShopServicelmpl implements ShopService {
     public ResultVO selectProductFromShopID(String shopID) {
         try{
             List <ProductVO> shopProduct=shopMapper.selectProductFromShopID(shopID);
-//            for(ProductVO productVO: shopProduct){
-//
-//                Example example = new Example(ProductSku.class);
-//                Example.Criteria criteria = example.createCriteria();
-//                criteria.andEqualTo("productId",productVO.getProductId());//状态为1表示上架商品
-//                List<ProductSku> productSkus =  productSkuMapper.selectByExample(example);
-//
-//                Example example1 = new Example(ProductImg.class);
-//                Example.Criteria criteria1 = example1.createCriteria();
-//                criteria1.andEqualTo("itemId",productVO.getProductId());//状态为1表示上架商品
-//                List<ProductImg> productImgs =  productImgMapper.selectByExample(example1);
-//
-//                productVO.setSkus(productSkus);
-//                productVO.setImgs(productImgs);
-//            }
+            for(ProductVO productVO: shopProduct){
+
+                Example example = new Example(ProductSku.class);
+                Example.Criteria criteria = example.createCriteria();
+                criteria.andEqualTo("productId",productVO.getProductId());//状态为1表示上架商品
+                List<ProductSku> productSkus =  productSkuMapper.selectByExample(example);
+
+                Example example1 = new Example(ProductImg.class);
+                Example.Criteria criteria1 = example1.createCriteria();
+                criteria1.andEqualTo("itemId",productVO.getProductId());//状态为1表示上架商品
+                List<ProductImg> productImgs =  productImgMapper.selectByExample(example1);
+
+                productVO.setSkus(productSkus);
+                productVO.setImgs(productImgs);
+            }
             return new ResultVO(ResStatus.OK,"success",shopProduct);
         }catch (Exception e){
             return new ResultVO(ResStatus.NO,"数据库层获取失败！",null);
