@@ -49,7 +49,7 @@
            product_status,
            content
     from product
-    where root_category_id=#{cid}
+    where category_id=#{cid}
     order by sold_num desc limit 0,6
   </select>
 
