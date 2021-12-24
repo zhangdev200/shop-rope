@@ -114,6 +114,17 @@ public class ShopServicelmpl implements ShopService {
     }
 
     @Override
+    public ResultVO addProductImg(ProductImg productImg){
+        try{
+            productImgMapper.insert(productImg);
+            return new ResultVO(ResStatus.OK,productImg.getUrl(),null);
+        }catch (Exception e){
+            System.out.println(e);
+            return new ResultVO(ResStatus.NO,"数据库层插入失败！",null);
+        }
+    }
+
+    @Override
     public ResultVO updateProduct(ProductVO productVO) {
         try{
             Product product = new Product(productVO.getProductId(),productVO.getProductName(),productVO.getCategoryId(),productVO.getRootCategoryId(),productVO.getSoldNum(),productVO.getProductStatus(),productVO.getContent(),productVO.getShopID());

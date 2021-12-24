@@ -12,7 +12,7 @@ public interface UserService {
     ResultVO userResgit(String name, String pwd);
     //用户登录
     ResultVO checkLogin(String name, String pwd);
-
+    ResultVO updateUserImg(int userId,String url);
     //注册成为VIP
     ResultVO becomeVIP(String name);
 

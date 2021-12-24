@@ -21,6 +21,8 @@ public interface ShopService {
 
     ResultVO addShop(Shop shop,String userId);
 
+    ResultVO addProductImg(ProductImg productImg);
+
     /*根据用户id注销该用户的商店*/
     ResultVO updateShopKeeperToUser(int ID);
     /*删除商店表里该用户的店铺*/

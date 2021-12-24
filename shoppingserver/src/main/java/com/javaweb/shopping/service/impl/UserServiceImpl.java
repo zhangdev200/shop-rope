@@ -54,6 +54,20 @@ public class UserServiceImpl implements UserService {
 
     }
 
+    public ResultVO updateUserImg(int userId,String url){
+        Example example = new Example(User.class);
+        Example.Criteria criteria = example.createCriteria();
+        criteria.andEqualTo("userId", userId);
+        List<User> users = userMapper.selectByExample(example);
+        if(users.size()==0){
+            return new ResultVO(ResStatus.NO,"用户不存在",null);
+        }
+        User user = users.get(0);
+        user.setUserImg(url);
+        userMapper.updateByExample(user,example);
+        return new ResultVO(ResStatus.OK,"success",url);
+    }
+
     //检查登入用户
 
     public ResultVO checkLogin( String name, String pwd){

@@ -1,5 +1,7 @@
 package com.javaweb.shopping.entity;
 
+import com.javaweb.shopping.utils.IDUtils;
+
 import javax.persistence.Column;
 import javax.persistence.Id;
 import javax.persistence.Table;
@@ -25,6 +27,16 @@ public class ProductImg {
      */
     @Id
     private String id;
+
+    public ProductImg(String itemId, String url) {
+        this.id= IDUtils.getId();
+        this.itemId = itemId;
+        this.url = url;
+        this.sort=1;
+        this.isMain=1;
+        this.createdTime=new Date();
+        this.updatedTime=new Date();
+    }
 
     /**
      * 商品外键id 商品外键id
