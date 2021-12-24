@@ -108,4 +108,11 @@ public class UploadFileController {
         if (!upload.exists()) upload.mkdirs();
         return upload.getAbsolutePath();
     }
+
+    public static void main(String[] args) throws FileNotFoundException {
+        File path = new File(ResourceUtils.getURL("classpath:").getPath());
+        if (!path.exists()) path = new File("");
+        System.out.println(path.getAbsolutePath());
+        System.out.println(ResourceUtils.getURL("classpath:").getPath());
+    }
 }
