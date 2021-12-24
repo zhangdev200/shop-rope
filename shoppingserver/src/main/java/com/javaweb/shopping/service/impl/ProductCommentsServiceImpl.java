@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import tk.mybatis.mapper.entity.Example;
 
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 
@@ -74,6 +75,7 @@ public class ProductCommentsServiceImpl implements ProductCommentsService {
     @Override
     public ResultVO insertProductComment(ProductComments productComments) {
         try{
+            productComments.setReplyTime(new Date());
             productCommentsMapper.insertProductComment(productComments);
             return new ResultVO(ResStatus.OK,"success",null);
         }catch (Exception e){
