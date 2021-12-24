@@ -25,6 +25,7 @@ public class UserServiceImpl implements UserService {
     @Autowired
    private UserMapper userMapper;
 
+    @Override
     @Transactional
     public ResultVO userResgit(String name, String pwd){
         synchronized (this){ //同步锁
@@ -70,7 +71,8 @@ public class UserServiceImpl implements UserService {
 
     //检查登入用户
 
-    public ResultVO checkLogin( String name, String pwd){
+    @Override
+    public ResultVO checkLogin(String name, String pwd){
         Example example = new Example(User.class);
         Example.Criteria criteria = example.createCriteria();
         criteria.andEqualTo("username", name);
@@ -106,6 +108,7 @@ public class UserServiceImpl implements UserService {
 
     }
 
+    @Override
     public ResultVO getUserInfo(String name){
         Example example = new Example(User.class);
         Example.Criteria criteria = example.createCriteria();
@@ -117,6 +120,7 @@ public class UserServiceImpl implements UserService {
             return new ResultVO(ResStatus.OK,"返回用户数据",users.get(0));
         }
     }
+    @Override
     public ResultVO becomeVIP(String name){
         Example example = new Example(User.class);
         Example.Criteria criteria = example.createCriteria();

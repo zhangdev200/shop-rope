@@ -5,7 +5,12 @@ spring:
     url: jdbc:mysql://121.40.110.36:3306/db?useUnicode=true&characterEncoding=utf-8
     driver-class-name: com.mysql.cj.jdbc.Driver
 
+hikari:
+  minimum-idle=3
+  maximum-pool-size=10
+  max-lifetime=30000
+  connection-test-query=SELECT 1
+
 mybatis:
   mapper-locations: classpath:mapper/*Mapper.xml
   type-aliases-package: com.javaweb.shopping.entity
-

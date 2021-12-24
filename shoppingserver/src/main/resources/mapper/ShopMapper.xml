@@ -41,7 +41,7 @@
     <resultMap id="shopMap" type="com.javaweb.shopping.entity.Shop">
         <id column="shop_id" jdbcType="VARCHAR" property="shopID"/>
         <result column="shop_name" jdbcType="VARCHAR" property="shopName"/>
-        <result column="shopkeeper_id" jdbcType="VARCHAR" property="shopKeeperName"/>
+        <result column="shopkeeper_id" jdbcType="VARCHAR" property="shopKeeperID"/>
         <result column="shopkeeper_name" jdbcType="VARCHAR" property="shopKeeperName"/>
         <result column="shop_description" jdbcType="VARCHAR" property="shopDescription"/>
         <result column="shop_img" jdbcType="VARCHAR" property="shopImg"/>
@@ -52,6 +52,10 @@
    <select id="listAllShop" resultMap="shopMap">
        select  *from shoptable where status=1;
    </select>
+
+    <select id="listAllCheckingShop" resultMap="shopMap">
+        select  *from shoptable where status=0;
+    </select>
 
     <insert id="addProduct" parameterType="com.javaweb.shopping.entity.Product">
       INSERT  INTO product values (#{productId},#{productName},#{categoryId},#{rootCategoryId},#{soldNum},#{productStatus},#{content},#{shopID})
@@ -72,6 +76,11 @@
     <update id="updateShopKeeperToUser">
         update user  set isShopKeeper=0  where user_Id=#{ID};
     </update>
+
+    <update id="pass">
+        update shoptable  set status=1  where shop_id=#{ID};
+    </update>
+
 
     <delete id="deleteShop">
         delete from shoptable where shop_id=#{ID}

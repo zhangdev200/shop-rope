@@ -78,6 +78,15 @@ public class ShopServicelmpl implements ShopService {
         }
     }
 
+    @Override
+    public ResultVO listAllCheckingShop() {
+        try{
+            List <Shop> shops=shopMapper.listAllCheckingShop();
+            return new ResultVO(ResStatus.OK,"success",shops);
+        }catch (Exception e){
+            return new ResultVO(ResStatus.NO,"数据库层获取失败！",null);
+        }
+    }
 
     @Override
     public ResultVO addProduct(ProductVO productVO) {
@@ -123,6 +132,7 @@ public class ShopServicelmpl implements ShopService {
             return new ResultVO(ResStatus.NO,"数据库层插入失败！",null);
         }
     }
+
 
     @Override
     public ResultVO updateProduct(ProductVO productVO) {
@@ -224,16 +234,9 @@ public class ShopServicelmpl implements ShopService {
 
     }
 
-    @Override
-    public ResultVO updateUserToShopKeeper(int ID) {
-        try{
-            shopMapper.updateUserToShopKeeper(1);
-            return new ResultVO(ResStatus.OK,"success",null);
-        }catch (Exception e){
-            return new ResultVO(ResStatus.NO,"数据库层更新失败！",null);
-        }
 
-    }
+
+
 
     @Transactional
     @Override
@@ -257,6 +260,20 @@ public class ShopServicelmpl implements ShopService {
 
     }
 
+    @Transactional
+    //店铺申请审核通过
+    @Override
+    public ResultVO updateUserToShopKeeper(int ID) {
+        try{
+            shopMapper.updateUserToShopKeeper(ID);
+            return new ResultVO(ResStatus.OK,"success",null);
+        }catch (Exception e){
+            return new ResultVO(ResStatus.NO,"数据库层更新失败！",null);
+        }
+
+    }
+
+    @Transactional
     @Override
     public ResultVO updateShopKeeperToUser(int ID) {
         try{
@@ -267,6 +284,18 @@ public class ShopServicelmpl implements ShopService {
         }
 
     }
+    //修改店铺状态通过
+    @Transactional
+    @Override
+    public ResultVO pass(int ID) {//ID为商店的ID，非店主ID
+        try{
+            shopMapper.pass(ID);
+            return new ResultVO(ResStatus.OK,"success",null);
+        }catch (Exception e){
+            return new ResultVO(ResStatus.NO,"数据库层更新失败！",null);
+        }
+    }
+
 
     @Override
     public ResultVO deleteShop(String ID,String userId) {
@@ -278,7 +307,7 @@ public class ShopServicelmpl implements ShopService {
                     String id=product.getProductId();
                     deleteProduct(id);
                 }
-                shopMapper.deleteShop(ID);
+                shopMapper.deleteShop(ID,userId);
                 shopMapper.updateShopKeeperToUser(Integer.parseInt(userId));
                 return new ResultVO(ResStatus.OK,"success",null);
             }catch (Exception e){
@@ -287,6 +316,4 @@ public class ShopServicelmpl implements ShopService {
         }
 
     }
-
-
 }

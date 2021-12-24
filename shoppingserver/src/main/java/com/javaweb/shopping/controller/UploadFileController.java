@@ -1,6 +1,8 @@
 package com.javaweb.shopping.controller;
+import com.javaweb.shopping.entity.IndexImg;
 import com.javaweb.shopping.entity.ProductImg;
 import com.javaweb.shopping.mapper.ProductImgMapper;
+import com.javaweb.shopping.service.IndexImgService;
 import com.javaweb.shopping.service.ProductService;
 import com.javaweb.shopping.service.ShopService;
 import com.javaweb.shopping.service.UserService;
@@ -20,6 +22,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.io.*;
+import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
@@ -32,6 +35,8 @@ import java.util.Date;
 public class UploadFileController {
     @Autowired
     ShopService shopService;
+    @Autowired
+    IndexImgService indexImgService;
     @Autowired
     UserService userService;
     String filepath="img";
@@ -47,6 +52,28 @@ public class UploadFileController {
                 String path=filepath + File.separator + fileName;
 
                 return shopService.addProductImg(new ProductImg(productId,path));
+            } catch (FileNotFoundException e) {
+                return new ResultVO(ResStatus.NO, "上传文件失败 FileNotFoundException：" + e.getMessage(),null);
+            } catch (IOException e) {
+                return new ResultVO(ResStatus.NO, "上传文件失败 IOException：" + e.getMessage(),null);
+            }
+        } else {
+            return new ResultVO(ResStatus.NO, "上传文件失败，文件为空",null);
+        }
+    }
+
+    //上传轮播图
+    @RequestMapping(value = "/indexImg", method = RequestMethod.POST)
+    public ResultVO uploadIndexImg(@RequestParam("file") MultipartFile file) {
+        String fileName = file.getOriginalFilename();//获取文件名
+        fileName = getFileName(fileName);
+        String localfilepath = getUploadPath();
+        if (!file.isEmpty()) {
+            try (BufferedOutputStream out = new BufferedOutputStream(new FileOutputStream(new File(localfilepath + File.separator + fileName)))) {
+                out.write(file.getBytes());
+                out.flush();
+                String imgUrl=filepath + File.separator + fileName;
+                return indexImgService.addIndexPic(imgUrl);
             } catch (FileNotFoundException e) {
                 return new ResultVO(ResStatus.NO, "上传文件失败 FileNotFoundException：" + e.getMessage(),null);
             } catch (IOException e) {
@@ -103,9 +130,13 @@ public class UploadFileController {
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         }
-        if (!path.exists()) path = new File("");
+        if (!path.exists()) {
+            path = new File("");
+        }
         File upload = new File(path.getAbsolutePath(), "static/img/");
-        if (!upload.exists()) upload.mkdirs();
+        if (!upload.exists()) {
+            upload.mkdirs();
+        }
         return upload.getAbsolutePath();
     }
 }
