@@ -34,7 +34,7 @@ public class UploadFileController {
     ShopService shopService;
     @Autowired
     UserService userService;
-    String filepath="static\\img";
+    String filepath="img";
     @RequestMapping(value = "/productimg", method = RequestMethod.POST)
     public ResultVO uploadProductImg(@RequestParam("file") MultipartFile file,@RequestParam String productId) {
         String fileName = file.getOriginalFilename();//获取文件名
