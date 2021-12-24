@@ -34,12 +34,12 @@ public class UploadFileController {
     ShopService shopService;
     @Autowired
     UserService userService;
+    String filepath="static\\img";
     @RequestMapping(value = "/productimg", method = RequestMethod.POST)
     public ResultVO uploadProductImg(@RequestParam("file") MultipartFile file,@RequestParam String productId) {
         String fileName = file.getOriginalFilename();//获取文件名
         fileName = getFileName(fileName);
         String localfilepath = getUploadPath();
-        String filepath="static\\img";
         if (!file.isEmpty()) {
             try (BufferedOutputStream out = new BufferedOutputStream(new FileOutputStream(new File(localfilepath + File.separator + fileName)))) {
                 out.write(file.getBytes());
@@ -63,7 +63,6 @@ public class UploadFileController {
         fileName = getFileName(fileName);
 
         String localfilepath = getUploadPath();
-        String filepath="static\\img";
         if (!file.isEmpty()) {
             try (BufferedOutputStream out = new BufferedOutputStream(new FileOutputStream(new File(localfilepath + File.separator + fileName)))) {
                 out.write(file.getBytes());
