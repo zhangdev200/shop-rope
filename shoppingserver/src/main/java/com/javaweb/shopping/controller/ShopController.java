@@ -47,12 +47,21 @@ public class ShopController {
         return resultVO;
     }
 
+    //列出所有已审核店铺
     @GetMapping("/listshops")
     public ResultVO listAllShop(){
         ResultVO resultVO = shopService.listAllShop();
         return resultVO;
     }
 
+    //列出待审核店铺
+    @GetMapping("/listcheckingshops")
+    public ResultVO listAllCheckingShop(){
+        ResultVO resultVO = shopService.listAllCheckingShop();
+        return resultVO;
+    }
+
+    //列出用户的店铺
     @GetMapping("/listshopsbyuserid")
     public ResultVO listShopByUserId(@RequestParam String userId){
         ResultVO resultVO = shopService.listShopByUserId(userId);
@@ -60,12 +69,34 @@ public class ShopController {
     }
 
 
-    //删除店铺
-    @GetMapping("/delete")
+    //删除店铺(开店审核不通过)
+    @PostMapping("/delete")
     @AuthAdmin
     @AuthShopKeeper
     public ResultVO delete(String shopID,@RequestHeader("token")String token){
         ResultVO resultVO = shopService.deleteShop(shopID,TokenUtil.getUserId(token));
+        return resultVO;
+    }
+
+    //根据shop_id通过开店审核
+    @PostMapping("/pass")
+    public ResultVO pass(int ID){
+        ResultVO resultVO = shopService.pass(ID);
+        return resultVO;
+    }
+
+    /*根据用户id注册该用户为商家,修改user表*/
+    /*增加店铺*/
+    @PostMapping("/updateToShopKeeper")
+    public ResultVO updateUserToShopKeeper(int ID){
+        ResultVO resultVO = shopService.updateUserToShopKeeper(ID);
+        return resultVO;
+    }
+
+    /*根据用户id注销该用户的商店，修改user表*/
+    @PostMapping("/updateToUser")
+    public ResultVO updateShopKeeperToUser(int ID){
+        ResultVO resultVO = shopService.updateShopKeeperToUser(ID);
         return resultVO;
     }
 
@@ -113,7 +144,4 @@ public class ShopController {
         ResultVO resultVO = shopService.deleteProduct(productId);
         return resultVO;
     }
-
-
-
 }
