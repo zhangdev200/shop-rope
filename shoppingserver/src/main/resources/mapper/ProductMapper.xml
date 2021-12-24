@@ -2,93 +2,99 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.javaweb.shopping.mapper.ProductMapper">
     <resultMap id="BaseResultMap" type="com.javaweb.shopping.entity.Product">
-        <id column="product_id" jdbcType="VARCHAR" property="productId" />
-        <result column="product_name" jdbcType="VARCHAR" property="productName" />
-        <result column="category_id" jdbcType="INTEGER" property="categoryId" />
-        <result column="root_category_id" jdbcType="INTEGER" property="rootCategoryId" />
-        <result column="sold_num" jdbcType="INTEGER" property="soldNum" />
-        <result column="product_status" jdbcType="INTEGER" property="productStatus" />
-        <result column="content" jdbcType="LONGVARCHAR" property="content" />
+        <id column="product_id" jdbcType="VARCHAR" property="productId"/>
+        <result column="product_name" jdbcType="VARCHAR" property="productName"/>
+        <result column="category_id" jdbcType="INTEGER" property="categoryId"/>
+        <result column="root_category_id" jdbcType="INTEGER" property="rootCategoryId"/>
+        <result column="sold_num" jdbcType="INTEGER" property="soldNum"/>
+        <result column="product_status" jdbcType="INTEGER" property="productStatus"/>
+        <result column="content" jdbcType="LONGVARCHAR" property="content"/>
         <result column="shop_id" jdbcType="VARCHAR" property="shopID"/>
     </resultMap>
 
     <resultMap id="ProductVOMap" type="com.javaweb.shopping.entity.ProductVO">
-        <id column="product_id" jdbcType="VARCHAR" property="productId" />
-        <result column="product_name" jdbcType="VARCHAR" property="productName" />
-        <result column="category_id" jdbcType="INTEGER" property="categoryId" />
-        <result column="root_category_id" jdbcType="INTEGER" property="rootCategoryId" />
-        <result column="sold_num" jdbcType="INTEGER" property="soldNum" />
-        <result column="product_status" jdbcType="INTEGER" property="productStatus" />
-        <result column="content" jdbcType="LONGVARCHAR" property="content" />
-        <collection property="imgs" select="com.javaweb.shopping.mapper.ProductImgMapper.selectProductImgByProductId" column="product_id"/>
-        <collection property="comments" select="com.javaweb.shopping.mapper.ProductCommentsMapper.selectCommontsByProductId" column="product_id"/>
+        <id column="product_id" jdbcType="VARCHAR" property="productId"/>
+        <result column="product_name" jdbcType="VARCHAR" property="productName"/>
+        <result column="category_id" jdbcType="INTEGER" property="categoryId"/>
+        <result column="root_category_id" jdbcType="INTEGER" property="rootCategoryId"/>
+        <result column="sold_num" jdbcType="INTEGER" property="soldNum"/>
+        <result column="product_status" jdbcType="INTEGER" property="productStatus"/>
+        <result column="content" jdbcType="LONGVARCHAR" property="content"/>
+        <collection property="skus" select="com.javaweb.shopping.mapper.ProductSkuMapper.selectSkusByProductId"
+                    column="product_id"/>
+        <collection property="imgs" select="com.javaweb.shopping.mapper.ProductImgMapper.selectProductImgByProductId"
+                    column="product_id"/>
+        <collection property="comments"
+                    select="com.javaweb.shopping.mapper.ProductCommentsMapper.selectCommontsByProductId"
+                    column="product_id"/>
     </resultMap>
 
     <select id="selectRecommendProducts" resultMap="ProductVOMap">
-    select
-      p.product_id,
-      p.product_name,
-      p.category_id,
-      p.root_category_id,
-      p.sold_num,
-      p.product_status,
-      p.content,
-      pc.comm_content
-    from product p
-    inner join product_comments pc
-    where p.product_id=pc.product_id
-    limit 0,3
-  </select>
+        select p.product_id,
+               p.product_name,
+               p.category_id,
+               p.root_category_id,
+               p.sold_num,
+               p.product_status,
+               p.content,
+               pc.comm_content
+        from product p
+                 inner join product_comments pc
+        where p.product_id = pc.product_id
+        limit 0,3
+    </select>
 
     <select id="selectTop6ByCategory" resultMap="ProductVOMap">
-    select product_id,
-           product_name,
-           category_id,
-           root_category_id,
-           sold_num,
-           product_status,
-           content
-    from product
-    where category_id=#{cid}
-    order by sold_num desc limit 0,6
-  </select>
+        select product_id,
+               product_name,
+               category_id,
+               root_category_id,
+               sold_num,
+               product_status,
+               content
+        from product
+        where category_id = #{cid}
+        order by sold_num desc
+        limit 0,6
+    </select>
 
     <resultMap id="ProductVOMap2" type="com.javaweb.shopping.entity.ProductVO">
-        <id column="product_id" jdbcType="VARCHAR" property="productId" />
-        <result column="product_name" jdbcType="VARCHAR" property="productName" />
-        <result column="category_id" jdbcType="INTEGER" property="categoryId" />
-        <result column="root_category_id" jdbcType="INTEGER" property="rootCategoryId" />
-        <result column="sold_num" jdbcType="INTEGER" property="soldNum" />
-        <result column="product_status" jdbcType="INTEGER" property="productStatus" />
-        <result column="content" jdbcType="LONGVARCHAR" property="content" />
+        <id column="product_id" jdbcType="VARCHAR" property="productId"/>
+        <result column="product_name" jdbcType="VARCHAR" property="productName"/>
+        <result column="category_id" jdbcType="INTEGER" property="categoryId"/>
+        <result column="root_category_id" jdbcType="INTEGER" property="rootCategoryId"/>
+        <result column="sold_num" jdbcType="INTEGER" property="soldNum"/>
+        <result column="product_status" jdbcType="INTEGER" property="productStatus"/>
+        <result column="content" jdbcType="LONGVARCHAR" property="content"/>
         <result column="shop_id" jdbcType="VARCHAR" property="shopID"></result>
         <!--  根据商品ID查询价格最低的套餐  -->
-        <collection property="skus" column="product_id" select="com.javaweb.shopping.mapper.ProductSkuMapper.selectLowerestPriceByProductId"/>
+        <collection property="skus" column="product_id"
+                    select="com.javaweb.shopping.mapper.ProductSkuMapper.selectLowerestPriceByProductId"/>
     </resultMap>
 
     <select id="selectProductByCategoryId" resultMap="ProductVOMap2">
-    select  product_id,
-            product_name,
-            category_id,
-            root_category_id,
-            sold_num,
-            product_status,
-            content,
-            shop_id
-    from product
-    where category_id=#{cid}
-    limit #{start},#{limit}
-  </select>
+        select product_id,
+               product_name,
+               category_id,
+               root_category_id,
+               sold_num,
+               product_status,
+               content,
+               shop_id
+        from product
+        where category_id = #{cid}
+        limit #{start},#{limit}
+    </select>
 
     <select id="selectProductByKeyword" resultMap="ProductVOMap2">
-        select  product_id,
-                product_name,
-                category_id,
-                root_category_id,
-                sold_num,
-                product_status,
-                content,
-                shop_id
+        select product_id,
+               product_name,
+               category_id,
+               root_category_id,
+               sold_num,
+               product_status,
+               content,
+               shop_id
         from product
         where product_name like #{kw}
         limit #{start},#{limit}
@@ -100,9 +106,9 @@
         from product_params
         where product_id in (
             select product_id
-              from product
-              where category_id=#{cid}
-            )
+            from product
+            where category_id = #{cid}
+        )
     </select>
 
     <select id="selectBrandByKeyword" resultSets="java.util.List" resultType="String">
@@ -110,7 +116,7 @@
         from product_params
         where product_id in (
             select product_id
-            from product    
+            from product
             where product_name like #{kw}
         )
     </select>
