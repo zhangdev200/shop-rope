@@ -2,7 +2,9 @@
   <div id="container">
     <el-row id="description">
       <el-col :span="4">
-        <img src="../assets/Hamburger.png" alt="" style="width: 100%; border-radius: 15px"/>
+        <img :src="detail.img" alt=""
+             onerror="this.src='//iconfont.alicdn.com/s/210a299f-edad-4fc5-8396-9f743633f209_origin.svg';"
+             style="width: 100%; border-radius: 15px"/>
       </el-col>
       <el-col :span="20">
         <div style="text-align: left; padding: 10px 20px;">
@@ -43,7 +45,7 @@
           layout="total, prev, pager, next"
           :page-size="5"
           :total="totalComments"
-      @current-change="currentChange">
+          @current-change="currentChange">
       </el-pagination>
     </div>
   </div>
@@ -56,7 +58,13 @@ export default {
   components: {Comment},
   data() {
     return {
-      detail: null,
+      detail: {
+        goodsName: null,
+        img: null,
+        storeId: null,
+        description: null,
+        price: null
+      },
       totalComments: 0,
       totalCommentsPages: 0,
       comments: []
@@ -65,7 +73,7 @@ export default {
   methods: {
     addToCart() {
       this.$http
-          .post('shopcart/add', {
+          .post('/shopcart/add', {
             productId: this.$route.params.id,
             userId: JSON.parse(localStorage.getItem('userInform')).userId,
             productPrice: this.detail.price,
@@ -96,7 +104,7 @@ export default {
                   stars: item.commType === 1 ? 5 : item.commType === 0 ? 3 : 1,
                   avatar: item.userImg,
                   nickname: item.nickname,
-                  date: item.replyTime,
+                  date: item.replyTime.substring(0, 10),
                   content: item.commContent,
                   numOfZan: Math.floor((Math.random() * 100)),
                   numOfCai: Math.floor((Math.random() * 100)),
@@ -110,101 +118,22 @@ export default {
     },
   },
   created() {
-    //todo 根据商品id获得商品详情
-    this.detail =
-        {
-          goodsName: '汉堡',
-          img: '../assets/Hamburger.png',
-          storeId: 1,
-          storeName: '好名字店铺',
-          description: '好吃的汉堡，你值得拥有，快来购买吧！！！' +
-              'https://cube.elemecdn.com/3/7c/3ea6beec64369c2642b92c6726f1epng.png',
-          price: 28.00
-        }
-    this.getCommentByPage(1, 5);
-    // this.comments =
-    //     [
-    //       {
-    //         id: 1,
-    //         stars: 5,
-    //         avatar: 'https://cube.elemecdn.com/3/7c/3ea6beec64369c2642b92c6726f1epng.png',
-    //         nickname: '用户名',
-    //         date: '2021-12-5',
-    //         content: '五星好评！！！',
-    //         numOfZan: 100,
-    //         numOfCai: 100,
-    //       },
-    //       {
-    //         id: 2,
-    //         stars: 3,
-    //         avatar: 'https://cube.elemecdn.com/3/7c/3ea6beec64369c2642b92c6726f1epng.png',
-    //         nickname: '用户名',
-    //         date: '2021-12-4',
-    //         content: '评论pt>export default {name: "Comment",data() {return {avatar:' +
-    //             ' \'https: //cube.elemecdn.com /3/7c/3ea6beec643 69c2642b92c6726f1e png.png\'' +
-    //             '          }pneumonoul  tramicroscopic silicovolcan oconiosis }}',
-    //         numOfZan: 50,
-    //         numOfCai: 50,
-    //       },
-    //       {
-    //         id: 3,
-    //         stars: 1,
-    //         avatar: 'https://cube.elemecdn.com/3/7c/3ea6beec64369c2642b92c6726f1epng.png',
-    //         nickname: '用户名',
-    //         date: '2021-12-4',
-    //         content: '差评！！！',
-    //         numOfZan: 100,
-    //         numOfCai: 100,
-    //       },
-    //       {
-    //         id: 4,
-    //         stars: 4,
-    //         avatar: 'https://cube.elemecdn.com/3/7c/3ea6beec64369c2642b92c6726f1epng.png',
-    //         nickname: '用户名',
-    //         date: '2021-12-4',
-    //         content: '评论pt>export default {name: "Comment",data() {return {avatar:' +
-    //             ' \'https: //cube.elemecdn.com /3/7c/3ea6beec643 69c2642b92c6726f1e png.png\'' +
-    //             '          }pneumonoul  tramicroscopic silicovolcan oconiosis }}',
-    //         numOfZan: 100,
-    //         numOfCai: 100,
-    //       },
-    //       {
-    //         id: 5,
-    //         stars: 5,
-    //         avatar: 'https://cube.elemecdn.com/3/7c/3ea6beec64369c2642b92c6726f1epng.png',
-    //         nickname: '用户名',
-    //         date: '2021-12-4',
-    //         content: '评论pt>export default {name: "Comment",data() {return {avatar:' +
-    //             ' \'https: //cube.elemecdn.com /3/7c/3ea6beec643 69c2642b92c6726f1e png.png\'' +
-    //             '          }pneumonoul  tramicroscopic silicovolcan oconiosis }}',
-    //         numOfZan: 100,
-    //         numOfCai: 100,
-    //       },
-    //       {
-    //         id: 6,
-    //         stars: 5,
-    //         avatar: 'https://cube.elemecdn.com/3/7c/3ea6beec64369c2642b92c6726f1epng.png',
-    //         nickname: '用户名',
-    //         date: '2021-12-4',
-    //         content: '评论pt>export default {name: "Comment",data() {return {avatar:' +
-    //             ' \'https: //cube.elemecdn.com /3/7c/3ea6beec643 69c2642b92c6726f1e png.png\'' +
-    //             '          }pneumonoul  tramicroscopic silicovolcan oconiosis }}',
-    //         numOfZan: 100,
-    //         numOfCai: 100,
-    //       },
-    //       {
-    //         id: 7,
-    //         stars: 5,
-    //         avatar: 'https://cube.elemecdn.com/3/7c/3ea6beec64369c2642b92c6726f1epng.png',
-    //         nickname: '用户名',
-    //         date: '2021-12-4',
-    //         content: '评论pt>export default {name: "Comment",data() {return {avatar:' +
-    //             ' \'https: //cube.elemecdn.com /3/7c/3ea6beec643 69c2642b92c6726f1e png.png\'' +
-    //             '          }pneumonoul  tramicroscopic silicovolcan oconiosis }}',
-    //         numOfZan: 100,
-    //         numOfCai: 100,
-    //       },
-    //     ];
+    this.$http
+        .get('/product/detail-info/' + this.$route.params.id)
+        .then(res => {
+          if (res.code === 10000) {
+            this.detail = {
+              goodsName: res.data.product.productName,
+              img: res.data.productImgs && res.data.productImgs.length !== 0 ?
+                  res.data.productImgs[0].url :
+                  '//iconfont.alicdn.com/s/210a299f-edad-4fc5-8396-9f743633f209_origin.svg',
+              storeId: res.data.product.shopID,
+              description: res.data.product.content,
+              price: res.data.productSkus && res.data.productSkus.length !== 0 ? res.data.productSkus[0].sellPrice : null,
+            }
+            this.getCommentByPage(1, 5);
+          }
+        });
   }
 }
 </script>

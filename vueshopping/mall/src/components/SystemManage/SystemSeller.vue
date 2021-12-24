@@ -1,6 +1,6 @@
 <template>
   <div id="seller">
-      商家管理
+    <h4 style="text-align: left;">商品管理</h4>
   </div>
 </template>
 

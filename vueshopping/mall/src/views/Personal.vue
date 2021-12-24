@@ -41,11 +41,11 @@
                 <span slot="title">商家管理</span>
               </div>
             </el-menu-item>
-            <el-menu-item index="/system/recommend" class="item" @click="routerLink('/system/recommend')">
-              <div class="subItem">
-                <span slot="title">推荐管理</span>
-              </div>
-            </el-menu-item>
+<!--            <el-menu-item index="/system/recommend" class="item" @click="routerLink('/system/recommend')">-->
+<!--              <div class="subItem">-->
+<!--                <span slot="title">推荐管理</span>-->
+<!--              </div>-->
+<!--            </el-menu-item>-->
             <el-menu-item index="/system/category" class="item" @click="routerLink('/system/category')">
               <div class="subItem">
                 <span slot="title">类别管理</span>

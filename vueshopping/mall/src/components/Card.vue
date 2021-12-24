@@ -1,13 +1,14 @@
 <template>
   <el-card :body-style="{ padding: '15px' }" class="card">
-    <img :src="goodsData.img"
+    <img :src="goodsData.imgs && goodsData.imgs.length !== 0 ? goodsData.imgs[0].url : null"
+         onerror="this.src = '//iconfont.alicdn.com/s/210a299f-edad-4fc5-8396-9f743633f209_origin.svg'"
          class="image"
-         @click="showDetail(goodsData.goodsId)" alt="">
+         @click="showDetail(goodsData.productId)" alt="">
     <div style="padding: 14px; text-align: left">
-      <p>{{goodsData.goodsName ? goodsData.goodsName : '加载失败'}}</p>
-      <p class="description">{{ goodsData.description }}</p>
+      <p>{{goodsData.productName ? goodsData.productName : '加载失败'}}</p>
+      <p class="description">{{ goodsData.content }}</p>
       <div class="bottom clearfix">
-        <span class="price">￥{{ goodsData.price }}</span>
+        <span class="price">￥{{ goodsData.skus && goodsData.skus.length !== 0 ? goodsData.skus[0].sellPrice : '加载失败' }}</span>
         <el-button type="text" @click="showDetail(goodsData.goodsId)">查看详情</el-button>
       </div>
     </div>
@@ -31,7 +32,7 @@ export default {
   },
   methods: {
     showDetail() {
-      this.$router.push('/goods/' + this.goodsData.goodsId);
+      this.$router.push('/goods/' + this.goodsData.productId);
     }
   },
   mounted() {
@@ -63,6 +64,7 @@ export default {
 }
 
 .image {
+  width: 100%;
   border-radius: 10px;
   height: 200px;
   display: block;

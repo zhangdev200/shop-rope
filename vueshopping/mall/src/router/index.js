@@ -14,12 +14,17 @@ const routes = [
         children: [
             {
                 path: '/main',
+                name: 'main',
                 component: () => import('../views/Goods'),
                 redirect: '/index',
                 children: [
                     {
                         path: '/index',
-                        component: () => import('../views/DefaultResult')
+                        name: 'index',
+                        component: () => import('../views/DefaultResult'),
+                        meta: {
+                            keepAlive: true,
+                        }
                     },
                     {
                         path: '/search',

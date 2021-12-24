@@ -12,7 +12,9 @@
       </div>
     </div>
     <div id="container">
-      <router-view></router-view>
+      <keep-alive include="DefaultResult">
+        <router-view></router-view>
+      </keep-alive>
     </div>
   </div>
 </template>

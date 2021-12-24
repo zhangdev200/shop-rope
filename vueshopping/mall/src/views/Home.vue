@@ -17,7 +17,7 @@
               {{ mallName }}
             </div>
             <div style="float: right">
-              <el-menu-item index="/index" class="menu-item" @click="routerLink('/index')">
+              <el-menu-item index="/index" class="menu-item" @click="routerLink('/main')">
                 首页
               </el-menu-item>
               <el-menu-item index="/cart" class="menu-item" @click="routerLink('/cart')">
@@ -51,7 +51,9 @@
       </el-header>
     </el-container>
     <div id="bottom">
-      <router-view></router-view>
+      <keep-alive include="main">
+        <router-view></router-view>
+      </keep-alive>
     </div>
   </div>
 </template>

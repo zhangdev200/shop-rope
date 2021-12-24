@@ -3,7 +3,9 @@
     <div>
       <el-row class="cart">
         <el-col :span="3">
-          <img src="../assets/Hamburger.png" alt="" style="width: 100%; border-radius: 15px"/>
+          <img :src="itemData.img"
+               onerror="this.src='//iconfont.alicdn.com/s/210a299f-edad-4fc5-8396-9f743633f209_origin.svg';"
+               alt="" style="width: 100%; border-radius: 15px"/>
         </el-col>
         <el-col :span="21">
           <div style="text-align: left; padding: 0 20px; margin-bottom: 70px; font-size: 16px">

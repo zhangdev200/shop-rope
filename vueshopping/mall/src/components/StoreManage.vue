@@ -3,18 +3,14 @@
     <h4 style="text-align: left;">商品管理</h4>
     <div style="height: 30px">
       <el-button
-          type="primary"
-          round
-          @click="add"
+          type="primary" round @click="add"
           style="float: left; margin-bottom: 20px">
         添加商品
       </el-button>
     </div>
-    <el-table :data="tableData"
+    <el-table :data="singlePageOrdersList"
               style="width: 100%; font-size: 16px; border-radius: 15px;box-shadow: 0 2px 12px 0 rgba(0, 0, 0, 0.3);"
-              border
-              stripe
-              empty-text="暂无数据">
+              border stripe empty-text="暂无数据">
       <el-table-column
           label="商品 ID"
           prop="goodsId">
@@ -63,8 +59,10 @@
     <br>
     <el-pagination
         background
-        layout="prev, pager, next"
-        :total="1000">
+        layout="total, prev, pager, next, jumper"
+        @current-change="currentChange"
+        :page-size="pageSize"
+        :total="totalOrders">
     </el-pagination>
     <br>
     <div style="text-align: left; margin-top: 25px">
@@ -140,6 +138,10 @@ export default {
         content: '',
       },
       categories: [],
+      currentPage: 1,
+      totalOrders: 0,
+      pageSize: 8,
+      singlePageOrdersList: [],
       formLabelWidth: '120px',
     }
   },
@@ -227,14 +229,20 @@ export default {
                   categoryId: item.categoryId,
                   category: categoryName,
                   description: item.content,
-                  img: item.imgs !== null ? item.imgs[0].url : null,
+                  img: item.imgs !== null && item.imgs.length !== 0 ? item.imgs[0].url : null,
                 });
               }
-              alert(this.tableData[0].category)
+              this.totalOrders = this.tableData.length;
+              this.currentChange(this.currentPage);
             } else {
-              this.$message.error('获取店铺信息失败')
+              this.$message.error('获取店铺信息失败');
             }
           });
+    },
+    currentChange(pageNum) {
+      this.currentPage = pageNum;
+      let start = (pageNum - 1) * this.pageSize;
+      this.singlePageOrdersList = this.tableData.slice(start, start + this.pageSize);
     }
   },
   created() {

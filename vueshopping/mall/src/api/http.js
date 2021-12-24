@@ -2,7 +2,8 @@ import axios from 'axios' //引入
 import {Loading} from "element-ui";
 import {Message} from "element-ui";
 
-let baseURL = 'http://localhost:8080/'
+// let baseURL = 'http://localhost:8080/'
+let baseURL = 'apis';
 
 let config = {
     baseURL: baseURL,
