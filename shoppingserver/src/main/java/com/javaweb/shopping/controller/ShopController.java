@@ -1,6 +1,8 @@
 package com.javaweb.shopping.controller;
 
 
+import com.javaweb.shopping.annotation.AuthAdmin;
+import com.javaweb.shopping.annotation.AuthShopKeeper;
 import com.javaweb.shopping.entity.*;
 import com.javaweb.shopping.service.ShopService;
 import com.javaweb.shopping.service.UserService;
@@ -31,6 +33,8 @@ public class ShopController {
 
     //添加店铺
     @PostMapping("/add")
+    @AuthAdmin
+    @AuthShopKeeper
     public ResultVO add(@RequestBody Shop shop,@RequestHeader("token")String token){
         ResultVO resultVO = shopService.addShop(shop,TokenUtil.getUserId(token));
         return resultVO;
@@ -58,6 +62,8 @@ public class ShopController {
 
     //删除店铺
     @GetMapping("/delete")
+    @AuthAdmin
+    @AuthShopKeeper
     public ResultVO delete(String shopID,@RequestHeader("token")String token){
         ResultVO resultVO = shopService.deleteShop(shopID,TokenUtil.getUserId(token));
         return resultVO;
@@ -65,6 +71,8 @@ public class ShopController {
 
     //添加商品基本信息
     @PostMapping("/addproduct")
+    @AuthAdmin
+    @AuthShopKeeper
     public ResultVO addProduct(@RequestBody ProductVO productVO, @RequestHeader("token")String token){
         ResultVO resultVO = shopService.addProduct(productVO);
         return resultVO;
@@ -72,6 +80,8 @@ public class ShopController {
 
     //更新商品基本信息
     @PostMapping("/updateproduct")
+    @AuthAdmin
+    @AuthShopKeeper
     public ResultVO updateProduct(@RequestBody ProductVO productVO, @RequestHeader("token")String token){
         ResultVO resultVO = shopService.updateProduct(productVO);
         return resultVO;
@@ -79,6 +89,8 @@ public class ShopController {
 
     //添加商品参数信息
     @PostMapping("/addproductparam")
+    @AuthAdmin
+    @AuthShopKeeper
     public ResultVO addProductParam(@RequestBody ProductParams productParams, @RequestHeader("token")String token){
         ResultVO resultVO = shopService.addProductParams(productParams);
         return resultVO;
@@ -86,6 +98,8 @@ public class ShopController {
 
     //更新商品参数信息
     @PostMapping("/updateproductparam")
+    @AuthAdmin
+    @AuthShopKeeper
     public ResultVO updateProductParam(@RequestBody ProductParams productParams, @RequestHeader("token")String token){
         ResultVO resultVO = shopService.updateProductParams(productParams);
         return resultVO;
@@ -93,6 +107,8 @@ public class ShopController {
 
     //删除商品
     @GetMapping("/deleteproduct")
+    @AuthAdmin
+    @AuthShopKeeper
     public ResultVO deleteProduct(String productId,@RequestHeader("token")String token){
         ResultVO resultVO = shopService.deleteProduct(productId);
         return resultVO;

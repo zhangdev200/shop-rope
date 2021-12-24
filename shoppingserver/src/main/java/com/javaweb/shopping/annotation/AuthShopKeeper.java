@@ -16,5 +16,5 @@ import java.lang.annotation.Target;
 // 子类可以继承父类中的该注解
 @Inherited
 public @interface AuthShopKeeper {
-
+//商家权限注释
 }
