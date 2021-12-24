@@ -20,21 +20,12 @@ public class ProductCommentsServiceImpl implements ProductCommentsService {
     private ProductCommentsMapper productCommentsMapper;
 
     @Override
-    public ResultVO listCommontsByProductId(String productId, int pageNum, int limit) {
-        //List<ProductCommentsVO> productCommentsVOS = productCommentsMapper.selectCommontsByProductId(productId);
-        //1.根据商品id查询总记录数
-        Example example = new Example(ProductComments.class);
-        Example.Criteria criteria = example.createCriteria();
-        criteria.andEqualTo("productId",productId);
-        int count = productCommentsMapper.selectCountByExample(example);
-
-        //2.计算总页数（必须确定每页显示多少条  pageSize = limit）
-        int pageCount = count%limit==0? count/limit : count/limit+1;
-
+    public ResultVO listCommentsByProductId(String productId, int pageNum, int limit) {
         //3.查询当前页的数据（因为评论中需要用户信息，因此需要连表查询---自定义）
         int start = (pageNum-1)*limit;
         List<ProductCommentsVO> list = productCommentsMapper.selectCommontsByProductId(productId, start, limit);
-
+        int count=list.size();
+        int pageCount = count%limit==0? count/limit : count/limit+1;
         ResultVO resultVO = new ResultVO(ResStatus.OK, "success", new PageHelper<ProductCommentsVO>(count,pageCount,list));
         return resultVO;
     }

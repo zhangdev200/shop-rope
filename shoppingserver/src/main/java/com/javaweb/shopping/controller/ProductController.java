@@ -46,7 +46,7 @@ public class ProductController {
             @ApiImplicitParam(dataType = "int",name = "limit", value = "每页显示条数",required = true)
     })
     public ResultVO getProductComments(@PathVariable("pid") String pid,int pageNum,int limit){
-        return productCommontsService.listCommontsByProductId(pid,pageNum,limit);
+        return productCommontsService.listCommentsByProductId(pid,pageNum,limit);
     }
 
     @PostMapping("/addcomment")
