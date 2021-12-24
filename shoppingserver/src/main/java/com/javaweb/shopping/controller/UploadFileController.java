@@ -86,7 +86,7 @@ public class UploadFileController {
 
     @RequestMapping(value = "/userimg", method = RequestMethod.POST)
     public ResultVO uploadUserImg(@RequestParam("file") MultipartFile file,@RequestParam int userId) {
-        String fileName = file.getOriginalFilename();//获取文件名
+        String fileName = file.getOriginalFilename();
         fileName = getFileName(fileName);
 
         String localfilepath = getUploadPath();
