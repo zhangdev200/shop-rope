@@ -26,7 +26,7 @@ public class ProductController {
     @GetMapping("/detail-info/{pid}")
     public ResultVO getProductBasicInfo(@PathVariable("pid") String pid){
         return productService.getProductBasicInfo(pid);
-    }
+}
 
     @GetMapping("/imgs/{pid}")
     public ResultVO getProductImgs(@PathVariable("pid") String pid){

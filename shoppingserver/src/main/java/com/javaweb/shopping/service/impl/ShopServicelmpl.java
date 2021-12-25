@@ -154,6 +154,7 @@ public class ShopServicelmpl implements ShopService {
                     }
                     productSku.setProductId(productVO.getProductId());
                     productSkuMapper.insert(productSku);
+
                 }
             }
             if(productVO.getImgs()!=null){
