@@ -141,7 +141,7 @@ public class ShopServicelmpl implements ShopService {
             Example example = new Example(Product.class);
             Example.Criteria criteria = example.createCriteria();
             criteria.andEqualTo("productId",product.getProductId());//状态为1表示上架商品
-            productMapper.updateByExample(product,example);
+            productMapper.updateByExampleSelective(product,example);
 
             if(productVO.getSkus()!=null){
                 Example example1 = new Example(ProductSku.class);
