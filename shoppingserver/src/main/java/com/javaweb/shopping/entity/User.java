@@ -13,7 +13,7 @@ public class User {
      */
     @Id
     @Column(name="user_Id")
-    private int userId;
+    private Integer userId;
     /**
      * 用户名 用户名
      */
@@ -68,17 +68,17 @@ public class User {
      *判断是否为管理员
      */
     @Column(name = "isAdmin")
-    private boolean isAdmin; //是否为管理员
+    private Boolean isAdmin; //是否为管理员
     /**
      * 判断是否为店家
      */
     @Column(name = "isShopKeeper")
-    private boolean isShopKeeper; //是否为店家
+    private Boolean isShopKeeper; //是否为店家
     /**
      * 判断是否为VIP
      */
     @Column(name = "isVIP")
-    private boolean isVIP ;//是否为会员
+    private Boolean isVIP ;//是否为会员
 
     @Column(name="user_address")
     private String userAddress;
@@ -180,31 +180,31 @@ public class User {
         this.user_regtime = user_regtime;
     }
 
-    public boolean isAdmin() {
+    public Boolean isAdmin() {
         return isAdmin;
     }
 
-    public void setAdmin(boolean admin) {
+    public void setAdmin(Boolean admin) {
         isAdmin = admin;
     }
 
-    public boolean isShopKeeper() {
+    public Boolean isShopKeeper() {
         return isShopKeeper;
     }
 
-    public void setShopKeeper(boolean shopKeeper) {
+    public void setShopKeeper(Boolean shopKeeper) {
         isShopKeeper = shopKeeper;
     }
 
-    public boolean isVIP() {
+    public Boolean isVIP() {
         return isVIP;
     }
 
-    public void setVIP(boolean VIP) {
+    public void setVIP(Boolean VIP) {
         isVIP = VIP;
     }
 
-    public User(int userId, String username, String userSex, String password, String userEmail, String nickname, String realname, String userMobile, String userImg, Date user_birth, Date user_regtime,String userAddress) {
+    public User(Integer userId, String username, String userSex, String password, String userEmail, String nickname, String realname, String userMobile, String userImg, Date user_birth, Date user_regtime,String userAddress) {
         this.userId = userId;
         this.username = username;
         this.userSex = userSex;
