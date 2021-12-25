@@ -1,6 +1,7 @@
 package com.javaweb.shopping.controller;
 
 
+import com.javaweb.shopping.entity.IndexImg;
 import com.javaweb.shopping.service.CategoryService;
 import com.javaweb.shopping.service.IndexImgService;
 import com.javaweb.shopping.service.ProductService;
@@ -8,10 +9,9 @@ import com.javaweb.shopping.vo.ResultVO;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import java.sql.Timestamp;
 
 @RestController
 @CrossOrigin
@@ -30,6 +30,18 @@ public class IndexController {
     @ApiOperation("首页轮播图接口")
     public ResultVO listIndexImgs(){
         return indexImgService.listIndexImgs();
+    }
+
+    @PostMapping("/addIndexImg")
+    @ApiOperation("增加首页轮播图")
+    public ResultVO addIndexImg(String imgId, String imgUrl, String imgBgColor, String prodId, String categoryId, Integer indexType, Integer seq, Integer status, Timestamp createTime, Timestamp updateTime){
+        return indexImgService.addIndexImg(imgId, imgUrl, imgBgColor, prodId,categoryId,indexType,seq,status,createTime,updateTime);
+    }
+
+    @PostMapping("/deleteIndexImg")
+    @ApiOperation("删除首页轮播图")
+    public ResultVO deleteIndexImg(String imgId){
+        return indexImgService.deleteIndexImg(imgId);
     }
 
     @GetMapping("/category-list")

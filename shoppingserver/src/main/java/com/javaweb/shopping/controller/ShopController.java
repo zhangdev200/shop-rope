@@ -71,8 +71,8 @@ public class ShopController {
 
     //删除店铺(开店审核不通过)
     @PostMapping("/delete")
-    @AuthAdmin
-    @AuthShopKeeper
+//    @AuthAdmin
+//    @AuthShopKeeper
     public ResultVO delete(String shopID,@RequestHeader("token")String token){
         ResultVO resultVO = shopService.deleteShop(shopID,TokenUtil.getUserId(token));
         return resultVO;
@@ -86,7 +86,6 @@ public class ShopController {
     }
 
     /*根据用户id注册该用户为商家,修改user表*/
-    /*增加店铺*/
     @PostMapping("/updateToShopKeeper")
     public ResultVO updateUserToShopKeeper(int ID){
         ResultVO resultVO = shopService.updateUserToShopKeeper(ID);

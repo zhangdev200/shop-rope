@@ -1,18 +1,57 @@
 package com.javaweb.shopping.entity;
 
+import com.javaweb.shopping.utils.IDUtils;
+
 import javax.persistence.Column;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import java.sql.Timestamp;
+import java.text.SimpleDateFormat;
 import java.util.Date;
+
 
 @Table(name = "index_img")
 public class IndexImg {
+    @Override
+    public String toString() {
+        return "IndexImg{" +
+                "imgId='" + imgId + '\'' +
+                ", imgUrl='" + imgUrl + '\'' +
+                ", imgBgColor='" + imgBgColor + '\'' +
+                ", prodId='" + prodId + '\'' +
+                ", categoryId='" + categoryId + '\'' +
+                ", indexType=" + indexType +
+                ", seq=" + seq +
+                ", status=" + status +
+                ", createTime=" + createTime +
+                ", updateTime=" + updateTime +
+                '}';
+    }
+
+    public IndexImg(String imgId, String imgUrl, String imgBgColor, String prodId, String categoryId, Integer indexType, Integer seq, Integer status, Timestamp createTime, Timestamp updateTime) {
+        this.imgId = imgId;
+        this.imgUrl = imgUrl;
+        this.imgBgColor = imgBgColor;
+        this.prodId = prodId;
+        this.categoryId = categoryId;
+        this.indexType = indexType;
+        this.seq = seq;
+        this.status = status;
+        this.createTime = createTime;
+        this.updateTime = updateTime;
+    }
+
     /**
      * 主键
      */
     @Id
     @Column(name = "img_id")
     private String imgId;
+
+//    public IndexImg(String imgId, String imgUrl) {
+//        this.imgId= IDUtils.getId();
+//        this.imgUrl = imgUrl;
+//    }
 
     /**
      * 图片 图片地址
@@ -60,13 +99,17 @@ public class IndexImg {
      * 创建时间 创建时间
      */
     @Column(name = "create_time")
-    private Date createTime;
+    private Timestamp createTime;
 
     /**
      * 更新时间 更新
      */
     @Column(name = "update_time")
-    private Date updateTime;
+    private Timestamp updateTime;
+
+
+
+
 
     /**
      * 获取主键
@@ -217,7 +260,7 @@ public class IndexImg {
      *
      * @return create_time - 创建时间 创建时间
      */
-    public Date getCreateTime() {
+    public Timestamp getCreateTime() {
         return createTime;
     }
 
@@ -226,7 +269,7 @@ public class IndexImg {
      *
      * @param createTime 创建时间 创建时间
      */
-    public void setCreateTime(Date createTime) {
+    public void setCreateTime(Timestamp createTime) {
         this.createTime = createTime;
     }
 
@@ -235,7 +278,7 @@ public class IndexImg {
      *
      * @return update_time - 更新时间 更新
      */
-    public Date getUpdateTime() {
+    public Timestamp getUpdateTime() {
         return updateTime;
     }
 
@@ -244,7 +287,9 @@ public class IndexImg {
      *
      * @param updateTime 更新时间 更新
      */
-    public void setUpdateTime(Date updateTime) {
+    public void setUpdateTime(Timestamp updateTime) {
         this.updateTime = updateTime;
     }
 }
+
+

@@ -23,4 +23,12 @@
     where status=1
     order by seq
   </select>
+
+    <insert id="addIndexImg" parameterType="com.javaweb.shopping.entity.IndexImg">
+        INSERT  INTO index_img values (#{imgId},#{imgUrl},#{imgBgColor},#{prodId},#{categoryId},#{indexType},#{seq},#{status},#{createTime},#{updateTime})
+    </insert>
+
+    <delete id="deleteIndexImg" >
+        delete from index_img where img_id=#{imgId};
+    </delete>
 </mapper>

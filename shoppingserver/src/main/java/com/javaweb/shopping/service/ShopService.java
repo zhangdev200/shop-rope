@@ -38,6 +38,7 @@ public interface ShopService {
 //    ResultVO updateShopStatus(int ID);
     /*删除商店表里该用户的店铺*/
     ResultVO deleteShop(String ID,String userId);
+
     ResultVO updateProduct(ProductVO productVO);
 
     ResultVO updateProductParams(ProductParams productParams);
