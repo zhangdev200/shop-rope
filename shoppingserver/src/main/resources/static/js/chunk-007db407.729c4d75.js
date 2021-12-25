@@ -1,2 +1,0 @@
-(window["webpackJsonp"]=window["webpackJsonp"]||[]).push([["chunk-007db407"],{"07be":function(e,n,t){"use strict";t.r(n);var c=function(){var e=this,n=e.$createElement,t=e._self._c||n;return t("div",{attrs:{id:"seller"}},[e._v(" 商家管理 ")])},a=[],s={name:"SystemSeller"},r=s,u=(t("775c"),t("2877")),i=Object(u["a"])(r,c,a,!1,null,"1d13a6ba",null);n["default"]=i.exports},"775c":function(e,n,t){"use strict";t("a623")},a623:function(e,n,t){}}]);
-//# sourceMappingURL=chunk-007db407.729c4d75.js.map
