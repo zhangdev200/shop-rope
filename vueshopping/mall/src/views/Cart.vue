@@ -85,8 +85,15 @@ export default {
       this.selectCartIdSet.delete(cartId);
     },
     check() {
-
-      alert(Array.from(this.selectCartIdSet).toString() + '\n总金额：' + this.checkPrice);
+      // let str = '';
+      // for (let i of this.selectCartIdSet) {
+      //   str += i + ',';
+      // }
+      // str = str.substring(0, str.length - 1)
+      // this.$http
+      // .post('/order/add', {
+      //   cids: str
+      // });
     },
     selectAll() {
       if (this.$refs.cart) {

@@ -3,6 +3,7 @@ import {Loading} from "element-ui";
 import {Message} from "element-ui";
 
 // let baseURL = 'http://localhost:8080/'
+// let baseURL = 'apis/';
 let baseURL = '';
 
 let config = {

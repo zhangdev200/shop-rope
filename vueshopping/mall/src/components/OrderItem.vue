@@ -79,7 +79,7 @@ export default {
 
   methods: {
     showDetail() {
-      this.$router.push('/goodsDetail/' + this.itemData.goodsId);
+      this.$router.push('/goods/' + this.itemData.goodsId);
     },
     select() {
       this.selected = !this.selected;
@@ -107,9 +107,10 @@ export default {
               commContent: this.form.textarea,
             })
             .then(res => {
-              if (res === 10000) {
+              if (res.code === 10000) {
                 this.$message.success('评价成功！');
               } else this.$message.error(res.msg);
+              this.dialogVisible = false;
             });
       }
     }
