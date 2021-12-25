@@ -60,7 +60,7 @@ public class UserServiceImpl implements UserService {
     public ResultVO updateInfo(User user) {
         Example example = new Example(User.class);
         Example.Criteria criteria = example.createCriteria();
-        criteria.andEqualTo("userId",user.getUserId());//状态为1表示上架商品
+        criteria.andEqualTo("userId",user.getUserId());
         userMapper.updateByExampleSelective(user,example);
         return new ResultVO(ResStatus.OK, "success", null);
     }
