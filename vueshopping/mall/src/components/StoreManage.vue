@@ -215,6 +215,7 @@ export default {
                   img: item.imgs && item.imgs.length !== 0 ? item.imgs[0].url : null,
                 });
               }
+              alert(this.tableData[0].category)
               this.totalOrders = this.tableData.length;
               this.currentChange(this.currentPage);
             } else {
@@ -249,11 +250,11 @@ export default {
                           categoryName: item.categoryName,
                         });
                       }
+                      this.getOrders();
                     } else {
                       this.$message.error(res.msg)
                     }
                   });
-              this.getOrders();
             }
           } else {
             this.$message.error(res.msg);
