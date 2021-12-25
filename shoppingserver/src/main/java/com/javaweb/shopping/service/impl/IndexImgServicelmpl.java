@@ -21,12 +21,13 @@ public class IndexImgServicelmpl implements IndexImgService {
     @Override
     public ResultVO listIndexImgs() {
         List<IndexImg> indexImgs = indexImgMapper.listIndexImgs();
-        if(indexImgs.size()==0){
-            return new ResultVO(ResStatus.NO,"fail",null);
-        }else{
-            return new ResultVO(ResStatus.OK,"success",indexImgs);
+        if (indexImgs.size() == 0) {
+            return new ResultVO(ResStatus.NO, "fail", null);
+        } else {
+            return new ResultVO(ResStatus.OK, "success", indexImgs);
         }
     }
+
 
 //    @Override
 //    public ResultVO addIndexImg(IndexImg img) {
@@ -51,38 +52,43 @@ public class IndexImgServicelmpl implements IndexImgService {
     //增加轮播图
     @Transactional
     @Override
-    public ResultVO addIndexImg(String imgId, String imgUrl, String imgBgColor, String prodId, String categoryId, Integer indexType, Integer seq, Integer status, Timestamp createTime, Timestamp updateTime){
-                try{
-                indexImgMapper.addIndexImg(imgId, imgUrl, imgBgColor, prodId,categoryId,indexType,seq,status,createTime,updateTime);
-                return new ResultVO(ResStatus.OK,"success",null);
-            }catch (Exception e){
-                e.printStackTrace();
-                return new ResultVO(ResStatus.NO,"数据库层操作失败",null);
-            }
+    public ResultVO addIndexImg(String imgId, String imgUrl, String prodId) {
+        try {
+            indexImgMapper.addIndexImg(imgId, imgUrl, prodId);
+            return new ResultVO(ResStatus.OK, "success", null);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return new ResultVO(ResStatus.NO, "数据库层操作失败", null);
+        }
+    }
+
+    @Override
+    public ResultVO addIndexImg(String imgId, String imgUrl, String imgBgColor, String prodId, String categoryId, Integer indexType, Integer seq, Integer status, Timestamp createTime, Timestamp updateTime) {
+        return null;
     }
 
 
     //删除轮播图
     @Transactional
     @Override
-    public ResultVO deleteIndexImg(String imgId){
-        try{
+    public ResultVO deleteIndexImg(String imgId) {
+        try {
             indexImgMapper.deleteIndexImg(imgId);
-            return new ResultVO(ResStatus.OK,"success",null);
-        }catch (Exception e){
+            return new ResultVO(ResStatus.OK, "success", null);
+        } catch (Exception e) {
             e.printStackTrace();
-            return new ResultVO(ResStatus.NO,"数据库层操作失败",null);
+            return new ResultVO(ResStatus.NO, "数据库层操作失败", null);
         }
     }
 
     //上传轮播图
     @Override
-    public ResultVO addIndexPic(String imgUrl){
-        try{
-            return new ResultVO(ResStatus.OK,imgUrl,null);
-        }catch (Exception e){
+    public ResultVO addIndexPic(String imgUrl) {
+        try {
+            return new ResultVO(ResStatus.OK, imgUrl, null);
+        } catch (Exception e) {
             System.out.println(e);
-            return new ResultVO(ResStatus.NO,"数据库层插入失败！",null);
+            return new ResultVO(ResStatus.NO, "数据库层插入失败！", null);
         }
     }
 

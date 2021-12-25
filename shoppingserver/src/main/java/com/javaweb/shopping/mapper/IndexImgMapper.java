@@ -14,8 +14,10 @@ public interface IndexImgMapper extends GeneralDAO<IndexImg> {
     public List<IndexImg> listIndexImgs();
 
     //2.增加轮播图信息
-    public void addIndexImg(String imgId, String imgUrl, String imgBgColor, String prodId, String categoryId, Integer indexType, Integer seq, Integer status, Timestamp createTime, Timestamp updateTime);
-
+    public void addIndexImg(String imgId, String imgUrl, String prodId);
     //删除轮播图
     public void deleteIndexImg(String imgId);
+
+
+
 }

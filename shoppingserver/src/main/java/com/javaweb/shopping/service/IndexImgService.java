@@ -10,12 +10,13 @@ public interface IndexImgService {
 
     public ResultVO listIndexImgs();
 
-    public ResultVO addIndexImg(String imgId, String imgUrl, String imgBgColor, String prodId, String categoryId, Integer indexType, Integer seq, Integer status, Timestamp createTime,Timestamp updateTime);
-
     //删除轮播图
     @Transactional
     public ResultVO deleteIndexImg(String imgId);
 
     ResultVO addIndexPic(String imgUrl);
 
+    ResultVO addIndexImg(String id, String imgUrl, String productId);
+
+    ResultVO addIndexImg(String imgId, String imgUrl, String imgBgColor, String prodId, String categoryId, Integer indexType, Integer seq, Integer status, Timestamp createTime, Timestamp updateTime);
 }

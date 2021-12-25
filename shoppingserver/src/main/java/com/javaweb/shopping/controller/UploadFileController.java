@@ -64,7 +64,7 @@ public class UploadFileController {
 
     //上传轮播图
     @RequestMapping(value = "/indexImg", method = RequestMethod.POST)
-    public ResultVO uploadIndexImg(@RequestParam("file") MultipartFile file) {
+    public ResultVO uploadIndexImg(@RequestParam("file") MultipartFile file, @RequestParam String productId) {
         String fileName = file.getOriginalFilename();//获取文件名
         fileName = getFileName(fileName);
         String localfilepath = getUploadPath();
@@ -73,7 +73,7 @@ public class UploadFileController {
                 out.write(file.getBytes());
                 out.flush();
                 String imgUrl=filepath + File.separator + fileName;
-                return indexImgService.addIndexPic(imgUrl);
+                return indexImgService.addIndexImg(IDUtils.getId(), imgUrl, productId);
             } catch (FileNotFoundException e) {
                 return new ResultVO(ResStatus.NO, "上传文件失败 FileNotFoundException：" + e.getMessage(),null);
             } catch (IOException e) {
