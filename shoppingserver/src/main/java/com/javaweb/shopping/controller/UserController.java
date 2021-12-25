@@ -53,6 +53,12 @@ public class UserController {
         return resultVO;
     }
 
+    @PostMapping("/updateInfo")
+    public ResultVO updateInfo(@RequestBody User user){
+        ResultVO resultVO = userService.updateInfo(user);
+        return resultVO;
+    }
+
     @ApiOperation("校验token是否过期接口")
     @GetMapping("/check")
     public ResultVO userTokencheck(@RequestHeader("token") String token){

@@ -1,6 +1,7 @@
 package com.javaweb.shopping.service;
 
 
+import com.javaweb.shopping.entity.User;
 import com.javaweb.shopping.vo.ResultVO;
 import org.apache.ibatis.annotations.Mapper;
 import org.springframework.stereotype.Component;
@@ -17,4 +18,6 @@ public interface UserService {
     ResultVO becomeVIP(String name);
 
     ResultVO getUserInfo(String name);
+
+    ResultVO updateInfo(User user);
 }

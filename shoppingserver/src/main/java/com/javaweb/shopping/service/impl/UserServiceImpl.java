@@ -1,4 +1,5 @@
 package com.javaweb.shopping.service.impl;
+import com.javaweb.shopping.entity.Product;
 import com.javaweb.shopping.entity.User;
 import com.javaweb.shopping.mapper.UserMapper;
 import com.javaweb.shopping.service.UserService;
@@ -53,6 +54,15 @@ public class UserServiceImpl implements UserService {
             }
         }
 
+    }
+
+    @Override
+    public ResultVO updateInfo(User user) {
+        Example example = new Example(User.class);
+        Example.Criteria criteria = example.createCriteria();
+        criteria.andEqualTo("userId",user.getUserId());//状态为1表示上架商品
+        userMapper.updateByExampleSelective(user,example);
+        return new ResultVO(ResStatus.OK, "success", null);
     }
 
     public ResultVO updateUserImg(int userId,String url){
