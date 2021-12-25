@@ -35,10 +35,10 @@ public class ShopKeeperInterceptor implements HandlerInterceptor {
                     //如果token正确（密码正确，有效期内）则正常执行，否则抛出异常
                     Jws<Claims> claimsJws = parser.parseClaimsJws(token);
                     Claims body = claimsJws.getBody();
-                    //获得名为user的对象
-                    Object user = body.get("user");
+                    //获得商家身份的判断结果
+                    boolean result = (boolean)body.get("isShopKeeper");
                     //判断用户是否是商家
-                    if (!((User) user).isShopKeeper()) {
+                    if (!result) {
                         //如果不是转发
                         request.setAttribute("msg", "没有权限!");
                         request.getRequestDispatcher("").forward(request, response);

@@ -10,10 +10,13 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.method.HandlerMethod;
 import org.springframework.web.servlet.HandlerInterceptor;
 import org.springframework.web.servlet.ModelAndView;
+import tk.mybatis.mapper.entity.Example;
 
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.util.List;
+
 //拦截除管理员以外的用户
 @Component
 public class AdminInterceptor implements HandlerInterceptor {
@@ -35,10 +38,10 @@ public class AdminInterceptor implements HandlerInterceptor {
                     //如果token正确（密码正确，有效期内）则正常执行，否则抛出异常
                     Jws<Claims> claimsJws = parser.parseClaimsJws(token);
                     Claims body=claimsJws.getBody();
-                    //获得名为user的对象
-                    Object user = body.get("user");
+                    //获得管理员身份的判断结果
+                    boolean result = (boolean) body.get("isAdmin");
                     //判断用户名是否是admin
-                    if (!((User) user).isAdmin()) {
+                    if (!result) {
                         //如果不是转发
                         request.setAttribute("msg", "没有权限!");
                         request.getRequestDispatcher("").forward(request, response);
