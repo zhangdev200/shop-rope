@@ -104,7 +104,7 @@ export default {
                   stars: item.commType === 1 ? 5 : item.commType === 0 ? 3 : 1,
                   avatar: item.userImg,
                   nickname: item.nickname,
-                  date: item.replyTime.substring(0, 10),
+                  date: item.replyTime ? item.replyTime.substring(0,10) : null,
                   content: item.commContent,
                   numOfZan: Math.floor((Math.random() * 100)),
                   numOfCai: Math.floor((Math.random() * 100)),

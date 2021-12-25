@@ -5,7 +5,7 @@
          class="image"
          @click="showDetail(goodsData.productId)" alt="">
     <div style="padding: 14px; text-align: left">
-      <p>{{goodsData.productName ? goodsData.productName : '加载失败'}}</p>
+      <p style="height: 30px">{{goodsData.productName ? goodsData.productName : '加载失败'}}</p>
       <p class="description">{{ goodsData.content }}</p>
       <div class="bottom clearfix">
         <span class="price">￥{{ goodsData.skus && goodsData.skus.length !== 0 ? goodsData.skus[0].sellPrice : '加载失败' }}</span>
@@ -58,7 +58,7 @@ export default {
 }
 
 .price {
-  font-size: 28px;
+  font-size: 27px;
   font-weight: bold;
   color: red;
 }
@@ -71,9 +71,10 @@ export default {
 }
 
 .description {
-  color: #444444;
+  font-size: 16px;
+  color: #888;
   text-align: left;
-  height: 80px;
+  height: 70px;
   overflow-y: scroll
 }
 

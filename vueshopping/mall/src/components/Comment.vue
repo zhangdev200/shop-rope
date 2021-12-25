@@ -3,7 +3,9 @@
     <el-row>
       <span style="position: absolute; right: 20px; color: #888888">{{ commentData.date }}</span>
       <div style="position: absolute;">
-        <img :src="commentData.avatar" style="width: 50px">
+        <el-avatar :size="50">
+          <img :src="commentData.avatar" style="width: 50px">
+        </el-avatar>
       </div>
       <div style="margin-left: 70px;">
         <div style="height: 30px; margin-top: 10px">
@@ -112,9 +114,9 @@ export default {
 <style scoped>
 .comment {
   background-color: #eeeeee;
-  border-radius: 20px;
+  border-radius: 15px;
   padding: 20px;
-  margin: 25px 0;
+  margin: 20px 0;
 }
 
 .comment-content {

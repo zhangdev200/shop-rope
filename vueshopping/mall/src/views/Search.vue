@@ -6,7 +6,7 @@
     background: linear-gradient(35deg, #CCFFFF, #FFCCCC) fixed;
     position: fixed; top: 0">
       <div id="search">
-        <el-input placeholder="搜索您想要的商品" v-model="input">
+        <el-input ref="input" placeholder="搜索您想要的商品" v-model="input" @keyup.enter.native="search">
           <el-button slot="append" icon="el-icon-search" id="button" @click="search"></el-button>
         </el-input>
       </div>
@@ -21,6 +21,7 @@
 
 <script>
 export default {
+  name: 'Search',
   data() {
     return {
       input: null,
@@ -28,8 +29,10 @@ export default {
   },
   methods: {
     search() {
-      if (this.input !== null) {
-        this.$router.push('/search');
+      if (this.input) {
+        this.$router.push('/search/' + this.input);
+      } else {
+        this.$message.warning('请输入关键词！');
       }
     }
   },

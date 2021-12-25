@@ -51,7 +51,7 @@
       </el-header>
     </el-container>
     <div id="bottom">
-      <keep-alive include="main">
+      <keep-alive include="Search">
         <router-view></router-view>
       </keep-alive>
     </div>

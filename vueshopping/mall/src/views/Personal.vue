@@ -46,11 +46,11 @@
 <!--                <span slot="title">推荐管理</span>-->
 <!--              </div>-->
 <!--            </el-menu-item>-->
-            <el-menu-item index="/system/category" class="item" @click="routerLink('/system/category')">
-              <div class="subItem">
-                <span slot="title">类别管理</span>
-              </div>
-            </el-menu-item>
+<!--            <el-menu-item index="/system/category" class="item" @click="routerLink('/system/category')">-->
+<!--              <div class="subItem">-->
+<!--                <span slot="title">类别管理</span>-->
+<!--              </div>-->
+<!--            </el-menu-item>-->
             <el-menu-item index="/system/carousel" class="item" @click="routerLink('/system/carousel')">
               <div class="subItem">
                 <span slot="title">轮播图管理</span>
@@ -59,7 +59,7 @@
           </el-submenu>
         </el-menu>
       </el-aside>
-      <keep-alive>
+      <keep-alive include="StoreManage">
         <router-view></router-view>
       </keep-alive>
     </el-container>

@@ -2,6 +2,10 @@ import Vue from 'vue'
 import VueRouter from 'vue-router'
 import Home from '../views/Home.vue'
 
+const originalPush = VueRouter.prototype.push
+VueRouter.prototype.push = function push(location) {
+    return originalPush.call(this, location).catch(err => err)
+}
 
 Vue.use(VueRouter)
 
@@ -15,7 +19,7 @@ const routes = [
             {
                 path: '/main',
                 name: 'main',
-                component: () => import('../views/Goods'),
+                component: () => import('../views/Search'),
                 redirect: '/index',
                 children: [
                     {
@@ -27,7 +31,7 @@ const routes = [
                         }
                     },
                     {
-                        path: '/search',
+                        path: '/search/:keyword',
                         component: () => import('../views/SearchResult')
                     }
                 ]

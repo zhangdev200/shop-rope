@@ -23,11 +23,19 @@
       <el-dialog
           title="评价"
           :visible.sync="dialogVisible"
-          width="25%"
+          width="30%"
           :lock-scroll="false">
         <p style="font-size: 16px">{{ '对商品 ' + this.itemData.goodsName + ' 进行评价：' }}</p>
         <el-form :model="form">
           <el-form-item>
+            <div style="height: 50px; float:left;">
+              <span style="display: inline-block">评分：</span>
+              <el-rate
+                  style="display: inline-block"
+                  v-model="form.stars"
+                  :colors="colors">
+              </el-rate>
+            </div>
             <el-input
                 type="textarea"
                 :rows="4"
@@ -60,8 +68,10 @@ export default {
         price: null,
       },
       selected: false,
+      colors: ['#99A9BF', '#F7BA2A', '#FF9900'],
       dialogVisible: false,
       form: {
+        stars: 0,
         textarea: '',
       },
     }
@@ -84,17 +94,23 @@ export default {
       }
     },
     comment() {
-      if (this.form.textarea.match(/.{2,100}/)) {
-        this.$http.post('api', {
-          content: this.form.textarea,
-        })
-        .then(res => {
-          if (res === 10000) {
-            this.$message.success('评价成功！');
-          } else this.$message.error(res.msg);
-        });
-      } else {
+      if (!this.form.textarea.match(/.{2,100}/)) {
         this.$message.warning('输入字符数应在2-100之间！');
+      } else if (this.form.stars === 0) {
+        this.$message.warning('请进行评分!');
+      } else {
+        this.$http
+            .post('/product/addcomment', {
+              userId: JSON.parse(localStorage.getItem('userInform')).userId,
+              productId: this.itemData.goodsId,
+              commType: this.form.stars,
+              commContent: this.form.textarea,
+            })
+            .then(res => {
+              if (res === 10000) {
+                this.$message.success('评价成功！');
+              } else this.$message.error(res.msg);
+            });
       }
     }
   },

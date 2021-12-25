@@ -173,7 +173,7 @@ export default {
               });
             }
           } else {
-            this.$message.error('未知错误');
+            this.$message.error(res1.msg);
           }
         });
   }

@@ -1,5 +1,5 @@
 <template>
-    <div>
+    <div style="margin-bottom: 100px">
       <el-carousel :interval="1500" type="card">
         <el-carousel-item v-for="item in 6" :key="item">
           <img src="../assets/img.png" style="width: 100%; height: 100%; border-radius: 20px" alt="">
@@ -11,7 +11,7 @@
         </h2>
         <div class="categoryBlock">
           <el-row>
-            <el-col :lg="6" :md="12" :sm="12" :xs="24" v-for="o in goodsData.get(category)" :key="o.productId">
+            <el-col :lg="6" :md="8" :sm="12" :xs="24" v-for="o in goodsData.get(category)" :key="o.productId">
               <Card :data="o"></Card>
             </el-col>
           </el-row>
