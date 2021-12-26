@@ -1,10 +1,7 @@
 package com.javaweb.shopping.service.impl;
 
 import com.javaweb.shopping.entity.*;
-import com.javaweb.shopping.mapper.OrderItemMapper;
-import com.javaweb.shopping.mapper.OrdersMapper;
-import com.javaweb.shopping.mapper.ProductSkuMapper;
-import com.javaweb.shopping.mapper.ShoppingCartMapper;
+import com.javaweb.shopping.mapper.*;
 import com.javaweb.shopping.service.OrderService;
 import com.javaweb.shopping.utils.PageHelper;
 import com.javaweb.shopping.vo.ResStatus;
@@ -32,12 +29,14 @@ public class OrderServiceImpl implements OrderService {
     private OrderItemMapper orderItemMapper;
     @Autowired
     private ProductSkuMapper productSkuMapper;
-
+    @Autowired
+    ProductMapper productMapper;
     private Logger logger = LoggerFactory.getLogger(OrderServiceImpl.class);
 
     /**
      * 保存订单业务
      */
+    @Override
     @Transactional
     public Map<String,String> addOrder(String cids, Orders order) throws SQLException {
         logger.info("add order begin...");
@@ -97,6 +96,56 @@ public class OrderServiceImpl implements OrderService {
             for (int cid: cidsList) {
                 shoppingCartMapper.deleteByPrimaryKey(cid);
             }
+            logger.info("add order finished...");
+            map.put("orderId",orderId);
+            map.put("productNames",untitled);
+            return map;
+        }else{
+            //表示库存不足
+            return null;
+        }
+    }
+
+    //立即购买实现
+    @Override
+    @Transactional
+    public Map<String,String> addInstanceOrder(String productId, Orders order) throws SQLException{
+        logger.info("add order begin...");
+        Map<String,String> map = new HashMap<>();
+
+        Example example = new Example(Product.class);
+        Example.Criteria criteria = example.createCriteria();
+        criteria.andEqualTo("productId",productId);
+        criteria.andEqualTo("productStatus",1);//状态为1表示上架商品
+        List<Product> products = productMapper.selectByExample(example);
+        String untitled = products.get(0).getProductName();//根据productId获取商品名字
+        String skuId=productSkuMapper.selectSkusByProductId(productId).get(0).getSkuId();
+        Integer stock=productSkuMapper.selectSkusByProductId(productId).get(0).getStock();
+        String skuImg=productSkuMapper.selectSkusByProductId(productId).get(0).getSkuImg();
+        String skuName=productSkuMapper.selectSkusByProductId(productId).get(0).getSkuName();
+        Integer price = productSkuMapper.selectSkusByProductId(productId).get(0).getSellPrice();
+        if(stock>0){
+            logger.info("product stock is OK...");
+            //保存订单
+            order.setUntitled(untitled);
+            order.setCreateTime(new Date());
+            order.setStatus("1");
+            //生成订单编号
+            String orderId = UUID.randomUUID().toString().replace("-", "");
+            order.setOrderId(orderId);
+            int i = ordersMapper.insert(order);
+
+            //生成商品快照
+            String itemId = System.currentTimeMillis()+""+ (new Random().nextInt(89999)+10000);
+            OrderItem orderItem = new OrderItem(itemId, orderId, productId, untitled, skuImg, skuId, skuName, new BigDecimal(price), 1, new BigDecimal(price), new Date(), new Date(), 0);
+            orderItemMapper.insert(orderItem);
+
+            //减少销量
+            ProductSku productSku = new ProductSku();
+            productSku.setSkuId(skuId);
+            productSku.setStock(stock-1);
+            productSkuMapper.updateByPrimaryKeySelective(productSku);
+
             logger.info("add order finished...");
             map.put("orderId",orderId);
             map.put("productNames",untitled);

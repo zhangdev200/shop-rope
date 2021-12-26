@@ -14,4 +14,5 @@ public interface ProductSkuMapper extends GeneralDAO<ProductSku> {
      * @return
      */
     public List<ProductSku> selectLowerestPriceByProductId(String productId);
+    public List<ProductSku> selectSkusByProductId(String productId);
 }

@@ -61,6 +61,25 @@ public class OrderController {
         return resultVO;
     }
 
+    //立即购买接口
+    @PostMapping("/addInstance")
+    public ResultVO addInstance(String productId, @RequestBody Orders order){
+        ResultVO resultVO = null;
+        try {
+            Map<String, String> orderInfo = orderService.addOrder(productId, order);
+            if(orderInfo!=null){
+                resultVO = new ResultVO(ResStatus.OK,"提交订单成功！",orderInfo);
+            }else{
+                resultVO = new ResultVO(ResStatus.NO,"提交订单失败！",null);
+            }
+        } catch (SQLException e) {
+            resultVO = new ResultVO(ResStatus.NO,"提交订单失败！",null);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return resultVO;
+    }
+
     @GetMapping("/status/{oid}")
     public ResultVO getOrderStatus(@PathVariable("oid") String orderId,@RequestHeader("token")String token){
         ResultVO resultVO = orderService.getOrderById(orderId);
