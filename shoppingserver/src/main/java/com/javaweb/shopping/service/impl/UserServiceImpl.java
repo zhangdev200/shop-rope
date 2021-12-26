@@ -1,4 +1,5 @@
 package com.javaweb.shopping.service.impl;
+
 import com.javaweb.shopping.entity.User;
 import com.javaweb.shopping.mapper.UserMapper;
 import com.javaweb.shopping.service.UserService;
@@ -7,10 +8,7 @@ import com.javaweb.shopping.vo.ResultVO;
 import io.jsonwebtoken.JwtBuilder;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
-import org.apache.ibatis.annotations.Mapper;
-import org.apache.ibatis.annotations.Result;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import tk.mybatis.mapper.entity.Example;
@@ -55,7 +53,8 @@ public class UserServiceImpl implements UserService {
 
     }
 
-    public ResultVO updateUserImg(int userId,String url){
+    @Override
+    public ResultVO updateUserImg(int userId, String url){
         Example example = new Example(User.class);
         Example.Criteria criteria = example.createCriteria();
         criteria.andEqualTo("userId", userId);
@@ -120,6 +119,21 @@ public class UserServiceImpl implements UserService {
             return new ResultVO(ResStatus.OK,"返回用户数据",users.get(0));
         }
     }
+
+    @Override
+    public ResultVO updateInfo(User user) {
+        Example example = new Example(User.class);
+        Example.Criteria criteria = example.createCriteria();
+        criteria.andEqualTo("userId",user.getUserId());
+        userMapper.updateByExampleSelective(user,example);
+        if (userMapper.updateByExampleSelective(user, example) == 1) {
+            return new ResultVO(ResStatus.OK, "success", null);
+        } else {
+            return new ResultVO(ResStatus.NO, "未知错误", null);
+        }
+    }
+
+
     @Override
     public ResultVO becomeVIP(String name){
         Example example = new Example(User.class);
@@ -159,4 +173,30 @@ public class UserServiceImpl implements UserService {
         }
     }
 
+    //管理员删除用户
+    @Override
+    public ResultVO deleteUser(int userId) {
+        synchronized (this) {
+            try {
+
+                //user表
+                userMapper.deleteUser(userId);
+
+                return new ResultVO(ResStatus.OK, "success", null);
+            } catch (Exception e) {
+                return new ResultVO(ResStatus.NO, "数据库层删除失败！", null);
+            }
+        }
+    }
+    //管理员查看所有用户
+    @Override
+    public ResultVO listAllUser() {
+        try{
+            List <User> users=userMapper.listAllUser();
+            return new ResultVO(ResStatus.OK,"success",users);
+        }catch (Exception e){
+            return new ResultVO(ResStatus.NO,"数据库层获取失败！",null);
+        }
+    }
 }
+

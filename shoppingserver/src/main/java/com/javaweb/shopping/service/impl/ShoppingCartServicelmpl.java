@@ -46,6 +46,7 @@ public class ShoppingCartServicelmpl implements ShoppingCartService {
         }
     }
 
+    @Override
     @Transactional(propagation = Propagation.SUPPORTS)
     public ResultVO listShoppingCartsByUserId(int userId) {
         List<ShoppingCartVO> list = shoppingCartMapper.selectShopcartByUserId(userId);

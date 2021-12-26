@@ -21,5 +21,12 @@
 
     </resultMap>
 
+    <select id="listAllUser" resultMap="BaseResultMap">
+        select  *from user ;
+    </select>
+
+    <delete id="deleteUser">
+        delete from user where user_id=#{userId}
+    </delete>
 
 </mapper>

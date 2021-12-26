@@ -1,5 +1,7 @@
 package com.javaweb.shopping.controller;
 
+import com.javaweb.shopping.annotation.AuthAdmin;
+import com.javaweb.shopping.annotation.AuthShopKeeper;
 import com.javaweb.shopping.entity.User;
 import com.javaweb.shopping.service.UserService;
 import com.javaweb.shopping.service.impl.UserServiceImpl;
@@ -53,6 +55,12 @@ public class UserController {
         return resultVO;
     }
 
+    @PostMapping("/updateInfo")
+    public ResultVO updateInfo(@RequestBody User user){
+        ResultVO resultVO = userService.updateInfo(user);
+        return resultVO;
+    }
+
     @ApiOperation("校验token是否过期接口")
     @GetMapping("/check")
     public ResultVO userTokencheck(@RequestHeader("token") String token){
@@ -67,5 +75,21 @@ public class UserController {
     public ResultVO getInfomation(@RequestHeader("token") String token){
         String username= TokenUtil.getUsername(token);
         return userService.getUserInfo(username);
+    }
+
+    //列出所有用户
+    @GetMapping("/listUsers")
+    @AuthAdmin
+    public ResultVO listAllUser(){
+        ResultVO resultVO = userService.listAllUser();
+        return resultVO;
+    }
+
+    //删除用户
+    @GetMapping("/deleteUser")
+    @AuthAdmin
+    public ResultVO deleteProduct(int userId,@RequestHeader("token")String token){
+        ResultVO resultVO = userService.deleteUser(userId);
+        return resultVO;
     }
 }
