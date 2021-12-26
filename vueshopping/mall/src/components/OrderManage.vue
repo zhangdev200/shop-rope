@@ -7,7 +7,7 @@
       <OrderItem
           v-for="i in orderList"
           :item="i"
-          :key="i.orderId"
+          :key="i.itemId"
           ref="order"
           @select="select"
           @unselect="unselect">
@@ -49,7 +49,8 @@ export default {
     return {
       totalOrders: null,
       selectSet: new Set,
-      orderList: []
+      orderList: [],
+      currentPage: 1,
     }
   },
   methods: {
@@ -85,14 +86,16 @@ export default {
       if (this.selectSet.size === 0) {
         this.$message.warning('请选择要删除的订单！');
       } else {
+        let str = '';
+        for (let i of this.selectSet) {
+          str += i + ',';
+        }
+        str = str.substring(0, str.length - 1);
         this.$http
-            .get('api', {
-
-            })
+            .get('/order/delete?orderIds=' + str)
             .then(res => {
-              if (res.code === 10000) {
+              if (res.code === 10000 || res.msg === '找不到记录' ||res.msg === '部分删除失败') {
                 let newSet = this.selectSet;
-                alert(Array.from(this.selectSet).toString())
                 for (let i of newSet) {
                   for (let j = 0; j < this.orderList.length; j++) {
                     if (this.orderList[j].orderId === i) {
@@ -105,7 +108,10 @@ export default {
                     }
                   }
                 }
+                this.getOrders(this.currentPage, 6);
                 this.$message.success('删除成功！');
+              } else {
+                this.$message.error(res.msg)
               }
             });
       }
@@ -122,9 +128,7 @@ export default {
               this.orderList = [];
               this.totalOrders = res.data.count;
               for (let i of res.data.list) {
-                for (let j of i.orderItems) {
-                  this.orderList.push(j);
-                }
+                  this.orderList.push(i);
               }
             } else {
               this.$message.error('未知错误');
@@ -132,6 +136,7 @@ export default {
           });
     },
     currentChange(pageNum) {
+      this.currentPage = pageNum;
       this.getOrders(pageNum, 6);
     },
   },

@@ -94,7 +94,6 @@ export default {
         str += i + ',';
       }
       str = str.substring(0, str.length - 1);
-      alert(str)
       this.$http
           .post('/order/add?cids=' + str, {
             userId: JSON.parse(localStorage.getItem('userInform')).userId,

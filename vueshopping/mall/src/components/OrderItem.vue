@@ -1,37 +1,38 @@
 <template>
     <div>
-      <el-row class="order">
-        <el-col :span="2">
-          <img :src="itemData.productImg" alt="" style="width: 100%; border-radius: 15px"/>
-        </el-col>
-        <el-col :span="3">
-          <div style="text-align: left; padding: 0 20px; font-size: 16px">
-            <p style="font-weight: bold">{{ itemData.productName }}</p>
-          </div>
-        </el-col>
-        <el-col :span="7">
-          <div style="text-align: left; padding: 0 20px; font-size: 16px">
-            <p style="word-wrap: break-word">订单号：{{ itemData.orderId }}</p>
-          </div>
-        </el-col>
-        <el-col :span="5">
-          <div style="text-align: left; padding: 0 20px; font-size: 16px">
-            <p style="word-wrap: break-word">
-              下单时间：{{itemData.buyTime.substring(0, 19).replace('T' , '&nbsp;&nbsp;')}}
-            </p>
-          </div>
-        </el-col>
-        <el-col :span="6">
-          <span class="price">￥{{ itemData.productPrice }}</span>
-          <div style="position: absolute; bottom: 20px; right: 20px; border-radius: 10px">
-            <el-button type="primary" round @click="dialogVisible = true; form.textarea = ''">评价</el-button>
-            <el-button type="primary" round @click="showDetail">再次购买</el-button>
-          </div>
-        </el-col>
+      <div class="order">
         <div class="select" @click="select">
           <i class="el-icon-circle-check" ref="select"></i>
         </div>
-      </el-row>
+        <el-row v-for="item in itemData.orderItems" :key="item.itemId">
+          <el-col :span="5">
+            <div style="text-align: left; padding: 0 20px; font-size: 16px">
+              <p style="font-weight: bold">{{ item.productName }}</p>
+            </div>
+          </el-col>
+          <el-col :span="7">
+            <div style="text-align: left; padding: 0 20px; font-size: 16px">
+              <p style="word-wrap: break-word">订单号：{{ item.orderId }}</p>
+            </div>
+          </el-col>
+          <el-col :span="6">
+            <div style="text-align: left; padding: 0 20px; font-size: 16px">
+              <p style="word-wrap: break-word">
+                下单时间：{{item.buyTime.substring(0, 19).replace('T' , '&nbsp;&nbsp;')}}
+              </p>
+            </div>
+          </el-col>
+          <el-col :span="6">
+            <span class="price">￥{{ item.productPrice }}</span>
+            <div style="position: absolute; right: 20px; border-radius: 10px">
+              <el-button type="primary" round @click="dialogVisible = true; form.textarea = ''">评价</el-button>
+              <el-button type="primary" round @click="showDetail">再次购买</el-button>
+            </div>
+          </el-col>
+        </el-row>
+
+      </div>
+
       <el-dialog
           title="评价"
           :visible.sync="dialogVisible"
@@ -136,6 +137,7 @@ export default {
 
 <style scoped>
 .order {
+  position: relative;
   width: 100%;
   background-color: #eee;
   border-radius: 10px;
@@ -144,9 +146,10 @@ export default {
 }
 
 .select {
-  font-size: xx-large;
   position: absolute;
   left: -60px;
+  float: left;
+  font-size: xx-large;
   color: black;
   width: 50px;
   height: 100px;
@@ -154,7 +157,6 @@ export default {
 
 .price {
   position: absolute;
-  bottom: 20px;
   right: 240px;
   font-size: 35px;
   font-weight: bold;

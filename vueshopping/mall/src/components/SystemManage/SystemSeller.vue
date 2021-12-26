@@ -54,11 +54,10 @@ export default {
   methods: {
     pass(shopID) {
       this.$http
-          .post('/shop/pass', {
-            ID: shopID
-          })
+          .post('/shop/pass?ID=' + shopID)
           .then(res => {
             if (res.code === 10000) {
+              this.getShops();
               this.$message.success('操作成功！')
             } else {
               this.$message.error(res.msg);
@@ -70,11 +69,10 @@ export default {
         this.$message.error('管理员店铺，无法删除')
       } else {
         this.$http
-            .post('/shop/delete', {
-              shopID: shopID
-            })
+            .post('/shop/deleteshop?shopID=' + shopID)
             .then(res => {
               if (res.code === 10000) {
+                this.getShops();
                 this.$message.success('操作成功！')
               } else {
                 this.$message.error(res.msg);
@@ -82,26 +80,29 @@ export default {
             });
       }
     },
+    getShops() {
+      this.$http
+          .get('/shop/listcheckingshops')
+          .then(res => {
+            if (res.code === 10000) {
+              this.checkingShops = res.data;
+              this.$http
+                  .get('/shop/listshops')
+                  .then(res => {
+                    if (res.code === 10000) {
+                      this.passedShops = res.data;
+                    } else {
+                      this.$message.error(res.msg);
+                    }
+                  });
+            } else {
+              this.$message.error(res.msg);
+            }
+          });
+    }
   },
   created() {
-    this.$http
-        .get('/shop/listcheckingshops')
-        .then(res => {
-          if (res.code === 10000) {
-            this.checkingShops = res.data;
-            this.$http
-                .get('/shop/listshops')
-                .then(res => {
-                  if (res.code === 10000) {
-                    this.passedShops = res.data;
-                  } else {
-                    this.$message.error(res.msg);
-                  }
-                });
-          } else {
-            this.$message.error(res.msg);
-          }
-        });
+    this.getShops();
   },
 }
 </script>
