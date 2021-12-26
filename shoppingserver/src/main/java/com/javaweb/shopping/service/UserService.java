@@ -20,4 +20,8 @@ public interface UserService {
     ResultVO getUserInfo(String name);
 
     ResultVO updateInfo(User user);
+    //管理员删除用户
+    ResultVO deleteUser(int userId);
+    //管理员查看所有用户
+    ResultVO listAllUser();
 }
