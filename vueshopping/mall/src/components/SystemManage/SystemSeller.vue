@@ -1,6 +1,6 @@
 <template>
   <div id="seller">
-    <el-tabs v-model="activeName" type="card" @tab-click="handleClick">
+    <el-tabs v-model="activeName" type="card">
       <el-tab-pane label="店铺审核" name="first">
         <el-table :data="checkingShops"
                   style="width: 100%; font-size: 16px; border-radius: 10px;box-shadow: 0 2px 12px 0 rgba(0, 0, 0, 0.3);"

@@ -12,75 +12,97 @@
         </el-upload>
       </div>
       <div style="float: left; font-size: 35px; color: #666666; position: relative; top: 65px; left: 20px">
-        {{  }}
+        {{ this.nickname }}
       </div>
     </div>
     <br>
     <hr style="color: black">
-    <div style="text-align: left">
-      <h4>基本信息</h4>
-    </div>
-    <div class="card">
-      <el-form ref="form" :model="form1" label-width="90px" style="text-align: left">
-        <el-form-item label="昵称">
-          <el-input v-model="form1.nickname"></el-input>
-        </el-form-item>
-        <el-form-item label="真实姓名">
-          <el-input v-model="form1.realname"></el-input>
-        </el-form-item>
-        <el-form-item label="性别">
-          <el-radio v-model="form1.userSex" label="男">男</el-radio>
-          <el-radio v-model="form1.userSex" label="女">女</el-radio>
-        </el-form-item>
-        <el-form-item label="收货地址">
-          <el-input v-model="form1.userAddress"></el-input>
-        </el-form-item>
-        <el-form-item label="邮箱">
-          <el-input v-model="form1.userEmail"></el-input>
-        </el-form-item>
-        <el-form-item label="电话号码">
-          <el-input v-model="form1.userMobile"></el-input>
-        </el-form-item>
-        <el-form-item>
-          <el-button type="primary" round style="float: right; width: 100px" @click="submitBasicInfo">修改</el-button>
-        </el-form-item>
-      </el-form>
-    </div>
-    <div style="text-align: left">
-      <h4>我的会员</h4>
-    </div>
-    <div class="card">
-      <div v-if="form1.vip">
-        <p style="color: red">您是尊贵的会员用户</p>
-      </div>
-      <div v-else>
-        <p>您还不是会员哦</p>
-        <div>
-          立即
-          <el-button type="text" style="font-size: 20px" @click="dialogVisible = true">注册会员</el-button>
-        </div>
-      </div>
-    </div>
-    <div style="text-align: left">
-      <h4>修改密码</h4>
-    </div>
-    <div class="card">
-      <el-form ref="form" :model="form2" label-width="90px" style="text-align: left">
-        <el-form-item label="旧密码">
-          <el-input v-model="form2.oldPassword"></el-input>
-        </el-form-item>
-        <el-form-item label="新密码">
-          <el-input v-model="form2.newPassword"></el-input>
-        </el-form-item>
-        <el-form-item label="确认新密码">
-          <el-input v-model="form2.newPasswordConfirm"></el-input>
-        </el-form-item>
-        <el-form-item>
-          <el-button type="primary" round style="float: right; width: 100px" @click="submitPassword">修改</el-button>
-        </el-form-item>
-      </el-form>
-    </div>
+    <el-tabs v-model="activeName" type="card">
+      <el-tab-pane label="基本信息" name="first">
+        <div class="card">
+          <el-form ref="form" :model="form1" label-width="90px" style="text-align: left">
+            <el-row>
+              <el-col :span="12">
+                <el-form-item label="昵称">
+                  <el-input v-model="form1.nickname"></el-input>
+                </el-form-item>
+                <el-form-item label="真实姓名">
+                  <el-input v-model="form1.realname"></el-input>
+                </el-form-item>
+                <el-form-item label="性别">
+                  <el-radio v-model="form1.userSex" label="男">男</el-radio>
+                  <el-radio v-model="form1.userSex" label="女">女</el-radio>
+                </el-form-item>
+                <el-form-item label="收货地址">
+                  <el-input v-model="form1.userAddress"></el-input>
+                </el-form-item>
+                <el-form-item label="邮箱">
+                  <el-input v-model="form1.userEmail"></el-input>
+                </el-form-item>
+                <el-form-item label="电话号码">
+                  <el-input v-model="form1.userMobile"></el-input>
+                </el-form-item>
+                <el-form-item>
+                  <el-button type="primary" round style="float: right; width: 100px" @click="submitBasicInfo">修改
+                  </el-button>
+                </el-form-item>
+              </el-col>
+            </el-row>
 
+          </el-form>
+        </div>
+      </el-tab-pane>
+      <el-tab-pane label="修改密码" name="second">
+        <div class="card">
+          <el-form ref="form" :model="form2" label-width="90px" style="text-align: left">
+            <el-row>
+              <el-col :span="12">
+                <el-form-item label="旧密码">
+                  <el-input v-model="form2.oldPassword"></el-input>
+                </el-form-item>
+                <el-form-item label="新密码">
+                  <el-input v-model="form2.newPassword"></el-input>
+                </el-form-item>
+                <el-form-item label="确认新密码">
+                  <el-input v-model="form2.newPasswordConfirm"></el-input>
+                </el-form-item>
+                <el-form-item>
+                  <el-button type="primary" round style="float: right; width: 100px" @click="submitPassword">修改</el-button>
+                </el-form-item>
+              </el-col>
+            </el-row>
+          </el-form>
+        </div>
+      </el-tab-pane>
+      <el-tab-pane label="我的会员" name="third">
+        <div class="card">
+          <div v-if="form1.vip">
+            <p style="color: red">您是尊贵的会员用户</p>
+          </div>
+          <div v-else>
+            <p>您还不是会员哦</p>
+            <div>
+              立即
+              <el-button type="text" style="font-size: 20px" @click="dialogVisible = true">注册会员</el-button>
+            </div>
+          </div>
+        </div>
+      </el-tab-pane>
+      <el-tab-pane label="申请开店" name="fourth">
+        <div class="card">
+          <div v-if="isStoreOwner">
+            <el-button type="text" style="font-size: 20px" @click="$router.replace('/personal/store')">
+              你已经是店主了，快去管理你的店铺吧>>
+            </el-button>
+          </div>
+          <div v-else>
+            <el-button type="text" style="font-size: 20px">
+              立即申请开店
+            </el-button>
+          </div>
+        </div>
+      </el-tab-pane>
+    </el-tabs>
     <el-dialog
         title="注册会员"
         :visible.sync="dialogVisible"
@@ -107,6 +129,7 @@ export default {
         newPassword: '',
         newPasswordConfirm: '',
       },
+      activeName: 'first',
       fileList: [{url: ''}],
       isMembership: true,
       isStoreOwner: true,
@@ -131,6 +154,13 @@ export default {
     submitPassword() {
       this.$confirm('确定修改密码吗？')
           .then(() => {
+            if (this.form2.newPassword !== this.form2.newPasswordConfirm) {
+              this.$message.warning('密码和确认密码不一致！');
+              return;
+            } else if (JSON.parse(localStorage.getItem('userInform')).password !== this.form2.oldPassword) {
+              this.$message.warning('旧密码错误！');
+              return;
+            }
             this.$http
                 .post('user/updateInfo', {
                   userId: this.form1.userId,
@@ -165,9 +195,11 @@ export default {
           .get('user/info')
           .then((res) => {
             if (res.code === 10000) {
+              localStorage.setItem('userInform', JSON.stringify(res.data));
               this.fileList[0].url = res.data.userImg;
               this.form1 = res.data;
               this.nickname = res.data.nickname;
+              this.isStoreOwner = res.data.shopKeeper;
             } else {
               this.$message.error(res.msg);
             }
@@ -191,8 +223,8 @@ export default {
 .card {
   background: rgba(255, 255, 255, 0.5);
   padding: 30px 50px 30px 30px;
-  border-radius: 15px;
-  box-shadow: 0 2px 12px 0 rgba(0, 0, 0, 0.3);
-  width: 50%;
+  width: 93%;
 }
+
+
 </style>

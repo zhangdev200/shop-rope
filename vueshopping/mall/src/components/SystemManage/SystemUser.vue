@@ -24,7 +24,9 @@
 
       <el-table-column label="操作" width="200" align="center">
         <template slot-scope="scope">
-          <el-button type="danger" round @click="deleteUser(scope.row.userId)">删除</el-button>
+          <el-popconfirm title="确定删除吗？" @confirm="deleteUser(scope.row.userId)">
+            <el-button type="danger" round slot="reference">删除</el-button>
+          </el-popconfirm>
         </template>
       </el-table-column>
     </el-table>
@@ -42,12 +44,40 @@ export default {
   },
   methods: {
     deleteUser(userId) {
-      this.$http.get('user/deleteUser', {
-        userId: userId,
-      })
+      if (userId == 16) {
+        this.$message.error('不能删除管理员！');
+      } else {
+        this.$http
+            .get('user/deleteUser', {
+              userId: userId,
+            })
+            .then(res => {
+              if (res.code === 10000) {
+                this.getUsers();
+                this.$message.success('操作成功！');
+              } else {
+                this.$message.error('未知错误')
+              }
+            });
+      }
+    },
+    getUsers() {
+      this.$http
+          .get('user/listUsers')
           .then(res => {
             if (res.code === 10000) {
-              this.$message.success('操作成功！');
+              // alert(res.data[0].vip)
+              for (let i of res.data) {
+                this.tableData.push({
+                  userId: i.userId,
+                  username: i.username,
+                  userSex: i.userSex,
+                  nickname: i.nickname,
+                  realname: i.realname,
+                  shopKeeper: i.shopKeeper ? '是' : '否',
+                  vip: i.vip ? '是' : '否',
+                })
+              }
             } else {
               this.$message.error('未知错误')
             }
@@ -55,27 +85,7 @@ export default {
     }
   },
   created() {
-    this.$http
-        .get('user/listUsers')
-        .then(res => {
-          if (res.code === 10000) {
-            // alert(res.data[0].vip)
-            for (let i of res.data) {
-              this.tableData.push({
-                userId: i.userId,
-                username: i.username,
-                userSex: i.userSex,
-                nickname: i.nickname,
-                realname: i.realname,
-                shopKeeper: i.shopKeeper ? '是' : '否',
-                vip: i.vip ? '是' : '否',
-
-              })
-            }
-          } else {
-            this.$message.error('未知错误')
-          }
-        })
+    this.getUsers();
   }
 }
 </script>

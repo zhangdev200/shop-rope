@@ -85,15 +85,32 @@ export default {
       this.selectCartIdSet.delete(cartId);
     },
     check() {
-      // let str = '';
-      // for (let i of this.selectCartIdSet) {
-      //   str += i + ',';
-      // }
-      // str = str.substring(0, str.length - 1)
-      // this.$http
-      // .post('/order/add', {
-      //   cids: str
-      // });
+      if (this.selectCartIdSet.size === 0) {
+        this.$message.warning('请先选择商品！');
+        return;
+      }
+      let str = '';
+      for (let i of this.selectCartIdSet) {
+        str += i + ',';
+      }
+      str = str.substring(0, str.length - 1);
+      alert(str)
+      this.$http
+          .post('/order/add?cids=' + str, {
+            userId: JSON.parse(localStorage.getItem('userInform')).userId,
+            receiverName: JSON.parse(localStorage.getItem('userInform')).realname,
+            receiverMobile: JSON.parse(localStorage.getItem('userInform')).userMobile,
+            receiverAddress: JSON.parse(localStorage.getItem('userInform')).userAddress,
+          })
+          .then(res => {
+            if (res.code === 10000) {
+              this.$message.success('结算成功！')
+              this.getCarts();
+            }
+            else {
+              this.$message.error('未知错误');
+            }
+          });
     },
     selectAll() {
       if (this.$refs.cart) {
@@ -154,6 +171,30 @@ export default {
     },
     toLogin() {
       this.$router.replace('/login');
+    },
+    getCarts() {
+      this.$http
+          .get('/shopcart/list', {
+            userId: JSON.parse(localStorage.getItem('userInform')).userId
+          })
+          .then(res1 => {
+            if (res1.code === 10000) {
+              this.cartList = [];
+              for (let cart of res1.data) {
+                this.cartList.push({
+                  cartId: cart.cartId,
+                  amount: cart.cartNum,
+                  goodsId: cart.productId,
+                  goodsName: cart.productName,
+                  img: cart.productImg,
+                  description: cart.content,
+                  price: cart.productPrice,
+                });
+              }
+            } else {
+              this.$message.error(res1.msg);
+            }
+          });
     }
   },
   computed: {
@@ -162,27 +203,7 @@ export default {
     }
   },
   created() {
-    this.$http
-        .get('/shopcart/list', {
-          userId: JSON.parse(localStorage.getItem('userInform')).userId
-        })
-        .then(res1 => {
-          if (res1.code === 10000) {
-            for (let cart of res1.data) {
-              this.cartList.push({
-                cartId: cart.cartId,
-                amount: cart.cartNum,
-                goodsId: cart.productId,
-                goodsName: cart.productName,
-                img: cart.productImg,
-                description: cart.content,
-                price: cart.productPrice,
-              });
-            }
-          } else {
-            this.$message.error(res1.msg);
-          }
-        });
+    this.getCarts();
   }
 }
 </script>

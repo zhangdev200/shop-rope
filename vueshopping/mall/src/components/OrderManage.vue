@@ -49,56 +49,7 @@ export default {
     return {
       totalOrders: null,
       selectSet: new Set,
-      orderList: [
-        // {
-        //   goodsId: 1,
-        //   goodsName: '商品名称',
-        //   img: null,
-        //   description: 'goodsId:1 描述信息描述信息描述信息描述信息描述信息描述信息描述信息' +
-        //       '描述信息描述信息描述信息描述信息描述信息描述信息描述信息',
-        //   price: 28.0,
-        // },
-        // {
-        //   goodsId: 2,
-        //   goodsName: '商品名称',
-        //   img: null,
-        //   description: 'goodsId:2 描述信息描述信息描述信息描述信息描述信息描述信息描述信息' +
-        //       '描述信息描述信息描述信息描述信息描述信息描述信息描述信息',
-        //   price: 28.0,
-        // },
-        // {
-        //   goodsId: 3,
-        //   goodsName: '商品名称',
-        //   img: null,
-        //   description: 'goodsId:3 描述信息描述信息描述信息描述信息描述信息描述信息描述信息' +
-        //       '描述信息描述信息描述信息描述信息描述信息描述信息描述信息',
-        //   price: 28.0,
-        // },
-        // {
-        //   goodsId: 4,
-        //   goodsName: '商品名称',
-        //   img: null,
-        //   description: 'goodsId:4 描述信息描述信息描述信息描述信息描述信息描述信息描述信息' +
-        //       '描述信息描述信息描述信息描述信息描述信息描述信息描述信息',
-        //   price: 28.0,
-        // },
-        // {
-        //   goodsId: 5,
-        //   goodsName: '商品名称',
-        //   img: null,
-        //   description: 'goodsId:5 描述信息描述信息描述信息描述信息描述信息描述信息描述信息' +
-        //       '描述信息描述信息描述信息描述信息描述信息描述信息描述信息',
-        //   price: 28.0,
-        // },
-        // {
-        //   goodsId: 6,
-        //   goodsName: '商品名称',
-        //   img: null,
-        //   description: 'goodsId:6 描述信息描述信息描述信息描述信息描述信息描述信息描述信息' +
-        //       '描述信息描述信息描述信息描述信息描述信息描述信息描述信息',
-        //   price: 28.0,
-        // },
-      ]
+      orderList: []
     }
   },
   methods: {
@@ -162,7 +113,7 @@ export default {
     getOrders(pageNum, limit) {
       this.$http
           .get('/order/list', {
-            userId: 1,
+            userId: JSON.parse(localStorage.getItem('userInform')).userId,
             pageNum: pageNum,
             limit: limit
           })
@@ -171,7 +122,9 @@ export default {
               this.orderList = [];
               this.totalOrders = res.data.count;
               for (let i of res.data.list) {
-                this.orderList.push(i.orderItems[0]);
+                for (let j of i.orderItems) {
+                  this.orderList.push(j);
+                }
               }
             } else {
               this.$message.error('未知错误');

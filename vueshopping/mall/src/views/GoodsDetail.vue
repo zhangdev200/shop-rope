@@ -73,6 +73,10 @@ export default {
   },
   methods: {
     addToCart() {
+      if (!localStorage.getItem('userInform')) {
+        this.$message.warning('请先登录！');
+        return;
+      }
       this.$http
           .post('/shopcart/add', {
             productId: this.$route.params.id,
@@ -87,7 +91,25 @@ export default {
           });
     },
     buyNow() {
-
+      if (!localStorage.getItem('userInform')) {
+        this.$message.warning('请先登录！');
+        return;
+      }
+      this.$http
+          .post('/order/addInstance?productId=' + this.$route.params.id, {
+            userId: JSON.parse(localStorage.getItem('userInform')).userId,
+            receiverName: JSON.parse(localStorage.getItem('userInform')).realname,
+            receiverMobile: JSON.parse(localStorage.getItem('userInform')).userMobile,
+            receiverAddress: JSON.parse(localStorage.getItem('userInform')).userAddress,
+          })
+          .then(res => {
+            if (res.code === 10000) {
+              this.$message.success('购买成功！')
+              console.log(res.data.orderId)
+            } else {
+              this.$message.error(res.msg)
+            }
+          });
     },
     getCommentByPage(pageNum, limit) {
       this.$http
