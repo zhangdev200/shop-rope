@@ -1,0 +1,2 @@
+(window["webpackJsonp"]=window["webpackJsonp"]||[]).push([["chunk-6f3a28cf"],{"5c76":function(e,n,t){},"7e2f":function(e,n,t){"use strict";t("5c76")},a6d4:function(e,n,t){"use strict";t.r(n);var c=function(){var e=this,n=e.$createElement,t=e._self._c||n;return t("div",{attrs:{id:"recommend"}},[e._v(" 推荐管理 ")])},s=[],u={name:"SystemRecommend"},a=u,i=(t("7e2f"),t("2877")),o=Object(i["a"])(a,c,s,!1,null,"6b476717",null);n["default"]=o.exports}}]);
+//# sourceMappingURL=chunk-6f3a28cf.570ec77b.js.map

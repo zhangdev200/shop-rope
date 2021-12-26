@@ -42,13 +42,6 @@ public class OrderController {
                 data.put("total_fee","1");
                 data.put("trade_type","NATIVE");                //交易类型
                 data.put("notify_url","http://47.118.45.73:8080/pay/callback");           //设置支付完成时的回调方法接口
-
-                //发送请求，获取响应
-                //微信支付：申请支付连接
-
-                //orderInfo中包含：订单编号，购买的商品名称，支付链接/*  WXPay wxPay = new WXPay(new MyPayConfig());
-                //                Map<String, String> resp = wxPay.unifiedOrder(data);
-                //                orderInfo.put("payUrl",resp.get("code_url"));*/
                 resultVO = new ResultVO(ResStatus.OK,"提交订单成功！",orderInfo);
             }else{
                 resultVO = new ResultVO(ResStatus.NO,"提交订单失败！",null);
