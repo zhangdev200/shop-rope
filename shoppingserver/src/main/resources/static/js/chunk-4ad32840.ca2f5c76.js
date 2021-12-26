@@ -1,2 +1,0 @@
-(window["webpackJsonp"]=window["webpackJsonp"]||[]).push([["chunk-4ad32840"],{"91ef":function(e,t,n){"use strict";n("af3c")},af3c:function(e,t,n){},c4e9:function(e,t,n){"use strict";n.r(t);var c=function(){var e=this,t=e.$createElement,n=e._self._c||t;return n("div",{attrs:{id:"category"}},[e._v(" 类别管理 ")])},a=[],r={name:"SystemCategory"},s=r,u=(n("91ef"),n("2877")),f=Object(u["a"])(s,c,a,!1,null,"e86267fa",null);t["default"]=f.exports}}]);
-//# sourceMappingURL=chunk-4ad32840.ca2f5c76.js.map
