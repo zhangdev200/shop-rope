@@ -75,9 +75,7 @@ export default {
     },
     deleteItem(imgId) {
       this.$http
-      .post('/index/deleteIndexImg', {
-        imgId: imgId
-      })
+      .post('/index/deleteIndexImg?imgId='+imgId)
       .then(res => {
         if (res.code === 10000) {
           this.$message.success('操作成功！');
