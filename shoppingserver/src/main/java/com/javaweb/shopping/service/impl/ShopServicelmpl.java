@@ -160,8 +160,8 @@ public class ShopServicelmpl implements ShopService {
             if(productVO.getImgs()!=null){
                 Example example2 = new Example(ProductImg.class);
                 Example.Criteria criteria2 = example2.createCriteria();
-                criteria2.andEqualTo("productId",product.getProductId());//状态为1表示上架商品
-                productImgMapper.deleteByExample(example);
+                criteria2.andEqualTo("itemId",product.getProductId());//状态为1表示上架商品
+                productImgMapper.deleteByExample(example2);
                 for(ProductImg productImg: productVO.getImgs()){
                     if(productImg.getId()==null){
                         productImg.setId(IDUtils.getId());
@@ -172,7 +172,7 @@ public class ShopServicelmpl implements ShopService {
             }
             return new ResultVO(ResStatus.OK,"success",productVO.getProductId());
         }catch (Exception e){
-            System.out.println(e);
+            e.printStackTrace();
             return new ResultVO(ResStatus.NO,"数据库层更新失败！",null);
         }
     }
