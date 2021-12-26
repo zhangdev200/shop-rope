@@ -61,6 +61,12 @@ public class OrderController {
         return resultVO;
     }
 
+    @GetMapping("/delete")
+    public ResultVO deleteBy(String orderIds){
+        return orderService.deleteOrders(orderIds);
+    }
+
+
     //立即购买接口
     @PostMapping("/addInstance")
     public ResultVO addInstance(String productId, @RequestBody Orders order){

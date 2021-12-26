@@ -15,6 +15,8 @@ public interface OrderService {
 
     public int updateOrderStatus(String orderId, String status);
 
+    ResultVO deleteOrders(String ids);
+
     public ResultVO getOrderById(String orderId);
 
     public void closeOrder(String orderId);

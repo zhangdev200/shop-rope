@@ -106,6 +106,48 @@ public class OrderServiceImpl implements OrderService {
         }
     }
 
+
+    @Override
+    @Transactional
+    public ResultVO deleteOrders(String ids) {
+        try{
+            String[] arr = ids.split(",");
+            List<Integer> orderIds = new ArrayList<>();
+            for (int i=0; i<arr.length; i++){
+                orderIds.add(Integer.parseInt(arr[i]));
+            }
+
+
+            //删除orders表
+            Example example = new Example(Orders.class);
+            Example.Criteria criteria = example.createCriteria();
+            for(int orderId: orderIds){
+                criteria.orEqualTo("orderId",orderId);
+            }
+            int ret = ordersMapper.deleteByExample(example);
+
+            //删除order_item表
+            Example example1 = new Example(OrderItem.class);
+            Example.Criteria criteria1 = example1.createCriteria();
+            for(int orderId: orderIds){
+                criteria1.orEqualTo("orderId",orderId);
+            }
+            int ret1 = orderItemMapper.deleteByExample(example1);
+
+            if(ret==0 || ret1==0){
+                return new ResultVO(ResStatus.NO, "找不到记录", null);
+            }else if(orderIds.size()==ret1 && orderIds.size()==ret){
+                return new ResultVO(ResStatus.OK, "success", null);
+            }else{
+                return new ResultVO(ResStatus.NO, "部分删除失败", null);
+            }
+
+        }catch (Exception e){
+            e.printStackTrace();
+            return new ResultVO(ResStatus.NO,"数据库层删除失败！",null);
+        }
+    }
+
     //立即购买实现
     @Override
     @Transactional
