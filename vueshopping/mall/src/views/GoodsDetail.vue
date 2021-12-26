@@ -63,7 +63,8 @@ export default {
         img: null,
         storeId: null,
         description: null,
-        price: null
+        price: null,
+        skuId: null,
       },
       totalComments: 0,
       totalCommentsPages: 0,
@@ -77,6 +78,7 @@ export default {
             productId: this.$route.params.id,
             userId: JSON.parse(localStorage.getItem('userInform')).userId,
             productPrice: this.detail.price,
+            skuId: this.detail.skuId,
           })
           .then(res => {
             if (res.code === 10000) {
@@ -101,7 +103,7 @@ export default {
               for (let item of res.data.list) {
                 this.comments.push({
                   id: item.commId,
-                  stars: item.commType === 1 ? 5 : item.commType === 0 ? 3 : 1,
+                  stars: item.commType,
                   avatar: item.userImg,
                   nickname: item.nickname,
                   date: item.replyTime ? item.replyTime.substring(0,10) : null,
@@ -130,6 +132,7 @@ export default {
               storeId: res.data.product.shopID,
               description: res.data.product.content,
               price: res.data.productSkus && res.data.productSkus.length !== 0 ? res.data.productSkus[0].sellPrice : null,
+              skuId: res.data.productSkus && res.data.productSkus.length !== 0 ? res.data.productSkus[0].skuId : null,
             }
             this.getCommentByPage(1, 5);
           }

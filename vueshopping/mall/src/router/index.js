@@ -75,17 +75,13 @@ const routes = [
                         component: () => import('../components/SystemManage/SystemSeller'),
                     },
                     {
-                        path: '/system/category',
-                        component: () => import('../components/SystemManage/SystemCategory'),
-                    },
-                    {
-                        path: '/system/recommend',
-                        component: () => import('../components/SystemManage/SystemRecommend'),
-                    },
-                    {
                         path: '/system/carousel',
                         component: () => import('../components/SystemManage/SystemCarousel'),
                     },
+                    {
+                        path: '/system/user',
+                        component: () => import('../components/SystemManage/SystemUser'),
+                    }
                 ]
             },
         ]

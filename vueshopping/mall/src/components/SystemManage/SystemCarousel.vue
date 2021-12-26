@@ -8,7 +8,7 @@
       </el-button>
     </div>
     <el-table :data="tableData" border stripe empty-text="暂无数据"
-              style="width: 100%; font-size: 16px; border-radius: 15px;box-shadow: 0 2px 12px 0 rgba(0, 0, 0, 0.3);">
+              style="width: 100%; font-size: 16px; border-radius: 10px;box-shadow: 0 2px 12px 0 rgba(0, 0, 0, 0.3);">
       <el-table-column label="商品 ID" prop="prodId">
       </el-table-column>
       <el-table-column label="图片" prop="imgUrl">
@@ -22,13 +22,15 @@
         </template>
       </el-table-column>
       <el-table-column label="操作" width="200" align="center">
-        <el-button type="danger" round>删除</el-button>
+        <template slot-scope="scope">
+          <el-button type="danger" round @click="deleteItem(scope.row.imgId)">删除</el-button>
+        </template>
       </el-table-column>
     </el-table>
-    <el-dialog :visible.sync="dialogFormVisible" @close="closeDialog">
+    <el-dialog :visible.sync="dialogFormVisible">
       <el-form :model="form" style="text-align: left">
         <el-form-item label="商品id" :label-width="formLabelWidth">
-          <el-input v-model="form.productName" autocomplete="off" class="inputWidth"></el-input>
+          <el-input v-model="form.productId" autocomplete="off" class="inputWidth"></el-input>
         </el-form-item>
         <el-form-item label="商品图片" :label-width="formLabelWidth">
           <el-upload
@@ -69,14 +71,27 @@ export default {
   methods: {
     add() {
       this.dialogFormVisible = true;
+      this.form.productId = null;
+    },
+    deleteItem(imgId) {
+      this.$http
+      .post('/index/deleteIndexImg', {
+        imgId: imgId
+      })
+      .then(res => {
+        if (res.code === 10000) {
+          this.$message.success('操作成功！');
+        } else {
+          this.$message.error(res.msg);
+        }
+      });
     },
     beforeUpload(file) {
       let fd = new FormData();
       fd.append('file', file);
-      fd.append('productId', '1');
+      fd.append('productId', this.form.productId);
       this.$http.post('file/indexImg', fd)
           .then(res => {
-            alert(this.form.productId)
             if (res.code === 10000) {
               this.$message.success('操作成功！');
             } else {
@@ -89,19 +104,15 @@ export default {
       this.$refs.upload.submit();
       this.dialogFormVisible = false;
     },
-    closeDialog() {
-      this.form = {
-        productId: null
-      }
-    },
   },
   created() {
-    this.$http.get('/index/indeximg')
+    this.$http
+        .get('/index/indeximg')
         .then(res => {
           if (res.code === 10000) {
             this.tableData = res.data;
           }
-        })
+        });
   }
 
 }

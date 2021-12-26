@@ -1,23 +1,35 @@
 <template>
-  <transition name="el-zoom-in-top">
     <div>
       <el-row class="order">
         <el-col :span="2">
-          <img src="../assets/Hamburger.png" alt="" style="width: 100%; border-radius: 15px"/>
+          <img :src="itemData.productImg" alt="" style="width: 100%; border-radius: 15px"/>
         </el-col>
-        <el-col :span="22">
-          <div style="text-align: left; padding: 0 20px; margin-bottom: 70px; font-size: 16px">
-            <p style="margin: 0; font-weight: bold">{{ itemData.goodsName }}</p>
-            <p style="word-wrap: break-word">{{ itemData.description }}</p>
+        <el-col :span="3">
+          <div style="text-align: left; padding: 0 20px; font-size: 16px">
+            <p style="font-weight: bold">{{ itemData.productName }}</p>
+          </div>
+        </el-col>
+        <el-col :span="7">
+          <div style="text-align: left; padding: 0 20px; font-size: 16px">
+            <p style="word-wrap: break-word">订单号：{{ itemData.orderId }}</p>
+          </div>
+        </el-col>
+        <el-col :span="5">
+          <div style="text-align: left; padding: 0 20px; font-size: 16px">
+            <p style="word-wrap: break-word">
+              下单时间：{{itemData.buyTime.substring(0, 19).replace('T' , '&nbsp;&nbsp;')}}
+            </p>
+          </div>
+        </el-col>
+        <el-col :span="6">
+          <span class="price">￥{{ itemData.productPrice }}</span>
+          <div style="position: absolute; bottom: 20px; right: 20px; border-radius: 10px">
+            <el-button type="primary" round @click="dialogVisible = true; form.textarea = ''">评价</el-button>
+            <el-button type="primary" round @click="showDetail">再次购买</el-button>
           </div>
         </el-col>
         <div class="select" @click="select">
           <i class="el-icon-circle-check" ref="select"></i>
-        </div>
-        <span class="price">￥{{ itemData.price }}</span>
-        <div style="position: absolute; bottom: 20px; right: 20px; border-radius: 10px">
-          <el-button type="primary" round @click="dialogVisible = true; form.textarea = ''">评价</el-button>
-          <el-button type="primary" round @click="showDetail">再次购买</el-button>
         </div>
       </el-row>
       <el-dialog
@@ -25,7 +37,7 @@
           :visible.sync="dialogVisible"
           width="30%"
           :lock-scroll="false">
-        <p style="font-size: 16px">{{ '对商品 ' + this.itemData.goodsName + ' 进行评价：' }}</p>
+        <p style="font-size: 16px">{{ '对商品 ' + this.itemData.productName + ' 进行评价：' }}</p>
         <el-form :model="form">
           <el-form-item>
             <div style="height: 50px; float:left;">
@@ -50,7 +62,6 @@
         </span>
       </el-dialog>
     </div>
-  </transition>
 </template>
 
 <script>
@@ -61,11 +72,12 @@ export default {
     return {
       step: 1,
       itemData: {
-        goodsId: null,
-        goodsName: '商品名称',
-        img: null,
-        description: null,
-        price: null,
+        productId: null,
+        productName: '商品名称',
+        productImg: null,
+        orderId: null,
+        productPrice: null,
+        buyTime: null,
       },
       selected: false,
       colors: ['#99A9BF', '#F7BA2A', '#FF9900'],
@@ -79,17 +91,17 @@ export default {
 
   methods: {
     showDetail() {
-      this.$router.push('/goods/' + this.itemData.goodsId);
+      this.$router.push('/goods/' + this.itemData.productId);
     },
     select() {
       this.selected = !this.selected;
-      if (this.selected === true) {
+      if (this.selected) {
         this.$refs.select.style.color = 'red';
-        this.$emit('select', this.itemData.goodsId);
+        this.$emit('select', this.itemData.orderId);
         this.$emit('check');
       } else {
         this.$refs.select.style.color = 'black';
-        this.$emit('unselect', this.itemData.goodsId);
+        this.$emit('unselect', this.itemData.orderId);
         this.$emit('check');
       }
     },
@@ -102,7 +114,7 @@ export default {
         this.$http
             .post('/product/addcomment', {
               userId: JSON.parse(localStorage.getItem('userInform')).userId,
-              productId: this.itemData.goodsId,
+              productId: this.itemData.productId,
               commType: this.form.stars,
               commContent: this.form.textarea,
             })

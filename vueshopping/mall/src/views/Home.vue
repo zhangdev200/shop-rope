@@ -23,7 +23,7 @@
               <el-menu-item index="/cart" class="menu-item" @click="routerLink('/cart')">
                 购物车
               </el-menu-item>
-              <div v-show="hasToken()" style="display: inline-block;">
+              <div v-show="this.hasToken" style="display: inline-block;">
                 <el-menu-item index="/personal" class="menu-item"
                               @click="routerLink('/personal')">
                   <el-avatar size="small">
@@ -35,7 +35,7 @@
                               @click="logout">退出登录
                 </el-menu-item>
               </div>
-              <div v-show="!hasToken()" style="display: inline-block;">
+              <div v-show="!this.hasToken" style="display: inline-block;">
                 <el-menu-item index="/login" class="menu-item"
                               @click="routerLink('/login')">
                   登录
@@ -62,6 +62,7 @@
 export default {
   data() {
     return {
+      hasToken: false,
       mallName: '好 名 字 商 城',
       userInform: {
         nickname: '',
@@ -76,15 +77,11 @@ export default {
           this.$route.path === '/personal/order' ||
           this.$route.path === '/personal/store' ||
           this.$route.path === '/system/seller' ||
-          this.$route.path === '/system/recommend' ||
-          this.$route.path === '/system/category' ||
+          this.$route.path === '/system/user' ||
           this.$route.path === '/system/carousel') {
         return '/personal';
       }
       return this.$route.path;
-    },
-    hasToken() {
-      return localStorage.getItem('token') !== null;
     },
     isVip() {
       return this.userInform.vip;
@@ -105,18 +102,22 @@ export default {
         this.$forceUpdate();
       }
     },
-    getUserinform() {
-      if (JSON.parse(localStorage.getItem('userInform')) !== null){
+    getUserInform() {
+      if (JSON.parse(localStorage.getItem('userInform'))){
         this.userInform = JSON.parse(localStorage.getItem('userInform'));
       }
     }
   },
   created() {
-    this.getUserinform();
+    this.getUserInform();
+    if (JSON.parse(localStorage.getItem('userInform'))){
+      this.hasToken = true;
+    }
   },
   watch: {
     $route() {
-      this.getUserinform();
+      this.getUserInform();
+      this.hasToken = (JSON.parse(localStorage.getItem('userInform')) !== null);
     }
   }
 }

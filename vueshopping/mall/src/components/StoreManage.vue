@@ -10,20 +10,22 @@
         </el-button>
       </div>
       <el-table :data="singlePageOrdersList"
-                style="width: 100%; font-size: 16px; border-radius: 15px;box-shadow: 0 2px 12px 0 rgba(0, 0, 0, 0.3);"
+                style="width: 100%; font-size: 16px; border-radius: 10px;box-shadow: 0 2px 12px 0 rgba(0, 0, 0, 0.3);"
                 border stripe empty-text="暂无数据">
         <el-table-column label="商品 ID" sortable prop="goodsId"></el-table-column>
-        <el-table-column label="商品名称" sortable prop="name"></el-table-column>
+        <el-table-column label="商品名称" sortable prop="name" width="200"></el-table-column>
         <el-table-column label="价格" sortable width="120" prop="sellPrice"></el-table-column>
         <el-table-column label="分类" sortable prop="category" width="150"></el-table-column>
-        <el-table-column label="图片" prop="img"><template slot-scope="scope">
-          <el-popover trigger="hover" placement="right-end" :close-delay=0>
-            <img :src="scope.row.img" alt="加载失败">
-            <div slot="reference" class="name-wrapper" style="width: 70px">
-              <el-tag size="medium">查看图片</el-tag>
-            </div>
-          </el-popover>
-        </template>
+        <el-table-column label="库存" sortable prop="stock" width="150"></el-table-column>
+        <el-table-column label="图片" prop="img">
+          <template slot-scope="scope">
+            <el-popover trigger="hover" placement="right-end" :close-delay=0>
+              <img :src="scope.row.img" alt="加载失败">
+              <div slot="reference" class="name-wrapper" style="width: 70px">
+                <el-tag size="medium">查看图片</el-tag>
+              </div>
+            </el-popover>
+          </template>
         </el-table-column>
         <el-table-column label="描述" prop="description" width="500"></el-table-column>
         <el-table-column label="操作" width="200">
@@ -80,6 +82,9 @@
           <el-form-item label="售价" :label-width="formLabelWidth">
             <el-input v-model="form.price" autocomplete="off" class="inputWidth"></el-input>
           </el-form-item>
+          <el-form-item label="库存" :label-width="formLabelWidth">
+            <el-input v-model="form.stock" autocomplete="off" class="inputWidth"></el-input>
+          </el-form-item>
           <el-form-item label="描述信息" :label-width="formLabelWidth">
             <el-input
                 type="textarea"
@@ -118,6 +123,7 @@ export default {
         categoryId: '',
         productImg: '',
         price: null,
+        stock: null,
         content: '',
       },
       categories: [],
@@ -142,6 +148,7 @@ export default {
           this.form.productName = i.name;
           this.form.categoryId = i.categoryId;
           this.form.price = i.sellPrice;
+          this.form.stock = i.stock;
           this.form.content = i.description;
           break;
         }
@@ -156,6 +163,7 @@ export default {
         categoryId: '',
         productImg: '',
         price: null,
+        stock: null,
         content: '',
       }
     },
@@ -171,6 +179,7 @@ export default {
             [
               {
                 sellPrice: this.form.price,
+                stock: this.form.stock,
                 status: 1,
               }
             ],
@@ -183,14 +192,14 @@ export default {
           .then(res => {
             if (res.code === 10000) {
               this.$message.success('操作成功');
-              this.getOrders();
+              this.getGoodsList();
             } else {
               this.$message.error('未知错误')
             }
           });
       this.dialogFormVisible = false;
     },
-    getOrders() {
+    getGoodsList() {
       this.$http
           .get('shop/list', {
             shopID: this.storeId,
@@ -213,6 +222,7 @@ export default {
                   category: categoryName,
                   description: item.content,
                   img: item.imgs && item.imgs.length !== 0 ? item.imgs[0].url : null,
+                  stock: item.skus && item.skus.length !== 0 ? item.skus[0].stock : null,
                 });
               }
               this.totalOrders = this.tableData.length;
@@ -249,7 +259,7 @@ export default {
                           categoryName: item.categoryName,
                         });
                       }
-                      this.getOrders();
+                      this.getGoodsList();
                     } else {
                       this.$message.error(res.msg)
                     }

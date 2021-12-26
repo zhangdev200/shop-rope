@@ -1,18 +1,27 @@
 <template>
   <div>
     <div id="container">
-      <div v-if="this.orderList.length === 0">
+      <div v-if="this.totalOrders === 0">
         <el-empty description="您还没有订单哦" :image-size="400"></el-empty>
       </div>
       <OrderItem
           v-for="i in orderList"
           :item="i"
-          :key="i.goodsId"
+          :key="i.orderId"
           ref="order"
           @select="select"
-          @unselect="unselect"
-          @check="checkPriceChange">
+          @unselect="unselect">
       </OrderItem>
+      <div style="position: fixed; bottom: 100px; left: 43%">
+        <el-pagination
+            ref="page"
+            background
+            layout="total, prev, pager, next"
+            :page-size="6"
+            :total="totalOrders"
+            @current-change="currentChange">
+        </el-pagination>
+      </div>
     </div>
     <div class="bottomBar">
       <div style="width: 71%; margin: 0 0 0 300px">
@@ -38,80 +47,66 @@ export default {
   components: {OrderItem},
   data() {
     return {
+      totalOrders: null,
       selectSet: new Set,
-      checkPrice: 0,
-      checkId: [],
       orderList: [
-        {
-          goodsId: 1,
-          goodsName: '商品名称',
-          img: null,
-          description: 'goodsId:1 描述信息描述信息描述信息描述信息描述信息描述信息描述信息' +
-              '描述信息描述信息描述信息描述信息描述信息描述信息描述信息',
-          price: 28.0,
-        },
-        {
-          goodsId: 2,
-          goodsName: '商品名称',
-          img: null,
-          description: 'goodsId:2 描述信息描述信息描述信息描述信息描述信息描述信息描述信息' +
-              '描述信息描述信息描述信息描述信息描述信息描述信息描述信息',
-          price: 28.0,
-        },
-        {
-          goodsId: 3,
-          goodsName: '商品名称',
-          img: null,
-          description: 'goodsId:3 描述信息描述信息描述信息描述信息描述信息描述信息描述信息' +
-              '描述信息描述信息描述信息描述信息描述信息描述信息描述信息',
-          price: 28.0,
-        },
-        {
-          goodsId: 4,
-          goodsName: '商品名称',
-          img: null,
-          description: 'goodsId:4 描述信息描述信息描述信息描述信息描述信息描述信息描述信息' +
-              '描述信息描述信息描述信息描述信息描述信息描述信息描述信息',
-          price: 28.0,
-        },
-        {
-          goodsId: 5,
-          goodsName: '商品名称',
-          img: null,
-          description: 'goodsId:5 描述信息描述信息描述信息描述信息描述信息描述信息描述信息' +
-              '描述信息描述信息描述信息描述信息描述信息描述信息描述信息',
-          price: 28.0,
-        },
-        {
-          goodsId: 6,
-          goodsName: '商品名称',
-          img: null,
-          description: 'goodsId:6 描述信息描述信息描述信息描述信息描述信息描述信息描述信息' +
-              '描述信息描述信息描述信息描述信息描述信息描述信息描述信息',
-          price: 28.0,
-        },
+        // {
+        //   goodsId: 1,
+        //   goodsName: '商品名称',
+        //   img: null,
+        //   description: 'goodsId:1 描述信息描述信息描述信息描述信息描述信息描述信息描述信息' +
+        //       '描述信息描述信息描述信息描述信息描述信息描述信息描述信息',
+        //   price: 28.0,
+        // },
+        // {
+        //   goodsId: 2,
+        //   goodsName: '商品名称',
+        //   img: null,
+        //   description: 'goodsId:2 描述信息描述信息描述信息描述信息描述信息描述信息描述信息' +
+        //       '描述信息描述信息描述信息描述信息描述信息描述信息描述信息',
+        //   price: 28.0,
+        // },
+        // {
+        //   goodsId: 3,
+        //   goodsName: '商品名称',
+        //   img: null,
+        //   description: 'goodsId:3 描述信息描述信息描述信息描述信息描述信息描述信息描述信息' +
+        //       '描述信息描述信息描述信息描述信息描述信息描述信息描述信息',
+        //   price: 28.0,
+        // },
+        // {
+        //   goodsId: 4,
+        //   goodsName: '商品名称',
+        //   img: null,
+        //   description: 'goodsId:4 描述信息描述信息描述信息描述信息描述信息描述信息描述信息' +
+        //       '描述信息描述信息描述信息描述信息描述信息描述信息描述信息',
+        //   price: 28.0,
+        // },
+        // {
+        //   goodsId: 5,
+        //   goodsName: '商品名称',
+        //   img: null,
+        //   description: 'goodsId:5 描述信息描述信息描述信息描述信息描述信息描述信息描述信息' +
+        //       '描述信息描述信息描述信息描述信息描述信息描述信息描述信息',
+        //   price: 28.0,
+        // },
+        // {
+        //   goodsId: 6,
+        //   goodsName: '商品名称',
+        //   img: null,
+        //   description: 'goodsId:6 描述信息描述信息描述信息描述信息描述信息描述信息描述信息' +
+        //       '描述信息描述信息描述信息描述信息描述信息描述信息描述信息',
+        //   price: 28.0,
+        // },
       ]
     }
   },
   methods: {
-    checkPriceChange() {
-      this.checkPrice = 0;
-      this.checkId = [];
-      for (let i of this.$refs.order) {
-        if (i.selected) {
-          this.checkPrice += i.totalPrice;
-          this.checkId.push(i.itemData.goodsId);
-        }
-      }
+    select(orderId) {
+      this.selectSet.add(orderId);
     },
-    select(goodsId) {
-      this.selectSet.add(goodsId);
-    },
-    unselect(goodsId) {
-      this.selectSet.delete(goodsId);
-    },
-    check() {
-      alert(this.checkId.toString() + '\n总金额：' + this.checkPrice);
+    unselect(orderId) {
+      this.selectSet.delete(orderId);
     },
     selectAll() {
       if (this.$refs.selectAll.$el.children[0].innerHTML === '全选') {
@@ -139,30 +134,63 @@ export default {
       if (this.selectSet.size === 0) {
         this.$message.warning('请选择要删除的订单！');
       } else {
-        // this.$http
-        //     .get('api', {
-        //       data: Array.from(this.selectSet)
-        //     })
-        //     .then(res => {
-        //
-        //     });
-        for (let i of this.selectSet) {
-          for (let j = 0; j < this.orderList.length; j++) {
-            if (this.orderList[j].goodsId === i) {
-              this.orderList.splice(j, 1);
-            }
-          }
-        }
-        this.$message.success('删除成功！');
+        this.$http
+            .get('api', {
+
+            })
+            .then(res => {
+              if (res.code === 10000) {
+                let newSet = this.selectSet;
+                alert(Array.from(this.selectSet).toString())
+                for (let i of newSet) {
+                  for (let j = 0; j < this.orderList.length; j++) {
+                    if (this.orderList[j].orderId === i) {
+                      this.orderList.splice(j, 1);
+                    }
+                  }
+                  for (let k of this.$refs.order) {
+                    if (k.selected && k.itemData.orderId === i) {
+                      k.select();
+                    }
+                  }
+                }
+                this.$message.success('删除成功！');
+              }
+            });
       }
-    }
+    },
+    getOrders(pageNum, limit) {
+      this.$http
+          .get('/order/list', {
+            userId: 1,
+            pageNum: pageNum,
+            limit: limit
+          })
+          .then(res => {
+            if (res.code === 10000) {
+              this.orderList = [];
+              this.totalOrders = res.data.count;
+              for (let i of res.data.list) {
+                this.orderList.push(i.orderItems[0]);
+              }
+            } else {
+              this.$message.error('未知错误');
+            }
+          });
+    },
+    currentChange(pageNum) {
+      this.getOrders(pageNum, 6);
+    },
+  },
+  created() {
+    this.getOrders(1, 6);
   }
 }
 </script>
 
 <style scoped>
 #container {
-  width: 1350px;
+  width: 1400px;
   margin: 0 10px 100px 300px;
   z-index: 1;
 }

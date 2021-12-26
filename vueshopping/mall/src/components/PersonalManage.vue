@@ -12,7 +12,7 @@
         </el-upload>
       </div>
       <div style="float: left; font-size: 35px; color: #666666; position: relative; top: 65px; left: 20px">
-        {{ form1.nickname }}
+        {{  }}
       </div>
     </div>
     <br>
@@ -100,13 +100,8 @@ export default {
   name: "PersonalManage",
   data() {
     return {
-      form1: {
-        nickname: '',
-        userSex: '',
-        email: '',
-        address: '',
-        phoneNumber: ''
-      },
+      nickname: null,
+      form1: {},
       form2: {
         oldPassword: '',
         newPassword: '',
@@ -123,27 +118,33 @@ export default {
     submitBasicInfo() {
       this.$confirm('确定修改个人资料吗')
           .then(() => {
-            this.$message.success('修改个人资料成功！');
-            // this.$http.get('api', this.form1)
-            // .then(() => {
-            //   this.$message.success('修改成功！');
-            // })
-            // .catch(err => {
-            //   this.$message.success('错误：' + err);
-            // })
-          })
+            this.$http
+                .post('user/updateInfo', this.form1)
+                .then((res) => {
+                  if (res.code === 10000) {
+                    this.getInfo();
+                    this.$message.success('修改成功！');
+                  }
+                });
+          });
     },
     submitPassword() {
       this.$confirm('确定修改密码吗？')
           .then(() => {
-            this.$message.success('修改密码成功！');
-            // this.$http.get('api', this.form2)
-            //     .then(() => {
-            //         this.$message.success('修改密码成功！');
-            //       })
-            //       .catch(err => {
-            //         this.$message.success('错误：' + err);
-            //       });
+            this.$http
+                .post('user/updateInfo', {
+                  userId: this.form1.userId,
+                  password: this.form2.newPassword
+                })
+                .then((res) => {
+                  if (res.code === 10000) {
+                    this.$message.success('修改密码成功，请重新登录！');
+                    setTimeout(() => {
+                      localStorage.clear();
+                      this.$router.replace('/login');
+                    }, 3000);
+                  }
+                });
           })
     },
     registerMembership() {
@@ -159,18 +160,22 @@ export default {
             }
           });
     },
+    getInfo() {
+      this.$http
+          .get('user/info')
+          .then((res) => {
+            if (res.code === 10000) {
+              this.fileList[0].url = res.data.userImg;
+              this.form1 = res.data;
+              this.nickname = res.data.nickname;
+            } else {
+              this.$message.error(res.msg);
+            }
+          });
+    }
   },
   created() {
-    this.$http
-        .get('user/info')
-        .then((res) => {
-          if (res.code === 10000) {
-            this.fileList[0].url = res.data.userImg;
-            this.form1 = res.data;
-          } else {
-            this.$message.error(res.msg);
-          }
-        });
+    this.getInfo();
   },
 }
 </script>
