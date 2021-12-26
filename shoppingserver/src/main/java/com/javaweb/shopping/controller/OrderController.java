@@ -66,7 +66,7 @@ public class OrderController {
     public ResultVO addInstance(String productId, @RequestBody Orders order){
         ResultVO resultVO = null;
         try {
-            Map<String, String> orderInfo = orderService.addOrder(productId, order);
+            Map<String, String> orderInfo = orderService.addInstanceOrder(productId, order);
             if(orderInfo!=null){
                 resultVO = new ResultVO(ResStatus.OK,"提交订单成功！",orderInfo);
             }else{

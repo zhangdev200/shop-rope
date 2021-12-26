@@ -119,6 +119,9 @@ public class OrderServiceImpl implements OrderService {
         criteria.andEqualTo("productStatus",1);//状态为1表示上架商品
         List<Product> products = productMapper.selectByExample(example);
         String untitled = products.get(0).getProductName();//根据productId获取商品名字
+        logger.info("!!!!!!!!!!!!!!!!!!");
+        logger.info(untitled);
+        logger.info("!!!!!!!!!!!!!!!");
         String skuId=productSkuMapper.selectSkusByProductId(productId).get(0).getSkuId();
         Integer stock=productSkuMapper.selectSkusByProductId(productId).get(0).getStock();
         String skuImg=productSkuMapper.selectSkusByProductId(productId).get(0).getSkuImg();
