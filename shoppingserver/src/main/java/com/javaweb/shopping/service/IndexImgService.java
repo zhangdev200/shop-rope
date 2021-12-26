@@ -11,8 +11,8 @@ public interface IndexImgService {
     public ResultVO listIndexImgs();
 
     //删除轮播图
-    @Transactional
-    public ResultVO deleteIndexImg(String imgId);
+    //@Transactional
+    ResultVO deleteIndexImg(String imgId);
 
     ResultVO addIndexPic(String imgUrl);
 

@@ -20,7 +20,6 @@
     <select id="listIndexImgs" resultMap="BaseResultMap">
     select *
     from index_img
-    where status=1
     order by seq
   </select>
 
