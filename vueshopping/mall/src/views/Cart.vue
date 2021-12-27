@@ -104,6 +104,8 @@ export default {
           .then(res => {
             if (res.code === 10000) {
               this.$message.success('结算成功！')
+              this.selectCartIdSet.clear();
+              this.checkPrice = 0;
               this.getCarts();
             }
             else {

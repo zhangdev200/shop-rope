@@ -190,12 +190,13 @@ export default {
           .post(this.dialogType === 1 ? '/shop/updateproduct' : '/shop/addproduct', obj)
           .then(res => {
             if (res.code === 10000) {
-              this.$message.success('操作成功');
+              this.$message.success('图片上传成功');
               this.getGoodsList();
             } else {
-              this.$message.error('未知错误')
+              this.$message.error('图片上传失败')
             }
           });
+      this.$refs.upload.submit();
       this.dialogFormVisible = false;
     },
     getGoodsList() {

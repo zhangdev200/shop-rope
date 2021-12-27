@@ -69,8 +69,8 @@ export default {
           .get('user/listUsers')
           .then(res => {
             if (res.code === 10000) {
+              this.tableData = [];
               for (let i of res.data) {
-                this.tableData = [];
                 this.tableData.push({
                   userId: i.userId,
                   username: i.username,
