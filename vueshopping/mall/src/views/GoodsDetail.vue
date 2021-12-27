@@ -95,6 +95,15 @@ export default {
         this.$message.warning('请先登录！');
         return;
       }
+      if (!JSON.parse(localStorage.getItem('userInform')).realname ||
+          !JSON.parse(localStorage.getItem('userInform')).userMobile ||
+          !JSON.parse(localStorage.getItem('userInform')).userAddress) {
+        this.$message.warning('请完善个人信息！');
+        setTimeout(() => {
+          this.$router.push('/personal/personal');
+        }, 2500);
+        return;
+      }
       this.$http
           .post('/order/addInstance?productId=' + this.$route.params.id, {
             userId: JSON.parse(localStorage.getItem('userInform')).userId,
