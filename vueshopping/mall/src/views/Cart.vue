@@ -85,6 +85,15 @@ export default {
       this.selectCartIdSet.delete(cartId);
     },
     check() {
+      if (!JSON.parse(localStorage.getItem('userInform')).realname ||
+          !JSON.parse(localStorage.getItem('userInform')).userMobile ||
+        !JSON.parse(localStorage.getItem('userInform')).userAddress) {
+        this.$message.warning('请完善个人信息！');
+        setTimeout(() => {
+          this.$router.push('/personal/personal');
+        }, 2500);
+        return;
+      }
       if (this.selectCartIdSet.size === 0) {
         this.$message.warning('请先选择商品！');
         return;
