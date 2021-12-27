@@ -143,11 +143,13 @@ public class ShopServicelmpl implements ShopService {
             criteria.andEqualTo("productId",product.getProductId());//状态为1表示上架商品
             productMapper.updateByExampleSelective(product,example);
 
+
+            //先删除原有套餐信息
+            Example example1 = new Example(ProductSku.class);
+            Example.Criteria criteria1 = example1.createCriteria();
+            criteria1.andEqualTo("productId",product.getProductId());//状态为1表示上架商品
+            productSkuMapper.deleteByExample(example);
             if(productVO.getSkus()!=null){
-                Example example1 = new Example(ProductSku.class);
-                Example.Criteria criteria1 = example1.createCriteria();
-                criteria1.andEqualTo("productId",product.getProductId());//状态为1表示上架商品
-                productSkuMapper.deleteByExample(example);
                 for(ProductSku productSku: productVO.getSkus()){
                     if(productSku.getSkuId()==null){
                         productSku.setSkuId(IDUtils.getId());
@@ -157,19 +159,21 @@ public class ShopServicelmpl implements ShopService {
 
                 }
             }
-//            if(productVO.getImgs()!=null){
-//                Example example2 = new Example(ProductImg.class);
-//                Example.Criteria criteria2 = example2.createCriteria();
-//                criteria2.andEqualTo("itemId",product.getProductId());//状态为1表示上架商品
-//                productImgMapper.deleteByExample(example2);
-//                for(ProductImg productImg: productVO.getImgs()){
-//                    if(productImg.getId()==null){
-//                        productImg.setId(IDUtils.getId());
-//                    }
-//                    productImg.setItemId(productVO.getProductId());
-//                    productImgMapper.insert(productImg);
-//                }
-//            }
+
+            //先删除原有图片表中的信息
+            Example example2 = new Example(ProductImg.class);
+            Example.Criteria criteria2 = example2.createCriteria();
+            criteria2.andEqualTo("itemId",product.getProductId());//状态为1表示上架商品
+            productImgMapper.deleteByExample(example2);
+            if(productVO.getImgs()!=null){
+                for(ProductImg productImg: productVO.getImgs()){
+                    if(productImg.getId()==null){
+                        productImg.setId(IDUtils.getId());
+                    }
+                    productImg.setItemId(productVO.getProductId());
+                    productImgMapper.insert(productImg);
+                }
+            }
             return new ResultVO(ResStatus.OK,"success",productVO.getProductId());
         }catch (Exception e){
             e.printStackTrace();
