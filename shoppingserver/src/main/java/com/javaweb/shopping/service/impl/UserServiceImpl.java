@@ -3,6 +3,7 @@ package com.javaweb.shopping.service.impl;
 import com.javaweb.shopping.entity.User;
 import com.javaweb.shopping.mapper.UserMapper;
 import com.javaweb.shopping.service.UserService;
+import com.javaweb.shopping.utils.MD5Utils;
 import com.javaweb.shopping.vo.ResStatus;
 import com.javaweb.shopping.vo.ResultVO;
 import io.jsonwebtoken.JwtBuilder;
@@ -44,7 +45,7 @@ public class UserServiceImpl implements UserService {
                 user.setAdmin(false);
                 user.setShopKeeper(false);
                 user.setVIP(false);
-                user.setPassword(pwd);
+                user.setPassword(MD5Utils.md5(pwd));
                 int i = userMapper.insertUseGeneratedKeys(user);
                 if (i > 0) {
                     return new ResultVO(ResStatus.OK, "注册成功！", user);
@@ -84,7 +85,7 @@ public class UserServiceImpl implements UserService {
         if (users.size()==0){
             return new ResultVO(ResStatus.NO,"登录失败，用户名不存在！",null);
         }else{
-            if(pwd.equals(users.get(0).getPassword())){
+            if(MD5Utils.md5(pwd).equals(users.get(0).getPassword())){
                 //如果登录验证成功，则需要生成令牌token（token就是按照特定规则生成的字符串）
                 //使用jwt规则生成token字符串
                 JwtBuilder builder = Jwts.builder();
@@ -130,6 +131,9 @@ public class UserServiceImpl implements UserService {
         Example example = new Example(User.class);
         Example.Criteria criteria = example.createCriteria();
         criteria.andEqualTo("userId",user.getUserId());
+        if(user.getPassword()!=null){
+            user.setPassword(MD5Utils.md5(user.getPassword()));
+        }
         userMapper.updateByExampleSelective(user,example);
         if (userMapper.updateByExampleSelective(user, example) == 1) {
             return new ResultVO(ResStatus.OK, "success", null);

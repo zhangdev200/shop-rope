@@ -4,6 +4,7 @@ import com.javaweb.shopping.ShoppingApplication;
 import com.javaweb.shopping.entity.Category;
 import com.javaweb.shopping.entity.CategoryVO;
 import com.javaweb.shopping.mapper.CategoryMapper;
+import com.javaweb.shopping.utils.MD5Utils;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,6 +20,8 @@ public class CategoryTest {
     private CategoryMapper categoryMapper;
     @Test
     public void test(){
+        System.out.println(MD5Utils.md5("123456"));
+        System.out.println(MD5Utils.md5("admin"));
       /*  CategoryVO categoryVO=new CategoryVO();
         categoryVO.setCategoryId(52);
         categoryVO.setCategoryName("hqf");
@@ -37,8 +40,8 @@ public class CategoryTest {
                category_slogan,
                category_pic,
                category_bg_color*/
-        List<CategoryVO> categories = categoryMapper.selectFirstLevelCategories();
-        System.out.println(categories.size());
+//        List<CategoryVO> categories = categoryMapper.selectFirstLevelCategories();
+//        System.out.println(categories.size());
 
 
     }
