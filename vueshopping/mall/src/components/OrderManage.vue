@@ -7,7 +7,7 @@
       <OrderItem
           v-for="i in orderList"
           :item="i"
-          :key="i.itemId"
+          :key="i.orderId"
           ref="order"
           @select="select"
           @unselect="unselect">
