@@ -2,8 +2,11 @@ spring:
   datasource:
     username: javaweb
     password: 123456
-    url: jdbc:mysql://121.40.110.36:3306/db?useUnicode=true&characterEncoding=utf-8
+    url: jdbc:mysql://121.40.110.36:3306/db?useUnicode=true&characterEncoding=utf-8&serverTimezone=GMT%2b8
     driver-class-name: com.mysql.cj.jdbc.Driver
+  jackson:
+    data-format: yyyy-MM-dd HH:mm:ss
+    time-zone: GMT+8
 
 hikari:
   minimum-idle=3
@@ -14,3 +17,4 @@ hikari:
 mybatis:
   mapper-locations: classpath:mapper/*Mapper.xml
   type-aliases-package: com.javaweb.shopping.entity
+
