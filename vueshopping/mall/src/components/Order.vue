@@ -19,10 +19,12 @@
         </div>
       </el-col>
       <el-col :span="6">
-        <span class="price">￥{{ item.productPrice }}</span>
-        <div style="position: absolute; right: 20px; border-radius: 10px">
-          <el-button type="primary" round @click="dialogVisible = true; form.textarea = ''">评价</el-button>
-          <el-button type="primary" round @click="showDetail()">再次购买</el-button>
+        <div style="position: relative; top: 8px">
+          <span class="price">￥{{ item.productPrice }}</span>
+          <div style="position: absolute; right: 20px; border-radius: 10px">
+            <el-button type="primary" round @click="dialogVisible = true; form.textarea = ''">评价</el-button>
+            <el-button type="primary" round @click="showDetail()">再次购买</el-button>
+          </div>
         </div>
       </el-col>
     </el-row>
@@ -104,6 +106,7 @@ export default {
 <style scoped>
 .price {
   position: absolute;
+  top: -3px;
   right: 240px;
   font-size: 35px;
   font-weight: bold;
