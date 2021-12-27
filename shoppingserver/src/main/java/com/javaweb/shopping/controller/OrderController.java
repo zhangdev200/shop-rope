@@ -26,6 +26,18 @@ public class OrderController {
     @Autowired
     private OrderService orderService;
 
+    @GetMapping("/updatestatus")
+    public ResultVO updateOrderStatus(String orderId, String status){
+        int i=orderService.updateOrderStatus(orderId,status);
+        if(i==1){
+            return new ResultVO(ResStatus.OK,"success",null);
+        }else if(i==0){
+            return new ResultVO(ResStatus.NO,"找不到订单",null);
+        }else{
+            return new ResultVO(ResStatus.NO,"有多个目标订单",null);
+        }
+    }
+
     @PostMapping("/add")
     public ResultVO add(String cids, @RequestBody Orders order){
         ResultVO resultVO = null;
