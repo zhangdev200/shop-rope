@@ -154,7 +154,17 @@ export default {
       }
     },
     deleteGoods(a) {
-      alert(a);
+      this.$http
+      .get('/shop/deleteproduct', {
+        productId: a,
+      })
+      .then(res => {
+        if (res.code === 10000) {
+          this.$message.success('删除成功')
+        } else {
+          this.$message.success('未知错误')
+        }
+      })
     },
     closeDialog() {
       this.form = {

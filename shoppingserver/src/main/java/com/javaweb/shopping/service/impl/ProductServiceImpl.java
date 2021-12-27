@@ -41,7 +41,6 @@ public class ProductServiceImpl  implements ProductService {
         Example example = new Example(Product.class);
         Example.Criteria criteria = example.createCriteria();
         criteria.andEqualTo("productId",productId);
-        criteria.andEqualTo("productStatus",1);//状态为1表示上架商品
         List<Product> products = productMapper.selectByExample(example);
         if(products.size()>0){
             //2.商品图片

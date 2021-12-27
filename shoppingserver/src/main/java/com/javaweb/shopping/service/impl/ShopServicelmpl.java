@@ -91,7 +91,7 @@ public class ShopServicelmpl implements ShopService {
     @Override
     public ResultVO addProduct(ProductVO productVO) {
         try{
-            productVO.setProductStatus(0);
+            productVO.setProductStatus(1);
             if(productVO.getProductId()==null){
                 productVO.setProductId(String.valueOf(IDUtils.getId()));
             }
