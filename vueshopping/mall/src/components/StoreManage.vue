@@ -190,13 +190,13 @@ export default {
           .post(this.dialogType === 1 ? '/shop/updateproduct' : '/shop/addproduct', obj)
           .then(res => {
             if (res.code === 10000) {
-              this.$message.success('图片上传成功');
-              this.getGoodsList();
+              this.$message.success('操作成功');
+              this.$refs.upload.submit();
             } else {
-              this.$message.error('图片上传失败')
+              this.$message.error('未知错误')
             }
           });
-      this.$refs.upload.submit();
+
       this.dialogFormVisible = false;
     },
     getGoodsList() {
@@ -244,7 +244,8 @@ export default {
       this.$http.post('file/productimg', fd)
           .then(res => {
             if (res.code === 10000) {
-              this.$message.success('操作成功！');
+              this.$message.success('上传图片成功！');
+              this.getGoodsList();
             } else {
               this.$message.error(res.msg);
             }
