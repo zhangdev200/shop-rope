@@ -52,6 +52,8 @@ export default {
               this.categoryList.push(item.categoryName);
               this.goodsData.set(item.categoryName, item.products);
             }
+          } else if (res.msg === 'fail') {
+            this.$message.info('轮播图为空');
           } else {
             this.$message.error('未知错误');
           }
