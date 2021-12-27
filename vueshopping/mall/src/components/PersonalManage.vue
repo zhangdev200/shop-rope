@@ -5,7 +5,8 @@
         <el-upload
             style="width: 100px"
             class="upload-demo"
-            action="https://jsonplaceholder.typicode.com/posts/"
+            action=""
+            :before-upload="beforeUpload"
             :show-file-list="false"
             :file-list="fileList">
           <el-avatar :size="100" :src="fileList[0].url"></el-avatar>
@@ -67,7 +68,8 @@
                   <el-input v-model="form2.newPasswordConfirm"></el-input>
                 </el-form-item>
                 <el-form-item>
-                  <el-button type="primary" round style="float: right; width: 100px" @click="submitPassword">修改</el-button>
+                  <el-button type="primary" round style="float: right; width: 100px" @click="submitPassword">修改
+                  </el-button>
                 </el-form-item>
               </el-col>
             </el-row>
@@ -96,7 +98,7 @@
             </el-button>
           </div>
           <div v-else>
-            <el-button type="text" style="font-size: 20px">
+            <el-button type="text" @click="openShop()" style="font-size: 20px">
               立即申请开店
             </el-button>
           </div>
@@ -114,6 +116,33 @@
         <el-button type="primary" @click="registerMembership">确 定</el-button>
       </span>
     </el-dialog>
+    <el-dialog
+        title="申请开店"
+        :visible.sync="dialogVisible2"
+        width="30%"
+        :lock-scroll="false">
+      <el-form :model="form">
+        <el-form-item label="店铺名称">
+          <el-input
+              v-model="form.shopName">
+          </el-input>
+        </el-form-item>
+        <el-form-item label="店铺描述">
+          <el-input
+              v-model="form.shopDescription">
+          </el-input>
+        </el-form-item>
+        <el-form-item label="开店人姓名">
+          <el-input
+              v-model="form.shopKeeperName">
+          </el-input>
+        </el-form-item>
+      </el-form>
+      <span slot="footer" class="dialog-footer">
+          <el-button @click="dialogVisible2 = false">取 消</el-button>
+          <el-button type="primary" @click="confirm">确 定</el-button>
+        </span>
+    </el-dialog>
   </div>
 </template>
 
@@ -129,12 +158,19 @@ export default {
         newPassword: '',
         newPasswordConfirm: '',
       },
+      form:{
+        shopName: '',
+        shopDescription: '',
+        shopKeeperName: '',
+      },
       activeName: 'first',
       fileList: [{url: ''}],
+      applied: false,
       isMembership: true,
       isStoreOwner: true,
       isAdministrator: true,
       dialogVisible: false,
+      dialogVisible2: false,
     }
   },
   methods: {
@@ -189,6 +225,41 @@ export default {
               this.form1.vip = true;
             }
           });
+    },
+    openShop() {
+      if (localStorage.getItem('applied') === 'true') {
+        this.$message.warning('请不要重复申请！');
+        return;
+      }
+      this.dialogVisible2 = true;
+    },
+    confirm() {
+      this.$http
+          .post('/shop/add', this.form)
+          .then(res => {
+            if (res.code === 10000) {
+              this.applied = true;
+              localStorage.setItem('applied', 'true');
+              this.$message.success('申请成功，请等待管理员审核！')
+            } else {
+              this.$message.error(res.msg);
+            }
+            this.dialogVisible2 = false;
+          });
+    },
+    beforeUpload(file) {
+      let fd = new FormData();
+      fd.append('file', file);
+      fd.append('productId', JSON.parse(localStorage.getItem('userInform')).userId);
+      this.$http.post('file/userimg', fd)
+          .then(res => {
+            if (res.code === 10000) {
+              this.$message.success('操作成功！');
+            } else {
+              this.$message.error(res.msg);
+            }
+          });
+      return false;
     },
     getInfo() {
       this.$http

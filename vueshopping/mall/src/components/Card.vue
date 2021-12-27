@@ -21,13 +21,7 @@ export default {
   props: ['data'],
   data() {
     return {
-      goodsData: {
-        goodsId: null,
-        goodsName: '',
-        img: null,
-        description: '',
-        price: null
-      },
+      goodsData: {},
     }
   },
   methods: {

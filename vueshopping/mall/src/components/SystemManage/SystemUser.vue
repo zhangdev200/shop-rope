@@ -10,18 +10,21 @@
       <el-table-column label="店主" sortable prop="shopKeeper" width="180" align="center">
         <template slot-scope="scope">
           <div slot="reference" class="name-wrapper">
-            <el-tag size="medium" :type="scope.row.shopKeeper === '是' ? '':'danger'">{{ scope.row.shopKeeper }}</el-tag>
+            <el-tag size="medium" :type="scope.row.shopKeeper === '是' ? '':'danger'">
+              {{ scope.row.shopKeeper }}
+            </el-tag>
           </div>
         </template>
       </el-table-column>
       <el-table-column label="会员" sortable prop="vip" width="180" align="center">
         <template slot-scope="scope">
           <div slot="reference" class="name-wrapper">
-            <el-tag size="medium" :type="scope.row.vip === '是' ? '':'danger'">{{ scope.row.vip }}</el-tag>
+            <el-tag size="medium" :type="scope.row.vip === '是' ? '':'danger'">
+              {{ scope.row.vip }}
+            </el-tag>
           </div>
         </template>
       </el-table-column>
-
       <el-table-column label="操作" width="200" align="center">
         <template slot-scope="scope">
           <el-popconfirm title="确定删除吗？" @confirm="deleteUser(scope.row.userId)">
@@ -66,8 +69,8 @@ export default {
           .get('user/listUsers')
           .then(res => {
             if (res.code === 10000) {
-              // alert(res.data[0].vip)
               for (let i of res.data) {
+                this.tableData = [];
                 this.tableData.push({
                   userId: i.userId,
                   username: i.username,

@@ -2,13 +2,8 @@
   <div style="position: relative; left: 250px; width: 84%;">
     <div v-if="storeStatus === 1">
       <h4 style="text-align: left;">商品管理</h4>
-      <div style="height: 30px">
-        <el-button
-            type="primary" round @click="add"
-            style="float: left; margin-bottom: 20px">
-          添加商品
-        </el-button>
-      </div>
+      <p style="font-size: 18px; margin-right: 30px">{{ this.storeName }}</p>
+
       <el-table :data="singlePageOrdersList"
                 style="width: 100%; font-size: 16px; border-radius: 10px;box-shadow: 0 2px 12px 0 rgba(0, 0, 0, 0.3);"
                 border stripe empty-text="暂无数据">
@@ -28,32 +23,33 @@
           </template>
         </el-table-column>
         <el-table-column label="描述" prop="description" width="500"></el-table-column>
-        <el-table-column label="操作" width="200">
+        <el-table-column label="操作" width="200" align="center">
           <template slot-scope="scope">
             <el-button type="success" round @click="modify(scope.row.goodsId)">编辑</el-button>
             <el-popconfirm title="确定删除吗？" @confirm="deleteGoods(scope.row.goodsId)">
-              <el-button type="danger" round slot="reference">删除</el-button>
+              <el-button style="margin-left: 15px" type="danger" round slot="reference">删除</el-button>
             </el-popconfirm>
           </template>
         </el-table-column>
       </el-table>
-      <br>
-      <el-pagination
-          background
-          layout="total, prev, pager, next, jumper"
-          @current-change="currentChange"
-          :page-size="pageSize"
-          :total="totalOrders">
-      </el-pagination>
-      <br>
-      <div style="text-align: left; margin-top: 25px">
-        <el-form label-width="90px">
-          <el-form-item label="店铺名称" class="form1">
-            <span style="font-size: 18px; margin-right: 30px">{{ this.storeName }}</span>
-            <el-button type="primary" round>修改</el-button>
-          </el-form-item>
-        </el-form>
+      <br><br>
+      <div style="display: inline-block; float: right">
+        <el-button
+            type="primary" round @click="add"
+            style="float: left; margin-bottom: 20px">
+          添加商品
+        </el-button>
       </div>
+      <div style="display: inline-block">
+        <el-pagination
+            background
+            layout="total, prev, pager, next, jumper"
+            @current-change="currentChange"
+            :page-size="pageSize"
+            :total="totalOrders">
+        </el-pagination>
+      </div>
+      <br>
       <el-dialog :visible.sync="dialogFormVisible" @close="closeDialog">
         <el-form :model="form" style="text-align: left">
           <el-form-item label="商品名称" :label-width="formLabelWidth">
@@ -73,7 +69,8 @@
                 style="width: 300px"
                 class="upload-demo"
                 ref="upload"
-                action="https://jsonplaceholder.typicode.com/posts/"
+                action=""
+                :before-upload="beforeUpload"
                 :limit="1"
                 list-type="picture"
                 :auto-upload="false">
@@ -238,7 +235,21 @@ export default {
       this.currentPage = pageNum;
       let start = (pageNum - 1) * this.pageSize;
       this.singlePageOrdersList = this.tableData.slice(start, start + this.pageSize);
-    }
+    },
+    beforeUpload(file) {
+      let fd = new FormData();
+      fd.append('file', file);
+      fd.append('productId', this.selectedGoodsId);
+      this.$http.post('file/productimg', fd)
+          .then(res => {
+            if (res.code === 10000) {
+              this.$message.success('操作成功！');
+            } else {
+              this.$message.error(res.msg);
+            }
+          });
+      return false;
+    },
   },
   created() {
     this.$http

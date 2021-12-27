@@ -13,7 +13,7 @@
           <p style="color: #666666; position: absolute; bottom: 12px">
             <i class="el-icon-s-shop" style="font-size: 25px"></i>
             {{ detail.storeName }}
-            <el-button type="text" style="padding: 0; font-size: 18px"> 进店逛逛>></el-button>
+            <el-button type="text" style="padding: 0; font-size: 18px" @click="enterShop"> 进店逛逛>></el-button>
           </p>
           <br>
         </div>
@@ -111,6 +111,9 @@ export default {
             }
           });
     },
+    enterShop() {
+      this.$router.push('/shop/' + this.detail.storeId);
+    },
     getCommentByPage(pageNum, limit) {
       this.$http
           .get('/product/detail-comments/' + this.$route.params.id, {
@@ -148,13 +151,13 @@ export default {
           if (res.code === 10000) {
             this.detail = {
               goodsName: res.data.product.productName,
-              img: res.data.productImgs && res.data.productImgs.length !== 0 ?
+              img: res.data.productImgs && res.data.productImgs.length ?
                   res.data.productImgs[0].url :
                   '//iconfont.alicdn.com/s/210a299f-edad-4fc5-8396-9f743633f209_origin.svg',
               storeId: res.data.product.shopID,
               description: res.data.product.content,
-              price: res.data.productSkus && res.data.productSkus.length !== 0 ? res.data.productSkus[0].sellPrice : null,
-              skuId: res.data.productSkus && res.data.productSkus.length !== 0 ? res.data.productSkus[0].skuId : null,
+              price: res.data.productSkus && res.data.productSkus.length ? res.data.productSkus[0].sellPrice : null,
+              skuId: res.data.productSkus && res.data.productSkus.length ? res.data.productSkus[0].skuId : null,
             }
             this.getCommentByPage(1, 5);
           }

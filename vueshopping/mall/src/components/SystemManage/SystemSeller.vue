@@ -69,7 +69,7 @@ export default {
         this.$message.error('管理员店铺，无法删除')
       } else {
         this.$http
-            .post('/shop/deleteshop?shopID=' + shopID)
+            .post('/shop/delete?shopID=' + shopID)
             .then(res => {
               if (res.code === 10000) {
                 this.getShops();

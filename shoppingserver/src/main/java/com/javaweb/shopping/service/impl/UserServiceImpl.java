@@ -16,6 +16,7 @@ import tk.mybatis.mapper.entity.Example;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
+import java.util.UUID;
 
 //用户注册的实现与登入检测的实现
 @Service
@@ -38,7 +39,11 @@ public class UserServiceImpl implements UserService {
             if (users.size()==0){
                 User user = new User();
                 user.setUsername(name);
+                user.setNickname("user" + UUID.randomUUID().toString().replace("-", "").substring(0, 10));
                 user.setUserImg("img/default.png");
+                user.setAdmin(false);
+                user.setShopKeeper(false);
+                user.setVIP(false);
                 user.setPassword(pwd);
                 int i = userMapper.insertUseGeneratedKeys(user);
                 if (i > 0) {
