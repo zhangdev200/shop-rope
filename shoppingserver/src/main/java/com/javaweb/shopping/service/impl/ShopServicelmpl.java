@@ -157,19 +157,19 @@ public class ShopServicelmpl implements ShopService {
 
                 }
             }
-            if(productVO.getImgs()!=null){
-                Example example2 = new Example(ProductImg.class);
-                Example.Criteria criteria2 = example2.createCriteria();
-                criteria2.andEqualTo("itemId",product.getProductId());//状态为1表示上架商品
-                productImgMapper.deleteByExample(example2);
-                for(ProductImg productImg: productVO.getImgs()){
-                    if(productImg.getId()==null){
-                        productImg.setId(IDUtils.getId());
-                    }
-                    productImg.setItemId(productVO.getProductId());
-                    productImgMapper.insert(productImg);
-                }
-            }
+//            if(productVO.getImgs()!=null){
+//                Example example2 = new Example(ProductImg.class);
+//                Example.Criteria criteria2 = example2.createCriteria();
+//                criteria2.andEqualTo("itemId",product.getProductId());//状态为1表示上架商品
+//                productImgMapper.deleteByExample(example2);
+//                for(ProductImg productImg: productVO.getImgs()){
+//                    if(productImg.getId()==null){
+//                        productImg.setId(IDUtils.getId());
+//                    }
+//                    productImg.setItemId(productVO.getProductId());
+//                    productImgMapper.insert(productImg);
+//                }
+//            }
             return new ResultVO(ResStatus.OK,"success",productVO.getProductId());
         }catch (Exception e){
             e.printStackTrace();
