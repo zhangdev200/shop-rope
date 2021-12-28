@@ -47,7 +47,7 @@ public interface ShopMapper  extends GeneralDAO<Shop> {
     void updateShopKeeperToUser(int ID);
 
     /*通过shop_id 删除商店表里该用户的店铺，修改shop表*/
-    void deleteShop(String ID,String userId);
+    void deleteShop(String ID);
 
     /*根据用户id获取该用户的所有商店id*/
     String [] getShopIdByUserID(int userID);

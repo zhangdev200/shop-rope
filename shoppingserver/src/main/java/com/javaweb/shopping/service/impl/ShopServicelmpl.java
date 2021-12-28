@@ -315,13 +315,14 @@ public class ShopServicelmpl implements ShopService {
                 }
                 Example example = new Example(Shop.class);
                 Example.Criteria criteria1 = example.createCriteria();
-                criteria1.andEqualTo("shopId",ID);
+                criteria1.andEqualTo("shopID",ID);
                 List<Shop> shop = shopMapper.selectByExample(example);
                 String shopKeeperId = shop.get(0).getShopKeeperID();
-                shopMapper.deleteShop(ID,shopKeeperId);
+                shopMapper.deleteShop(ID);
                 shopMapper.updateShopKeeperToUser(Integer.parseInt(shopKeeperId));
                 return new ResultVO(ResStatus.OK,"success",null);
             }catch (Exception e){
+                e.printStackTrace();
                 return new ResultVO(ResStatus.NO,"数据库层删除失败！",null);
             }
         }
