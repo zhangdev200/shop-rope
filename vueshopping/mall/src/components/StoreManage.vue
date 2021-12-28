@@ -100,7 +100,7 @@
       </el-dialog>
     </div>
     <div v-else>
-      <p style="margin-top: 38vh">您已成功申请开店，请等待管理员审核！</p>
+      <p style="margin-top: 38vh">您还没有店铺哦</p>
     </div>
   </div>
 </template>
