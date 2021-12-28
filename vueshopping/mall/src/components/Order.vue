@@ -14,13 +14,14 @@
       <el-col :span="6">
         <div style="text-align: left; padding: 0 20px; font-size: 16px">
           <p style="word-wrap: break-word">
-            下单时间：{{item.buyTime.substring(0, 19).replace('T' , '&nbsp;&nbsp;')}}
+            下单时间：{{ item.buyTime.substring(0, 19).replace('T', '&nbsp;&nbsp;') }}
           </p>
         </div>
       </el-col>
       <el-col :span="6">
         <div style="position: relative; top: 8px">
-          <span class="price">￥{{ item.productPrice }}</span>
+          <span class="price" style="display: inline">￥{{ item.productPrice }}</span>
+          <span style="display: inline"> × {{ item.buyCounts }}</span>
           <div style="position: absolute; right: 20px; border-radius: 10px">
             <el-button type="primary" round @click="dialogVisible = true; form.textarea = ''">评价</el-button>
             <el-button type="primary" round @click="showDetail()">再次购买</el-button>

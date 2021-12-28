@@ -162,7 +162,7 @@ export default {
         if (res.code === 10000) {
           this.$message.success('删除成功')
         } else {
-          this.$message.success('未知错误')
+          this.$message.error('未知错误')
         }
       })
     },

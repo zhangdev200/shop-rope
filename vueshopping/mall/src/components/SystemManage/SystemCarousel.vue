@@ -91,6 +91,7 @@ export default {
       this.$http.post('file/indexImg', fd)
           .then(res => {
             if (res.code === 10000) {
+              this.getData();
               this.$message.success('操作成功！');
             } else {
               this.$message.error(res.msg);
@@ -102,15 +103,20 @@ export default {
       this.$refs.upload.submit();
       this.dialogFormVisible = false;
     },
+    getData() {
+      this.$http
+          .get('/index/indeximg')
+          .then(res => {
+            if (res.code === 10000) {
+              this.tableData = res.data;
+            } else {
+              this.$message.error('未知错误')
+            }
+          });
+    }
   },
   created() {
-    this.$http
-        .get('/index/indeximg')
-        .then(res => {
-          if (res.code === 10000) {
-            this.tableData = res.data;
-          }
-        });
+    this.getData();
   }
 
 }

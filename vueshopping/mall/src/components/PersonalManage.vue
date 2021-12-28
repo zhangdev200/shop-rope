@@ -92,15 +92,22 @@
       </el-tab-pane>
       <el-tab-pane label="申请开店" name="fourth">
         <div class="card">
-          <div v-if="isStoreOwner">
-            <el-button type="text" style="font-size: 20px" @click="$router.replace('/personal/store')">
-              你已经是店主了，快去管理你的店铺吧>>
+          <div v-if="!isStoreOwner">
+            <el-button type="text" style="font-size: 20px" @click="openShop">
+              立即申请开店
             </el-button>
           </div>
           <div v-else>
-            <el-button type="text" @click="openShop()" style="font-size: 20px">
-              立即申请开店
-            </el-button>
+            <div v-if="shopStatus === 1">
+              <el-button type="text" style="font-size: 20px" @click="$router.replace('/personal/store')">
+                你已经是店主了，快去管理你的店铺吧>>
+              </el-button>
+            </div>
+            <div v-else>
+              <el-button type="text" style="font-size: 20px">
+                你已成功申请开店，请等待管理员审核！
+              </el-button>
+            </div>
           </div>
         </div>
       </el-tab-pane>
@@ -158,7 +165,7 @@ export default {
         newPassword: '',
         newPasswordConfirm: '',
       },
-      form:{
+      form: {
         shopName: '',
         shopDescription: '',
         shopKeeperName: '',
@@ -168,6 +175,7 @@ export default {
       applied: false,
       isMembership: true,
       isStoreOwner: true,
+      shopStatus: 0,
       isAdministrator: true,
       dialogVisible: false,
       dialogVisible2: false,
@@ -209,6 +217,8 @@ export default {
                       localStorage.clear();
                       this.$router.replace('/login');
                     }, 3000);
+                  } else {
+                    this.$message.error(res.msg);
                   }
                 });
           })
@@ -227,10 +237,6 @@ export default {
           });
     },
     openShop() {
-      if (localStorage.getItem('applied') === 'true') {
-        this.$message.warning('请不要重复申请！');
-        return;
-      }
       this.dialogVisible2 = true;
     },
     confirm() {
@@ -238,9 +244,8 @@ export default {
           .post('/shop/add', this.form)
           .then(res => {
             if (res.code === 10000) {
-              this.applied = true;
-              localStorage.setItem('applied', 'true');
-              this.$message.success('申请成功，请等待管理员审核！')
+              this.$message.success(res.msg);
+              this.getInfo();
             } else {
               this.$message.error(res.msg);
             }
@@ -271,6 +276,19 @@ export default {
               this.form1 = res.data;
               this.nickname = res.data.nickname;
               this.isStoreOwner = res.data.shopKeeper;
+              if (this.isStoreOwner) {
+                this.$http
+                    .get('/shop/listshopsbyuserid', {
+                      userId: JSON.parse(localStorage.getItem('userInform')).userId
+                    })
+                    .then(res1 => {
+                      if (res1.code === 10000) {
+                        this.shopStatus = res1.data[0].status;
+                      } else {
+                        this.$message.error('获取店铺状态失败')
+                      }
+                    })
+              }
             } else {
               this.$message.error(res.msg);
             }

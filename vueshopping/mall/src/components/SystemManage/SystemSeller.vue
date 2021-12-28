@@ -25,19 +25,13 @@
           <el-table-column label="店铺描述" prop="shopDescription"></el-table-column>
           <el-table-column label="操作" width="200" align="center">
             <template slot-scope="scope">
-              <el-button type="danger" round @click="reject(scope.row.shopID)">删除</el-button>
+
+              <el-button type="danger" round @click="deleteShop(scope.row.shopID)">删除</el-button>
             </template>
           </el-table-column>
         </el-table>
       </el-tab-pane>
     </el-tabs>
-<!--    <div v-show="activeName === 'first'">-->
-<!--      -->
-<!--    </div>-->
-<!--    <div v-show="activeName === 'second'">-->
-<!--      -->
-<!--    </div>-->
-
   </div>
 </template>
 
@@ -79,6 +73,12 @@ export default {
               }
             });
       }
+    },
+    deleteShop(shopID) {
+      this.$confirm('确定删除店铺吗？店铺的商品也会被删除！')
+      .then(() => {
+        this.reject(shopID);
+      });
     },
     getShops() {
       this.$http

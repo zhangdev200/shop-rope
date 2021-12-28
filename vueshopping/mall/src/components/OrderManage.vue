@@ -12,7 +12,7 @@
           @select="select"
           @unselect="unselect">
       </OrderItem>
-      <div style="position: fixed; bottom: 100px; left: 43%">
+      <div style="position: fixed; bottom: 100px; left: 50%; transform: translateX(-50%)">
         <el-pagination
             ref="page"
             background
@@ -160,7 +160,7 @@ export default {
 .bottomBar {
   position: fixed;
   bottom: 0;
-  width: 1920px;
+  width: 100%;
   height: 60px;
   background-color: rgba(217, 217, 217, 1);
   z-index: 10;

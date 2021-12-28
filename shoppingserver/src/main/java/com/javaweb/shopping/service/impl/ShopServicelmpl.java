@@ -249,15 +249,22 @@ public class ShopServicelmpl implements ShopService {
     public ResultVO addShop(Shop shop,String userId) {
         synchronized (this){
             try{
-                if(shop.getShopID()==null){
+                Example example = new Example(Shop.class);
+                Example.Criteria criteria1 = example.createCriteria();
+                criteria1.andEqualTo("shopKeeperID",userId);
+                List<Shop> result = shopMapper.selectByExample(example);
+                if (result.size() == 0) {
                     shop.setShopID(String.valueOf(IDUtils.getId()));
+                    //状态设为0表示管理员还未审核同意
+                    shop.setStatus(0);
+                    shop.setShopKeeperID(userId);
+                    shopMapper.addShop(shop);
+                    shopMapper.updateUserToShopKeeper(Integer.parseInt(userId));
+                    return new ResultVO(ResStatus.OK,"申请成功，请等待管理员审核！",null);
+                } else {
+                    return new ResultVO(ResStatus.NO,"请不要重复申请开店！",null);
                 }
-                //状态设为0表示管理员还未审核同意
-                shop.setStatus(0);
-                shop.setShopKeeperID(userId);
-                shopMapper.addShop(shop);
-                shopMapper.updateUserToShopKeeper(Integer.parseInt(userId));
-                return new ResultVO(ResStatus.OK,"success",null);
+
             }catch (Exception e){
                 System.out.println(e);
                 return new ResultVO(ResStatus.NO,"数据库层插入失败！",null);
