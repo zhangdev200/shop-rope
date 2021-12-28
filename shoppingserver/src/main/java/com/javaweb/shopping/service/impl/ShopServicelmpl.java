@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import tk.mybatis.mapper.entity.Example;
+import com.javaweb.shopping.entity.Shop;
 
 import java.util.List;
 
@@ -303,7 +304,7 @@ public class ShopServicelmpl implements ShopService {
 
 
     @Override
-    public ResultVO deleteShop(String ID,String userId) {
+    public ResultVO deleteShop(String ID) {
         synchronized (this){
             try{
                 //先删除该店铺所有的商品shop_name
@@ -312,13 +313,17 @@ public class ShopServicelmpl implements ShopService {
                     String id=product.getProductId();
                     deleteProduct(id);
                 }
-                shopMapper.deleteShop(ID,userId);
-                shopMapper.updateShopKeeperToUser(Integer.parseInt(userId));
+                Example example = new Example(Shop.class);
+                Example.Criteria criteria1 = example.createCriteria();
+                criteria1.andEqualTo("shopId",ID);
+                List<Shop> shop = shopMapper.selectByExample(example);
+                String shopKeeperId = shop.get(0).getShopKeeperID();
+                shopMapper.deleteShop(ID,shopKeeperId);
+                shopMapper.updateShopKeeperToUser(Integer.parseInt(shopKeeperId));
                 return new ResultVO(ResStatus.OK,"success",null);
             }catch (Exception e){
                 return new ResultVO(ResStatus.NO,"数据库层删除失败！",null);
             }
         }
-
     }
 }

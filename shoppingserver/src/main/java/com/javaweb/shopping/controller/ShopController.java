@@ -71,10 +71,9 @@ public class ShopController {
 
     //删除店铺(开店审核不通过)
     @PostMapping("/delete")
-//    @AuthAdmin
-//    @AuthShopKeeper
-    public ResultVO delete(String shopID,@RequestHeader("token")String token){
-        ResultVO resultVO = shopService.deleteShop(shopID,TokenUtil.getUserId(token));
+    @AuthAdmin
+    public ResultVO delete(String shopID){
+        ResultVO resultVO = shopService.deleteShop(shopID);
         return resultVO;
     }
 
