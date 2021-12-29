@@ -23,13 +23,25 @@
               <span slot="title">我的订单</span>
             </div>
           </el-menu-item>
-          <el-menu-item v-if="isShopKeeper" index="/personal/store" class="item" @click="routerLink('/personal/store')">
-            <div>
-              <i class="el-icon-s-shop" style="font-size: 20px"></i>
-              <span>我的店铺</span>
-            </div>
-          </el-menu-item>
-          <el-submenu index="1" class="item" v-if="isAdministrator">
+          <el-submenu index="1" class="item" v-if="isShopKeeper">
+            <template slot="title">
+              <div class="item">
+                <i class="el-icon-s-shop" style="font-size: 20px"></i>
+                <span slot="title">我的店铺</span>
+              </div>
+            </template>
+            <el-menu-item index="/store/goods" class="item" @click="routerLink('/store/goods')">
+              <div class="subItem">
+                <span slot="title">商品管理</span>
+              </div>
+            </el-menu-item>
+            <el-menu-item index="/store/orders" class="item" @click="routerLink('/store/orders')">
+              <div class="subItem">
+                <span slot="title">订单管理</span>
+              </div>
+            </el-menu-item>
+          </el-submenu>
+          <el-submenu index="2" class="item" v-if="isAdministrator">
             <template slot="title">
               <div class="item">
                 <i class="el-icon-s-tools" style="font-size: 20px"></i>
@@ -46,11 +58,6 @@
                 <span slot="title">用户管理</span>
               </div>
             </el-menu-item>
-<!--            <el-menu-item index="/system/category" class="item" @click="routerLink('/system/category')">-->
-<!--              <div class="subItem">-->
-<!--                <span slot="title">类别管理</span>-->
-<!--              </div>-->
-<!--            </el-menu-item>-->
             <el-menu-item index="/system/carousel" class="item" @click="routerLink('/system/carousel')">
               <div class="subItem">
                 <span slot="title">轮播图管理</span>

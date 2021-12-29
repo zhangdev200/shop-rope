@@ -1,34 +1,24 @@
 <template>
   <div>
     <el-row>
-      <el-col :span="5">
-        <div style="text-align: left; padding: 0 20px; font-size: 16px">
+      <el-col :span="12">
+        <div style="text-align: left; padding: 0 20px; font-size: 16px; height: 40px">
           <p style="font-weight: bold">{{ item.productName }}</p>
         </div>
       </el-col>
-      <el-col :span="7">
-        <div style="text-align: left; padding: 0 20px; font-size: 16px">
-          <p style="word-wrap: break-word">订单号：{{ item.orderId }}</p>
-        </div>
-      </el-col>
-      <el-col :span="6">
-        <div style="text-align: left; padding: 0 20px; font-size: 16px">
-          <p style="word-wrap: break-word">
-            下单时间：{{ item.buyTime.substring(0, 19).replace('T', '&nbsp;&nbsp;') }}
-          </p>
-        </div>
-      </el-col>
-      <el-col :span="6">
-        <div style="position: relative; top: 8px">
+
+      <el-col :span="12">
+        <div style="float: right; height: 40px; position: relative; top: 9px;">
           <span class="price" style="display: inline">￥{{ item.productPrice }}</span>
           <span style="display: inline"> × {{ item.buyCounts }}</span>
-          <div style="position: absolute; right: 20px; border-radius: 10px">
-            <el-button type="primary" round @click="dialogVisible = true; form.textarea = ''">评价</el-button>
-            <el-button type="primary" round @click="showDetail()">再次购买</el-button>
+          <div style="display: inline; margin-left: 20px; position: relative; top: -2px">
+            <el-button v-show="status == 3 && type === 'user'" type="primary" round @click="dialogVisible = true; form.textarea = ''">评价</el-button>
+            <el-button v-show="status == 3 && type === 'user'" type="primary" round @click="showDetail">再次购买</el-button>
           </div>
         </div>
       </el-col>
     </el-row>
+    <hr v-if="!(index === length - 1)" style="border: #aaa 1px solid">
     <el-dialog
         title="评价"
         :visible.sync="dialogVisible"
@@ -64,7 +54,7 @@
 <script>
 export default {
   name: "Order",
-  props: ['item'],
+  props: ['item', 'status', 'index', 'length', 'type'],
   data() {
     return {
       colors: ['#99A9BF', '#F7BA2A', '#FF9900'],
@@ -106,10 +96,6 @@ export default {
 
 <style scoped>
 .price {
-  position: absolute;
-  top: -3px;
-  right: 240px;
-  font-size: 35px;
   font-weight: bold;
   color: red;
 }

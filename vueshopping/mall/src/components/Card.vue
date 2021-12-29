@@ -1,6 +1,6 @@
 <template>
   <el-card :body-style="{ padding: '15px' }" class="card">
-    <img :src="goodsData.imgs && goodsData.imgs.length !== 0 ? goodsData.imgs[0].url : null"
+    <img :src="goodsData.imgs && goodsData.imgs.length ? goodsData.imgs[0].url : ''"
          onerror="this.src = '//iconfont.alicdn.com/s/210a299f-edad-4fc5-8396-9f743633f209_origin.svg'"
          class="image"
          @click="showDetail(goodsData.productId)" alt="">
@@ -8,7 +8,7 @@
       <p style="height: 30px">{{goodsData.productName ? goodsData.productName : '加载失败'}}</p>
       <p class="description">{{ goodsData.content }}</p>
       <div class="bottom clearfix">
-        <span class="price">￥{{ goodsData.skus && goodsData.skus.length !== 0 ? goodsData.skus[0].sellPrice : '加载失败' }}</span>
+        <span class="price">￥{{ goodsData.skus && goodsData.skus.length ? goodsData.skus[0].sellPrice : '加载失败' }}</span>
         <el-button type="text" @click="showDetail(goodsData.goodsId)">查看详情</el-button>
       </div>
     </div>

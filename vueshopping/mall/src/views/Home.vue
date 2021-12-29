@@ -75,7 +75,8 @@ export default {
     activePath() {
       if (this.$route.path === '/personal/personal' ||
           this.$route.path === '/personal/order' ||
-          this.$route.path === '/personal/store' ||
+          this.$route.path === '/store/goods' ||
+          this.$route.path === '/store/orders' ||
           this.$route.path === '/system/seller' ||
           this.$route.path === '/system/user' ||
           this.$route.path === '/system/carousel') {

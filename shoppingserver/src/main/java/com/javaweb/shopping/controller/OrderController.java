@@ -14,7 +14,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 @RestController
@@ -41,27 +43,34 @@ public class OrderController {
     @PostMapping("/add")
     public ResultVO add(String cids, @RequestBody Orders order){
         ResultVO resultVO = null;
+        String msg = "订单提交成功！";
+        List<Map<String, String>> result = new ArrayList<>();
         try {
-            Map<String, String> orderInfo = orderService.addOrder(cids, order);
-            if(orderInfo!=null){
-                String orderId = orderInfo.get("orderId");
-                //设置当前订单信息
-                HashMap<String,String> data = new HashMap<>();
-                data.put("body",orderInfo.get("productNames"));  //商品描述
-                data.put("out_trade_no",orderId);               //使用当前用户订单的编号作为当前支付交易的交易号
-                data.put("fee_type","CNY");                     //支付币种
-                //data.put("total_fee",order.getActualAmount()*100+"");          //支付金额
-                data.put("total_fee","1");
-                data.put("trade_type","NATIVE");                //交易类型
-                data.put("notify_url","http://47.118.45.73:8080/pay/callback");           //设置支付完成时的回调方法接口
-                resultVO = new ResultVO(ResStatus.OK,"提交订单成功！",orderInfo);
-            }else{
-                resultVO = new ResultVO(ResStatus.NO,"提交订单失败！",null);
+            List<Map<String, String>> orderInfos = orderService.addOrder(cids, order);
+            for (Map<String, String> orderInfo: orderInfos) {
+                if(orderInfo!=null){
+                    String orderId = orderInfo.get("orderId");
+                    //设置当前订单信息
+                    HashMap<String,String> data = new HashMap<>();
+                    data.put("body",orderInfo.get("productNames"));  //商品描述
+                    data.put("out_trade_no",orderId);               //使用当前用户订单的编号作为当前支付交易的交易号
+                    data.put("fee_type","CNY");                     //支付币种
+                    //data.put("total_fee",order.getActualAmount()*100+"");          //支付金额
+                    data.put("total_fee","1");
+                    data.put("trade_type","NATIVE");                //交易类型
+                    data.put("notify_url","http://47.118.45.73:8080/pay/callback");           //设置支付完成时的回调方法接口
+                    if (orderId == null) {
+                        msg = orderInfo.get("productNames") + "库存不足！";
+                    }
+                    result.add(orderInfo);
+                }
             }
+            resultVO = new ResultVO(ResStatus.OK, msg, result);
         } catch (SQLException e) {
             resultVO = new ResultVO(ResStatus.NO,"提交订单失败！",null);
         } catch (Exception e) {
             e.printStackTrace();
+            resultVO = new ResultVO(ResStatus.NO,"提交订单失败！",null);
         }
         return resultVO;
     }
@@ -109,6 +118,11 @@ public class OrderController {
                          String userId,String status,int pageNum,int limit){
         ResultVO resultVO = orderService.listOrders(userId, status, pageNum, limit);
         return resultVO;
+    }
+
+    @GetMapping("/listByShopId")
+    public ResultVO listByShopId(String shopId,String status,int pageNum,int limit) {
+        return orderService.listOrdersByShopId(shopId, status, pageNum, limit);
     }
 
 }

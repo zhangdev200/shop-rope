@@ -1,16 +1,8 @@
 <template>
   <div id="personalManage">
     <div style="height: 100px">
-      <div style="text-align: left; float:left;">
-        <el-upload
-            style="width: 100px"
-            class="upload-demo"
-            action=""
-            :before-upload="beforeUpload"
-            :show-file-list="false"
-            :file-list="fileList">
-          <el-avatar :size="100" :src="fileList[0].url"></el-avatar>
-        </el-upload>
+      <div style="text-align: left; float:left;" @click="openDialog3">
+        <el-avatar :size="100" :src="fileList[0].url"></el-avatar>
       </div>
       <div style="float: left; font-size: 35px; color: #666666; position: relative; top: 65px; left: 20px">
         {{ this.nickname }}
@@ -18,7 +10,7 @@
     </div>
     <br>
     <hr style="color: black">
-    <el-tabs v-model="activeName" type="card">
+    <el-tabs v-model="activeName">
       <el-tab-pane label="基本信息" name="first">
         <div class="card">
           <el-form ref="form" :model="form1" label-width="90px" style="text-align: left">
@@ -49,7 +41,6 @@
                 </el-form-item>
               </el-col>
             </el-row>
-
           </el-form>
         </div>
       </el-tab-pane>
@@ -99,7 +90,7 @@
           </div>
           <div v-else>
             <div v-if="shopStatus === 1">
-              <el-button type="text" style="font-size: 20px" @click="$router.replace('/personal/store')">
+              <el-button type="text" style="font-size: 20px" @click="$router.replace('/store/goods')">
                 你已经是店主了，快去管理你的店铺吧>>
               </el-button>
             </div>
@@ -150,6 +141,25 @@
           <el-button type="primary" @click="confirm">确 定</el-button>
         </span>
     </el-dialog>
+    <el-dialog
+        title="查看头像"
+        :visible.sync="dialogVisible3"
+        width="40%"
+        :lock-scroll="false">
+      <img :src="fileList[0].url" alt="" style="height: 200px; width: 200px;">
+      <span slot="footer" class="dialog-footer">
+            <el-upload
+                ref="upload"
+                class="upload-demo"
+                action=""
+                :before-upload="beforeUpload"
+                :auto-upload="true"
+                :show-file-list="false"
+                :file-list="fileList">
+          <el-button type="primary" @click="uploadAvatar()">更换头像</el-button>
+        </el-upload>
+      </span>
+    </el-dialog>
   </div>
 </template>
 
@@ -159,17 +169,18 @@ export default {
   data() {
     return {
       nickname: null,
+      form: {
+        shopName: '',
+        shopDescription: '',
+        shopKeeperName: '',
+      },
       form1: {},
       form2: {
         oldPassword: '',
         newPassword: '',
         newPasswordConfirm: '',
       },
-      form: {
-        shopName: '',
-        shopDescription: '',
-        shopKeeperName: '',
-      },
+      form3: {},
       activeName: 'first',
       fileList: [{url: ''}],
       applied: false,
@@ -179,6 +190,7 @@ export default {
       isAdministrator: true,
       dialogVisible: false,
       dialogVisible2: false,
+      dialogVisible3: false,
     }
   },
   methods: {
@@ -200,27 +212,36 @@ export default {
           .then(() => {
             if (this.form2.newPassword !== this.form2.newPasswordConfirm) {
               this.$message.warning('密码和确认密码不一致！');
-              return;
-            } else if (JSON.parse(localStorage.getItem('userInform')).password !== this.form2.oldPassword) {
-              this.$message.warning('旧密码错误！');
-              return;
+            } else {
+              this.$http
+                  .get('/user/login', {
+                    username: JSON.parse(localStorage.getItem('userInform')).username,
+                    password: this.form2.oldPassword
+                  })
+                  .then(res => {
+                    if (res.code === 10000) {
+                      this.$http
+                          .post('user/updateInfo', {
+                            userId: this.form1.userId,
+                            password: this.form2.newPassword
+                          })
+                          .then((res) => {
+                            if (res.code === 10000) {
+                              this.$message.success('修改密码成功，请重新登录！');
+                              setTimeout(() => {
+                                localStorage.clear();
+                                this.$router.replace('/login');
+                              }, 2000);
+                            } else {
+                              this.$message.error(res.msg);
+                            }
+                          });
+                    } else {
+                      this.$message.warning('旧密码错误！');
+                    }
+                  });
             }
-            this.$http
-                .post('user/updateInfo', {
-                  userId: this.form1.userId,
-                  password: this.form2.newPassword
-                })
-                .then((res) => {
-                  if (res.code === 10000) {
-                    this.$message.success('修改密码成功，请重新登录！');
-                    setTimeout(() => {
-                      localStorage.clear();
-                      this.$router.replace('/login');
-                    }, 3000);
-                  } else {
-                    this.$message.error(res.msg);
-                  }
-                });
+
           })
     },
     registerMembership() {
@@ -235,6 +256,12 @@ export default {
               this.form1.vip = true;
             }
           });
+    },
+    openDialog3() {
+      this.dialogVisible3 = true;
+    },
+    uploadAvatar() {
+      this.dialogVisible3 = false;
     },
     openShop() {
       this.dialogVisible2 = true;
@@ -255,11 +282,12 @@ export default {
     beforeUpload(file) {
       let fd = new FormData();
       fd.append('file', file);
-      fd.append('productId', JSON.parse(localStorage.getItem('userInform')).userId);
+      fd.append('userId', JSON.parse(localStorage.getItem('userInform')).userId);
       this.$http.post('file/userimg', fd)
           .then(res => {
             if (res.code === 10000) {
-              this.$message.success('操作成功！');
+              this.$message.success('更新头像成功！');
+              this.getInfo();
             } else {
               this.$message.error(res.msg);
             }
@@ -273,6 +301,7 @@ export default {
             if (res.code === 10000) {
               localStorage.setItem('userInform', JSON.stringify(res.data));
               this.fileList[0].url = res.data.userImg;
+              this.$parent.$parent.$parent.userInform.userImg = res.data.userImg;
               this.form1 = res.data;
               this.nickname = res.data.nickname;
               this.isStoreOwner = res.data.shopKeeper;

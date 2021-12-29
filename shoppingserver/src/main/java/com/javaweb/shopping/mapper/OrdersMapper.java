@@ -11,9 +11,18 @@ import java.util.List;
 @Repository
 public interface OrdersMapper extends GeneralDAO<Orders> {
 
-    public List<OrdersVO> selectOrders(@Param("userId") String userId,
-                                       @Param("status") String status,
-                                       @Param("start") int start,
-                                       @Param("limit") int limit);
+    List<OrdersVO> selectOrders(@Param("userId") String userId,
+                                @Param("status") String status,
+                                @Param("start") int start,
+                                @Param("limit") int limit);
+
+    List<OrdersVO> selectOrdersByShopId(@Param("shopId") String shopId,
+                                        @Param("status") String status,
+                                        @Param("start") int start,
+                                        @Param("limit") int limit);
+
+    Integer selectOrdersCountByShopId(@Param("shopId") String shopId,
+                                        @Param("status") String status);
+
 
 }
