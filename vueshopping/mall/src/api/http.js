@@ -1,13 +1,12 @@
-import axios from 'axios' //引入
+import axios from 'axios'
 import {Loading} from "element-ui";
 import {Message} from "element-ui";
 
 let baseURL = process.env.VUE_APP_baseURL;
-// let baseURL = '';
 
 let config = {
     baseURL: baseURL,
-    timeout: 10000,       //设置最大请求时间
+    timeout: 8000,       //设置最大请求时间8秒
 }
 const _axios = axios.create(config);
 

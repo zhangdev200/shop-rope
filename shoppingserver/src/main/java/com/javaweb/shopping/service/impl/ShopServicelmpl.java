@@ -97,6 +97,7 @@ public class ShopServicelmpl implements ShopService {
                 productVO.setProductId(String.valueOf(IDUtils.getId()));
             }
             Product product = new Product(productVO.getProductId(),productVO.getProductName(),productVO.getCategoryId(),productVO.getRootCategoryId(),productVO.getSoldNum(),productVO.getProductStatus(),productVO.getContent(),productVO.getShopID());
+            product.setSoldNum(0);
             shopMapper.addProduct(product);
             if(productVO.getSkus()!=null){
                 for(ProductSku productSku: productVO.getSkus()){

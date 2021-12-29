@@ -17,7 +17,7 @@
         <result column="isAdmin" javaType="BOOLEAN" property="isAdmin"/>
         <result column="isShopKeeper" javaType="BOOLEAN" property="isShopKeeper"/>
         <result column="isVIP" javaType="BOOLEAN" property="isVIP"/>
-       <!--<result column="user_address" javaType="VARCHAR" property="userAddress"/>-->
+<!--       <result column="user_address" javaType="VARCHAR" property="userAddress"/>-->
 
     </resultMap>
 

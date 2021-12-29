@@ -71,8 +71,12 @@ const routes = [
                         component: () => import('../components/OrderManage'),
                     },
                     {
-                        path: '/personal/store',
-                        component: () => import('../components/StoreManage'),
+                        path: '/store/goods',
+                        component: () => import('../components/StoreManage/StoreGoods'),
+                    },
+                    {
+                        path: '/store/orders',
+                        component: () => import('../components/StoreManage/StoreOrders'),
                     },
                     {
                         path: '/system/seller',

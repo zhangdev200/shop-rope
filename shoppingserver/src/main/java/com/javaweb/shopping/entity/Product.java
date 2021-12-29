@@ -12,6 +12,10 @@ public class Product {
     @Column(name = "product_id")
     private String productId;
 
+    public Product(){
+
+    }
+
     public Product(String productId, String productName, Integer categoryId, Integer rootCategoryId, Integer soldNum, Integer productStatus, String content, String shopID) {
         this.productId = productId;
         this.productName = productName;

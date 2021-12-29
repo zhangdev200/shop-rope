@@ -1,30 +1,40 @@
 <template>
   <div>
     <div id="container">
-      <div v-if="this.totalOrders === 0">
-        <el-empty description="您还没有订单哦" :image-size="400"></el-empty>
-      </div>
-      <OrderItem
-          v-for="i in orderList"
-          :item="i"
-          :key="i.orderId"
-          ref="order"
-          @select="select"
-          @unselect="unselect">
-      </OrderItem>
-      <div style="position: fixed; bottom: 100px; left: 50%; transform: translateX(-50%)">
-        <el-pagination
-            ref="page"
-            background
-            layout="total, prev, pager, next"
-            :page-size="6"
-            :total="totalOrders"
-            @current-change="currentChange">
-        </el-pagination>
-      </div>
+      <el-tabs v-model="activeName" @tab-click="handleClick">
+        <el-tab-pane v-for="item in status.keys()"
+                     :label="item"
+                     :key="status.get(item)"
+                     :name="status.get(item).toString()">
+          <div v-if="totalOrders === 0">
+            <el-empty description="您还没有相关订单哦" :image-size="400"></el-empty>
+          </div>
+          <div v-else>
+            <OrderItem
+                v-for="i in orderList"
+                :item="i"
+                type="user"
+                :key="i.orderId"
+                ref="order"
+                @select="select"
+                @unselect="unselect">
+            </OrderItem>
+            <div style="position: relative; left: 45%; transform: translateX(-50%)">
+              <el-pagination
+                  ref="page"
+                  background
+                  layout="total, prev, pager, next"
+                  :page-size="pageSize"
+                  :total="totalOrders"
+                  @current-change="currentChange">
+              </el-pagination>
+            </div>
+          </div>
+        </el-tab-pane>
+      </el-tabs>
     </div>
-    <div class="bottomBar">
-      <div style="width: 71%; margin: 0 0 0 300px">
+    <div v-show="activeName == 3" class="bottomBar">
+      <div style="width: 77%; margin: 0 0 0 300px">
         <div style="width: 50%; display: inline-block; text-align: left">
           <el-button type="primary" round @click="selectReverse" class="myButton">反选</el-button>
           <el-button type="primary" round @click="selectAll" ref="selectAll" class="myButton">全选</el-button>
@@ -47,10 +57,13 @@ export default {
   components: {OrderItem},
   data() {
     return {
-      totalOrders: null,
+      totalOrders: 0,
       selectSet: new Set,
+      activeName: '1',
+      status: new Map([['待发货', 1], ['待收货', 2], ['已完成', 3]]),
       orderList: [],
       currentPage: 1,
+      pageSize: 4,
     }
   },
   methods: {
@@ -95,20 +108,7 @@ export default {
             .get('/order/delete?orderIds=' + str)
             .then(res => {
               if (res.code === 10000 || res.msg === '找不到记录' ||res.msg === '部分删除失败') {
-                let newSet = this.selectSet;
-                for (let i of newSet) {
-                  for (let j = 0; j < this.orderList.length; j++) {
-                    if (this.orderList[j].orderId === i) {
-                      this.orderList.splice(j, 1);
-                    }
-                  }
-                  for (let k of this.$refs.order) {
-                    if (k.selected && k.itemData.orderId === i) {
-                      k.select();
-                    }
-                  }
-                }
-                this.getOrders(this.currentPage, 6);
+                this.getOrders(this.activeName, this.currentPage, this.pageSize);
                 this.$message.success('删除成功！');
               } else {
                 this.$message.error(res.msg)
@@ -116,40 +116,41 @@ export default {
             });
       }
     },
-    getOrders(pageNum, limit) {
+    getOrders(status, pageNum, limit) {
       this.$http
           .get('/order/list', {
             userId: JSON.parse(localStorage.getItem('userInform')).userId,
+            status: status,
             pageNum: pageNum,
             limit: limit
           })
           .then(res => {
             if (res.code === 10000) {
-              this.orderList = [];
               this.totalOrders = res.data.count;
-              for (let i of res.data.list) {
-                  this.orderList.push(i);
-              }
+              this.orderList = res.data.list;
             } else {
               this.$message.error('未知错误');
             }
           });
     },
+    handleClick() {
+      this.getOrders(this.activeName, 1, this.pageSize);
+    },
     currentChange(pageNum) {
       this.currentPage = pageNum;
-      this.getOrders(pageNum, 6);
+      this.getOrders(this.activeName, pageNum, this.pageSize);
     },
   },
   created() {
-    this.getOrders(1, 6);
+    this.getOrders(this.activeName, 1, this.pageSize);
   }
 }
 </script>
 
 <style scoped>
 #container {
-  width: 1400px;
-  margin: 0 10px 100px 300px;
+  width: 1550px;
+  margin: 10px 10px 100px 250px;
   z-index: 1;
 }
 

@@ -68,6 +68,7 @@ public class Orders {
 
     /**
      * 订单状态 1:待付款 2:待发货 3:待收货 4:待评价 5:已完成 6:已关闭
+     * 订单状态 1:待发货 2:待收货 3:已完成
      */
     private String status;
 

@@ -45,7 +45,8 @@ public class UserServiceImpl implements UserService {
                 user.setAdmin(false);
                 user.setShopKeeper(false);
                 user.setVIP(false);
-                user.setPassword(MD5Utils.md5(pwd));
+//                user.setPassword(MD5Utils.md5(pwd));
+                user.setPassword(pwd);
                 int i = userMapper.insertUseGeneratedKeys(user);
                 if (i > 0) {
                     return new ResultVO(ResStatus.OK, "注册成功！", user);
@@ -85,7 +86,8 @@ public class UserServiceImpl implements UserService {
         if (users.size()==0){
             return new ResultVO(ResStatus.NO,"登录失败，用户名不存在！",null);
         }else{
-            if(MD5Utils.md5(pwd).equals(users.get(0).getPassword())){
+//            if(MD5Utils.md5(pwd).equals(users.get(0).getPassword())){
+            if(pwd.equals(users.get(0).getPassword())){
                 //如果登录验证成功，则需要生成令牌token（token就是按照特定规则生成的字符串）
                 //使用jwt规则生成token字符串
                 JwtBuilder builder = Jwts.builder();
@@ -106,7 +108,9 @@ public class UserServiceImpl implements UserService {
                         .compact();
 
                 return new ResultVO(ResStatus.OK,token,users.get(0));
-            }else{
+            }
+            else
+            {
                 return new ResultVO(ResStatus.NO,"登录失败，密码错误！",null);
             }
         }

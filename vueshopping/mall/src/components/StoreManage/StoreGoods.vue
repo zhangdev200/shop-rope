@@ -3,7 +3,6 @@
     <div v-if="storeStatus === 1">
       <h4 style="text-align: left;">商品管理</h4>
       <p style="font-size: 18px; margin-right: 30px">{{ this.storeName }}</p>
-
       <el-table :data="singlePageOrdersList"
                 style="width: 100%; font-size: 16px; border-radius: 10px;box-shadow: 0 2px 12px 0 rgba(0, 0, 0, 0.3);"
                 border stripe empty-text="暂无数据">
@@ -15,7 +14,7 @@
         <el-table-column label="图片" prop="img">
           <template slot-scope="scope">
             <el-popover trigger="hover" placement="right-end" :close-delay=0>
-              <img :src="scope.row.img" alt="加载失败">
+              <img :src="scope.row.img" alt="加载失败" style="width: 200px; height: 200px">
               <div slot="reference" class="name-wrapper" style="width: 70px">
                 <el-tag size="medium">查看图片</el-tag>
               </div>
@@ -107,7 +106,7 @@
 
 <script>
 export default {
-  name: 'StoreManage',
+  name: 'StoreGoods',
   data() {
     return {
       storeId: null,
