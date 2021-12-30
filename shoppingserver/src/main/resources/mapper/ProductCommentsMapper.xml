@@ -41,7 +41,7 @@
         <result column="user_img" jdbcType="VARCHAR" property="userImg" />
     </resultMap>
 
-    <select id="selectCommontsByProductId" resultMap="ProductCommentsVOMap">   <!---->
+    <select id="selectCommentsByProductId" resultMap="ProductCommentsVOMap">   <!---->
     select u.username,  u.nickname, u.user_img,
       c.comm_id, c.product_id, c.product_name,
       c.order_item_id, c.user_id, c.is_anonymous,
