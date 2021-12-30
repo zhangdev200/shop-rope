@@ -40,7 +40,7 @@ public class ProductCommentsServiceImpl implements ProductCommentsService {
 
         //3.查询当前页的数据（因为评论中需要用户信息，因此需要连表查询---自定义）
         int start = (pageNum-1)*limit;
-        List<ProductCommentsVO> list = productCommentsMapper.selectCommontsByProductId(productId, start, limit);
+        List<ProductCommentsVO> list = productCommentsMapper.selectCommentsByProductId(productId, start, limit);
 
         ResultVO resultVO = new ResultVO(ResStatus.OK, "success", new PageHelper<ProductCommentsVO>(count,pageCount,list));
         return resultVO;

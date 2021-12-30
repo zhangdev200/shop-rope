@@ -76,14 +76,14 @@ export default {
     selectAll() {
       if (this.$refs.selectAll.$el.children[0].innerHTML === '全选') {
         for (let i of this.$refs.order) {
-          if (i.selected === false) {
+          if (!i.selected) {
             i.select();
           }
         }
         this.$refs.selectAll.$el.children[0].innerHTML = '取消全选';
       } else {
         for (let i of this.$refs.order) {
-          if (i.selected === true) {
+          if (i.selected) {
             i.select();
           }
         }

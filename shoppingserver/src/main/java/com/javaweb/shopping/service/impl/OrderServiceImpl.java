@@ -97,6 +97,7 @@ public class OrderServiceImpl implements OrderService {
                     Example.Criteria criteria = example.createCriteria();
                     criteria.andEqualTo("productId", sc.getProductId());
                     List<Product> products = productMapper.selectByExample(example);
+                    product.setProductId(sc.getProductId());
                     product.setSoldNum(products.get(0).getSoldNum() + 1);
                     productMapper.updateByPrimaryKeySelective(product);
                 }
@@ -217,6 +218,7 @@ public class OrderServiceImpl implements OrderService {
 
             //增加销量
             Product product1 = new Product();
+            product1.setProductId(productId);
             product1.setSoldNum(products.get(0).getSoldNum() + 1);
             productMapper.updateByPrimaryKeySelective(product1);
 

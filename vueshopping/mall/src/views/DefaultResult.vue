@@ -51,6 +51,7 @@ export default {
         .then(res => {
           if (res.code === 10000) {
             for (let item of res.data) {
+              this.categoryList = [];
               this.categoryList.push(item.categoryName);
               this.goodsData.set(item.categoryName, item.products);
             }

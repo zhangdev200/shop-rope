@@ -16,7 +16,7 @@ public interface ProductCommentsMapper extends GeneralDAO<ProductComments> {
      * @param limit 查询条数
      * @return
      */
-    public List<ProductCommentsVO> selectCommontsByProductId(@Param("productId") String productId,
+    public List<ProductCommentsVO> selectCommentsByProductId(@Param("productId") String productId,
                                                              @Param("start") int start,
                                                              @Param("limit") int limit);
 

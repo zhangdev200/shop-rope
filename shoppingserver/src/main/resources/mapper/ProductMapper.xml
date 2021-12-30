@@ -25,7 +25,7 @@
         <collection property="imgs" select="com.javaweb.shopping.mapper.ProductImgMapper.selectProductImgByProductId"
                     column="product_id"/>
         <collection property="comments"
-                    select="com.javaweb.shopping.mapper.ProductCommentsMapper.selectCommontsByProductId"
+                    select="com.javaweb.shopping.mapper.ProductCommentsMapper.selectCommentsByProductId"
                     column="product_id"/>
     </resultMap>
 
