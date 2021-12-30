@@ -1,0 +1,8 @@
+{
+  "properties": [
+    {
+      "name": "spring.jackson.data-format",
+      "type": "java.lang.String",
+      "description": "Description for spring.jackson.data-format."
+  }
+] }
