@@ -24,9 +24,7 @@
                     column="product_id"/>
         <collection property="imgs" select="com.javaweb.shopping.mapper.ProductImgMapper.selectProductImgByProductId"
                     column="product_id"/>
-        <collection property="comments"
-                    select="com.javaweb.shopping.mapper.ProductCommentsMapper.selectCommentsByProductId"
-                    column="product_id"/>
+
     </resultMap>
 
     <select id="selectRecommendProducts" resultMap="ProductVOMap">
@@ -55,7 +53,7 @@
         from product
         where category_id = #{cid}
         order by sold_num desc
-        limit 0,6
+        limit 0,8
     </select>
 
     <resultMap id="ProductVOMap2" type="com.javaweb.shopping.entity.ProductVO">
