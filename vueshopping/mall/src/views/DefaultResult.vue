@@ -50,8 +50,8 @@ export default {
         .get('/index/category-recommends')
         .then(res => {
           if (res.code === 10000) {
+            this.categoryList = [];
             for (let item of res.data) {
-              this.categoryList = [];
               this.categoryList.push(item.categoryName);
               this.goodsData.set(item.categoryName, item.products);
             }

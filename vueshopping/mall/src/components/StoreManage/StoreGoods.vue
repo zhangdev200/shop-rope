@@ -56,10 +56,10 @@
           </el-form-item>
           <el-form-item label="商品类别" :label-width="formLabelWidth">
             <el-select v-model="form.categoryId" placeholder="请选择商品类别">
-              <el-option v-for="item in this.categories"
-                         :key="item.categoryId"
-                         :label="item.categoryName"
-                         :value="item.categoryId">
+              <el-option v-for="item in this.categories.keys()"
+                         :key="item"
+                         :label="categories.get(item)"
+                         :value="item">
               </el-option>
             </el-select>
           </el-form-item>
@@ -124,7 +124,7 @@ export default {
         stock: null,
         content: '',
       },
-      categories: [],
+      categories: new Map,
       currentPage: 1,
       totalOrders: 0,
       pageSize: 8,
@@ -159,6 +159,7 @@ export default {
       })
       .then(res => {
         if (res.code === 10000) {
+          this.getGoodsList();
           this.$message.success('删除成功')
         } else {
           this.$message.error('未知错误')
@@ -200,6 +201,8 @@ export default {
           .then(res => {
             if (res.code === 10000) {
               this.$message.success('操作成功');
+              this.getGoodsList();
+              this.selectedGoodsId = res.data;
               this.$refs.upload.submit();
             } else {
               this.$message.error('未知错误')
@@ -217,21 +220,15 @@ export default {
             if (res.code === 10000) {
               this.tableData = [];
               for (let item of res.data) {
-                let categoryName;
-                for (let i of this.categories) {
-                  if (i.categoryId === item.categoryId) {
-                    categoryName = i.categoryName;
-                  }
-                }
                 this.tableData.push({
                   goodsId: parseInt(item.productId),
                   name: item.productName,
-                  sellPrice: item.skus && item.skus.length !== 0 ? item.skus[0].sellPrice : null,
+                  sellPrice: item.skus && item.skus.length ? item.skus[0].sellPrice : null,
                   categoryId: item.categoryId,
-                  category: categoryName,
+                  category: this.categories.get(item.categoryId),
                   description: item.content,
-                  img: item.imgs && item.imgs.length !== 0 ? item.imgs[0].url : null,
-                  stock: item.skus && item.skus.length !== 0 ? item.skus[0].stock : null,
+                  img: item.imgs && item.imgs.length ? item.imgs[0].url : null,
+                  stock: item.skus && item.skus.length ? item.skus[0].stock : null,
                 });
               }
               this.totalOrders = this.tableData.length;
@@ -278,10 +275,7 @@ export default {
                   .then(res => {
                     if (res.code === 10000) {
                       for (let item of res.data) {
-                        this.categories.push({
-                          categoryId: item.categoryId,
-                          categoryName: item.categoryName,
-                        });
+                        this.categories.set(item.categoryId, item.categoryName);
                       }
                       this.getGoodsList();
                     } else {

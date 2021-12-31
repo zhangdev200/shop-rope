@@ -1,6 +1,6 @@
 <template>
   <div id="user">
-    <el-table :data="tableData" border stripe empty-text="暂无数据"
+    <el-table :data="singlePageUsersList" border stripe empty-text="暂无数据"
               style="width: 100%; font-size: 16px; border-radius: 10px;box-shadow: 0 2px 12px 0 rgba(0, 0, 0, 0.3);">
       <el-table-column label="用户id" sortable prop="userId" width="180" align="center"></el-table-column>
       <el-table-column label="用户名" sortable prop="username" width="180" align="center"></el-table-column>
@@ -33,6 +33,15 @@
         </template>
       </el-table-column>
     </el-table>
+    <div style="position: fixed; bottom: 30px; text-align: center; width: 84%">
+      <el-pagination
+          background
+          layout="total, prev, pager, next, jumper"
+          @current-change="currentChange"
+          :page-size="pageSize"
+          :total="totalUsers">
+      </el-pagination>
+    </div>
   </div>
 </template>
 
@@ -42,7 +51,10 @@ export default {
   data() {
     return {
       tableData: [],
-
+      currentPage: 1,
+      totalUsers: 0,
+      pageSize: 8,
+      singlePageUsersList: [],
     }
   },
   methods: {
@@ -79,13 +91,20 @@ export default {
                   realname: i.realname,
                   shopKeeper: i.shopKeeper ? '是' : '否',
                   vip: i.vip ? '是' : '否',
-                })
+                });
               }
+              this.totalUsers = res.data.length;
+              this.currentChange(this.currentPage);
             } else {
               this.$message.error('未知错误')
             }
           })
-    }
+    },
+    currentChange(pageNum) {
+      this.currentPage = pageNum;
+      let start = (pageNum - 1) * this.pageSize;
+      this.singlePageUsersList = this.tableData.slice(start, start + this.pageSize);
+    },
   },
   created() {
     this.getUsers();

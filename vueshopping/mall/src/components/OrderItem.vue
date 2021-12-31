@@ -139,6 +139,7 @@ export default {
   border-radius: 10px;
   padding: 20px;
   margin: 25px auto;
+  box-shadow: 0 2px 12px 0 rgba(0, 0, 0, 0.3);
 }
 
 .select {
