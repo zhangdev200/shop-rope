@@ -13,7 +13,8 @@
               text-color="#000"
               active-text-color="rgb(44,138,255)"
           >
-            <div id="logo">
+            <img :src="icon" style="float: left; width: 40px; height: 40px; position: relative; top: 7px; left: 15px" alt="">
+            <div id="logo" @click="routerLink('/main')">
               {{ mallName }}
             </div>
             <div style="float: right">
@@ -59,10 +60,12 @@
 </template>
 
 <script>
+import icon from '../assets/mall-icon.png';
 export default {
   data() {
     return {
       hasToken: false,
+      icon: icon,
       mallName: '好 名 字 商 城',
       userInform: {
         nickname: '',
@@ -136,7 +139,7 @@ export default {
   position: relative;
   top: 5px;
   float: left;
-  padding-left: 40px;
+  padding-left: 30px;
   color: black;
   font-family: 'Microsoft YaHei', serif;
   font-size: 30px;

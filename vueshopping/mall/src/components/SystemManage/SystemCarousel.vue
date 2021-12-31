@@ -78,6 +78,7 @@ export default {
       .post('/index/deleteIndexImg?imgId='+imgId)
       .then(res => {
         if (res.code === 10000) {
+          this.getData();
           this.$message.success('操作成功！');
         } else {
           this.$message.error(res.msg);

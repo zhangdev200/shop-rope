@@ -2,7 +2,8 @@
     <div style="margin-bottom: 100px">
       <el-carousel :interval="1500" type="card">
         <el-carousel-item v-for="item in this.indexImg" :key="item.imgId">
-          <img :src="item.imgUrl" style="width: 100%; height: 100%; border-radius: 20px" alt="">
+          <img :src="item.imgUrl" style="width: 100%; height: 100%; border-radius: 20px" alt="" @click="showDetail(item.prodId)"
+               onerror="this.src = '//iconfont.alicdn.com/s/210a299f-edad-4fc5-8396-9f743633f209_origin.svg'">
         </el-carousel-item>
       </el-carousel>
       <div v-for="(category, index) in this.categoryList" :key=index>
@@ -33,7 +34,11 @@ export default {
       categoryList: [],
     }
   },
-  methods: {},
+  methods: {
+    showDetail(id) {
+      this.$router.push('/goods/' + id);
+    }
+  },
   created() {
     this.$http
     .get('/index/indeximg')

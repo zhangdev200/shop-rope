@@ -4,7 +4,7 @@
       <span style="position: absolute; right: 20px; color: #888888">{{ commentData.date }}</span>
       <div style="position: absolute;">
         <el-avatar :size="50">
-          <img :src="commentData.avatar" style="width: 50px">
+          <img id="avatar" :src="commentData.avatar" style="width: 50px">
         </el-avatar>
       </div>
       <div style="margin-left: 70px;">
@@ -32,9 +32,6 @@
         <div style="width: 100px; float: right">
           <i class="iconfont icon-ali-zan icons" ref="zan" @click="zan"></i>
           <span style="font-size: 20px; float: left;"> ({{ commentData.numOfZan }})</span>
-        </div>
-        <div style="width: 60px; float: right">
-          <i class=" el-icon-chat-line-round icons" style="font-size: 28px; position: relative; top: -2px;"></i>
         </div>
       </div>
     </el-row>
@@ -124,6 +121,16 @@ export default {
   padding: 20px 0;
 
 }
+
+/* 评论区头像旋转 */
+#avatar:hover {
+  -webkit-transform: rotateZ(360deg);
+  -moz-transform: rotateZ(360deg);
+  -ms-transform: rotateZ(360deg);
+  -o-transform: rotateZ(360deg);
+  transform: rotateZ(360deg);
+}
+
 
 .icons {
   margin: 0 5px;

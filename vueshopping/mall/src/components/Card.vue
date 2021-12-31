@@ -25,8 +25,8 @@ export default {
     }
   },
   methods: {
-    showDetail() {
-      this.$router.push('/goods/' + this.goodsData.productId);
+    showDetail(id) {
+      this.$router.push('/goods/' + id);
     }
   },
   mounted() {

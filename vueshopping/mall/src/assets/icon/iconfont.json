@@ -6,6 +6,13 @@
   "description": "",
   "glyphs": [
     {
+      "icon_id": "19641698",
+      "name": "商城",
+      "font_class": "shangcheng",
+      "unicode": "e678",
+      "unicode_decimal": 59000
+    },
+    {
       "icon_id": "6025672",
       "name": "图标_点赞",
       "font_class": "zan",

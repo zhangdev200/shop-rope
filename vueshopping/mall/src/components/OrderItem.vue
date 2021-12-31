@@ -40,10 +40,13 @@
       </Order>
       <div style="float: right; position: relative; right: 18px">
         <el-button v-show="item.status == 2 && type === 'user'" type="primary" round @click="receive">收货</el-button>
-        <el-button v-show="(item.status == 1 || item.status == 2) && type === 'user'"
-                   type="primary" round @click="reject">退货
+        <el-popconfirm title="确定退货吗？" @confirm="reject">
+          <el-button v-show="(item.status == 1 || item.status == 2) && type === 'user'"
+                     type="primary" round slot="reference">退货
+          </el-button>
+        </el-popconfirm>
+        <el-button v-show="item.status == 1 && type === 'shopKeeper'" type="primary" round @click="deliver">发货
         </el-button>
-        <el-button v-show="item.status == 1 && type === 'shopKeeper'" type="primary" round @click="deliver">发货</el-button>
       </div>
       <div v-show="item.status == 1 || item.status == 2" style="height: 35px"></div>
     </div>
