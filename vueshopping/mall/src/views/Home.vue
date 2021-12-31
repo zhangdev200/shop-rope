@@ -100,7 +100,7 @@ export default {
       if (this.$route.path !== '/index') {
         this.$router.replace('/index');
       } else {
-        this.$forceUpdate();
+        this.hasToken = false;
       }
     },
     getUserInform() {
