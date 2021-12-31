@@ -23,7 +23,9 @@
       </el-table-column>
       <el-table-column label="操作" width="200" align="center">
         <template slot-scope="scope">
-          <el-button type="danger" round @click="deleteItem(scope.row.imgId)">删除</el-button>
+          <el-popconfirm title="确定删除吗？" @confirm="deleteItem(scope.row.imgId)">
+            <el-button type="danger" round slot="reference">删除</el-button>
+          </el-popconfirm>
         </template>
       </el-table-column>
     </el-table>
@@ -75,15 +77,15 @@ export default {
     },
     deleteItem(imgId) {
       this.$http
-      .post('/index/deleteIndexImg?imgId='+imgId)
-      .then(res => {
-        if (res.code === 10000) {
-          this.getData();
-          this.$message.success('操作成功！');
-        } else {
-          this.$message.error(res.msg);
-        }
-      });
+          .post('/index/deleteIndexImg?imgId=' + imgId)
+          .then(res => {
+            if (res.code === 10000) {
+              this.getData();
+              this.$message.success('操作成功！');
+            } else {
+              this.$message.error(res.msg);
+            }
+          });
     },
     beforeUpload(file) {
       let fd = new FormData();

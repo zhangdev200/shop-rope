@@ -4,7 +4,7 @@
       <span style="position: absolute; right: 20px; color: #888888">{{ commentData.date }}</span>
       <div style="position: absolute;">
         <el-avatar :size="50">
-          <img id="avatar" :src="commentData.avatar" style="width: 50px">
+          <img id="avatar" :src="commentData.avatar" style="width: 50px" alt="">
         </el-avatar>
       </div>
       <div style="margin-left: 70px;">
@@ -131,6 +131,13 @@ export default {
   transform: rotateZ(360deg);
 }
 
+#avatar {
+  -webkit-transition: all 0.6s ease-out;
+  -moz-transition: all 0.5s ease-out;
+  -ms-transition: all 0.5s ease-out;
+  -o-transition: all 0.5s ease-out;
+  transition: all 0.5s ease-out;
+}
 
 .icons {
   margin: 0 5px;

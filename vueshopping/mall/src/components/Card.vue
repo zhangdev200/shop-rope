@@ -9,7 +9,7 @@
       <p class="description">{{ goodsData.content }}</p>
       <div class="bottom clearfix">
         <span class="price">￥{{ goodsData.skus && goodsData.skus.length ? goodsData.skus[0].sellPrice : '加载失败' }}</span>
-        <el-button type="text" @click="showDetail(goodsData.goodsId)">查看详情</el-button>
+        <el-button type="text" @click="showDetail(goodsData.productId)">查看详情</el-button>
       </div>
     </div>
   </el-card>
