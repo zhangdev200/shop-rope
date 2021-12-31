@@ -68,6 +68,8 @@
         <!--  根据商品ID查询价格最低的套餐  -->
         <collection property="skus" column="product_id"
                     select="com.javaweb.shopping.mapper.ProductSkuMapper.selectLowerestPriceByProductId"/>
+        <collection property="imgs" column="product_id"
+                    select="com.javaweb.shopping.mapper.ProductImgMapper.selectProductImgByProductId"/>
     </resultMap>
 
     <select id="selectProductByCategoryId" resultMap="ProductVOMap2">

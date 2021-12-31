@@ -9,17 +9,7 @@
           <el-empty description="你的购物车还没有商品哦" :image-size="400"></el-empty>
         </div>
         <div v-else>
-          <div class="search">   <!--搜索框-->
-            <el-row style="width: 60%; margin: 0 auto; position: relative; top: 20px">
-              <el-col :span="8">
-                <el-input></el-input>
-              </el-col>
-              <el-col :span="2" :offset="1">
-                <el-button type="primary" round>搜索</el-button>
-              </el-col>
-            </el-row>
-          </div>
-          <div style="height: 70px"></div>  <!--占位-->
+          <h3>我的购物车</h3>
           <div class="cartItemContainer">
             <CartItem
                 v-for="i in cartList"

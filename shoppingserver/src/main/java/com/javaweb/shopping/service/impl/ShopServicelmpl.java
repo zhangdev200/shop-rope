@@ -127,6 +127,12 @@ public class ShopServicelmpl implements ShopService {
     @Override
     public ResultVO addProductImg(ProductImg productImg){
         try{
+            //先删除原有图片表中的信息
+            Example example2 = new Example(ProductImg.class);
+            Example.Criteria criteria2 = example2.createCriteria();
+            criteria2.andEqualTo("itemId",productImg.getItemId());
+            productImgMapper.deleteByExample(example2);
+
             productImgMapper.insert(productImg);
             return new ResultVO(ResStatus.OK,productImg.getUrl(),null);
         }catch (Exception e){
@@ -162,11 +168,7 @@ public class ShopServicelmpl implements ShopService {
                 }
             }
 
-            //先删除原有图片表中的信息
-            Example example2 = new Example(ProductImg.class);
-            Example.Criteria criteria2 = example2.createCriteria();
-            criteria2.andEqualTo("itemId",product.getProductId());//状态为1表示上架商品
-            productImgMapper.deleteByExample(example2);
+
             if(productVO.getImgs()!=null){
                 for(ProductImg productImg: productVO.getImgs()){
                     if(productImg.getId()==null){

@@ -73,7 +73,7 @@
                 :limit="1"
                 list-type="picture"
                 :auto-upload="false">
-              <el-button slot="trigger" size="small" type="primary">选取文件</el-button>
+              <el-button slot="trigger" size="small" type="primary" @click="photoSelected = true">选取文件</el-button>
               <div slot="tip" class="el-upload__tip">图片比例为1:1</div>
             </el-upload>
           </el-form-item>
@@ -124,6 +124,7 @@ export default {
         stock: null,
         content: '',
       },
+      photoSelected: false,
       categories: new Map,
       currentPage: 1,
       totalOrders: 0,
@@ -203,7 +204,10 @@ export default {
               this.$message.success('操作成功');
               this.getGoodsList();
               this.selectedGoodsId = res.data;
-              this.$refs.upload.submit();
+              if (this.photoSelected) {
+                this.$refs.upload.submit();
+                this.photoSelected = false;
+              }
             } else {
               this.$message.error('未知错误')
             }
