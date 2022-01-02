@@ -59,22 +59,25 @@ export default {
   },
   methods: {
     deleteUser(userId) {
-      if (userId == 16) {
-        this.$message.error('不能删除管理员！');
-      } else {
-        this.$http
-            .get('user/deleteUser', {
-              userId: userId,
-            })
-            .then(res => {
-              if (res.code === 10000) {
-                this.getUsers();
-                this.$message.success('操作成功！');
-              } else {
-                this.$message.error('未知错误')
-              }
-            });
+      for (let i of this.tableData) {
+        if (i.admin === '是' && userId == i.userId) {
+          this.$message.error('不能删除管理员！');
+          return;
+        }
       }
+      this.$http
+          .get('user/deleteUser', {
+            userId: userId,
+          })
+          .then(res => {
+            if (res.code === 10000) {
+              this.getUsers();
+              this.$message.success('操作成功！');
+            } else {
+              this.$message.error('未知错误')
+            }
+          });
+
     },
     getUsers() {
       this.$http
@@ -91,6 +94,7 @@ export default {
                   realname: i.realname,
                   shopKeeper: i.shopKeeper ? '是' : '否',
                   vip: i.vip ? '是' : '否',
+                  admin: i.admin ? '是' : '否',
                 });
               }
               this.totalUsers = res.data.length;

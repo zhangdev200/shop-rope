@@ -38,6 +38,10 @@ export default {
     let validateUsername = (rule, value, callback) => {
       if (value === '') {
         callback(new Error('请输入用户名'));
+      } else if (!value.match('^[A-Za-z0-9]')){
+        callback(new Error('只能是数字或字母'))
+      } else if (value.length < 3){
+        callback(new Error('位数不能小于3位'))
       } else {
         callback();
       }

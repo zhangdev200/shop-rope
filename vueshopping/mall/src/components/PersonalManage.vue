@@ -13,10 +13,10 @@
     <el-tabs v-model="activeName">
       <el-tab-pane label="基本信息" name="first">
         <div class="card">
-          <el-form ref="form" :model="form1" label-width="90px" style="text-align: left">
+          <el-form ref="form" :model="form1" :rules="rules" label-width="90px" style="text-align: left">
             <el-row>
               <el-col :span="12">
-                <el-form-item label="昵称">
+                <el-form-item label="昵称" prop="nickname">
                   <el-input v-model="form1.nickname"></el-input>
                 </el-form-item>
                 <el-form-item label="真实姓名">
@@ -29,10 +29,10 @@
                 <el-form-item label="收货地址">
                   <el-input v-model="form1.userAddress"></el-input>
                 </el-form-item>
-                <el-form-item label="邮箱">
+                <el-form-item label="邮箱" prop="userEmail">
                   <el-input v-model="form1.userEmail"></el-input>
                 </el-form-item>
-                <el-form-item label="电话号码">
+                <el-form-item label="电话号码" prop="userMobile">
                   <el-input v-model="form1.userMobile"></el-input>
                 </el-form-item>
                 <el-form-item>
@@ -167,6 +167,27 @@
 export default {
   name: "PersonalManage",
   data() {
+    let validateNickname = (rule, value, callback) => {
+      if (value.length < 3) {
+        callback(new Error('位数不能小于3位！'));
+      } else {
+        callback();
+      }
+    };
+    let validateUserEmail = (rule, value, callback) => {
+      if (!value.match(/^\w+@[a-zA-Z0-9]{2,10}(?:\.[a-z]{2,4}){1,3}$/)) {
+        callback(new Error('邮箱格式不正确！'));
+      } else {
+        callback();
+      }
+    };
+    let validateUserMobile = (rule, value, callback) => {
+      if (!value.match(/^((0\d{2,3}-\d{7,8})|(1[35789]\d{9}))$/)) {
+        callback(new Error('手机号码格式不正确！'));
+      } else {
+        callback();
+      }
+    };
     return {
       nickname: null,
       form: {
@@ -191,21 +212,36 @@ export default {
       dialogVisible: false,
       dialogVisible2: false,
       dialogVisible3: false,
+      rules: {
+        nickname: [
+          {validator: validateNickname, trigger: 'blur'}
+        ],
+        userEmail: [
+          {validator: validateUserEmail, trigger: 'blur'}
+        ],
+        userMobile: [
+          {validator: validateUserMobile, trigger: 'blur'}
+        ],
+      }
     }
   },
   methods: {
     submitBasicInfo() {
-      this.$confirm('确定修改个人资料吗')
-          .then(() => {
-            this.$http
-                .post('user/updateInfo', this.form1)
-                .then((res) => {
-                  if (res.code === 10000) {
-                    this.getInfo();
-                    this.$message.success('修改成功！');
-                  }
-                });
-          });
+      this.$refs.ruleForm.validate((valid) => {
+        if (valid) {
+          this.$confirm('确定修改个人资料吗')
+              .then(() => {
+                this.$http
+                    .post('user/updateInfo', this.form1)
+                    .then((res) => {
+                      if (res.code === 10000) {
+                        this.getInfo();
+                        this.$message.success('修改成功！');
+                      }
+                    });
+              });
+        }
+      });
     },
     submitPassword() {
       this.$confirm('确定修改密码吗？')
