@@ -32,6 +32,7 @@ const routes = [
                     },
                     {
                         path: '/search/:keyword',
+                        name: 'search',
                         component: () => import('../views/SearchResult')
                     }
                 ]

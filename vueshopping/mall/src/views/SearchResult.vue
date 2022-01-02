@@ -4,11 +4,16 @@
       <h3>搜索结果</h3>
     </div>
     <div class="block">
-      <el-row>
-        <el-col :lg="6" :md="8" :sm="12" :xs="24" v-for="o in result" :key="o.productId">
-          <Card :data="o"></Card>
-        </el-col>
-      </el-row>
+      <div v-if="count">
+        <el-row>
+          <el-col :lg="6" :md="8" :sm="12" :xs="24" v-for="o in result" :key="o.productId">
+            <Card :data="o"></Card>
+          </el-col>
+        </el-row>
+      </div>
+      <div v-else>
+        <p>还没有您想要的商品哦</p>
+      </div>
     </div>
     <br>
     <div style="width: 100%;">
@@ -58,8 +63,13 @@ export default {
       this.getResult(pageNum, 8);
     },
   },
-  mounted() {
+  created() {
     this.getResult(1, 8);
+  },
+  watch: {
+    $route() {
+      this.getResult(1, 8);
+    }
   }
 }
 </script>

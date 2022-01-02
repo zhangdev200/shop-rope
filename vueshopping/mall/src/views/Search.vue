@@ -20,6 +20,7 @@
 </template>
 
 <script>
+
 export default {
   name: 'Search',
   data() {
@@ -30,7 +31,16 @@ export default {
   methods: {
     search() {
       if (this.input) {
-        this.$router.push('/search/' + this.input);
+        if (this.$route.name !== 'search') {
+          this.$router.push('/search/' + this.input);
+        } else {
+          this.$router.replace({
+            params: {
+              ...this.$route.params,
+              keyword: this.input
+            }
+          });
+        }
       } else {
         this.$message.warning('请输入关键词！');
       }

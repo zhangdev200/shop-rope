@@ -129,7 +129,7 @@
         limit #{start},#{limit}
     </select>
     <select id="selectOrdersByShopId" resultMap="OrdersVOMap">
-        select
+        select distinct
         o.order_id,user_id,untitled,receiver_name, receiver_mobile,receiver_address,
         o.total_amount, actual_amount,pay_type,order_remark,status,delivery_type,
         delivery_flow_id,order_freight,delete_status,o.create_time,
@@ -144,7 +144,7 @@
     </select>
     <select id="selectOrdersCountByShopId" resultType="java.lang.Integer">
         select
-        count(*)
+        count(distinct o.order_id)
         from orders o inner join order_item oi inner join product p
         on o.order_id = oi.order_id and oi.product_id = p.product_id
         where shop_id=#{shopId}
