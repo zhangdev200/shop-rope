@@ -13,7 +13,7 @@
     <el-tabs v-model="activeName">
       <el-tab-pane label="基本信息" name="first">
         <div class="card">
-          <el-form ref="form" :model="form1" :rules="rules" label-width="90px" style="text-align: left">
+          <el-form ref="form1" :model="form1" :rules="rules" label-width="90px" style="text-align: left">
             <el-row>
               <el-col :span="12">
                 <el-form-item label="昵称" prop="nickname">
@@ -46,7 +46,7 @@
       </el-tab-pane>
       <el-tab-pane label="修改密码" name="second">
         <div class="card">
-          <el-form ref="form" :model="form2" label-width="90px" style="text-align: left">
+          <el-form ref="form2" :model="form2" label-width="90px" style="text-align: left">
             <el-row>
               <el-col :span="12">
                 <el-form-item label="旧密码">
@@ -227,7 +227,7 @@ export default {
   },
   methods: {
     submitBasicInfo() {
-      this.$refs.ruleForm.validate((valid) => {
+      this.$refs.form1.validate((valid) => {
         if (valid) {
           this.$confirm('确定修改个人资料吗')
               .then(() => {
