@@ -59,18 +59,22 @@ public class OrderServiceImpl implements OrderService {
             shopMap.computeIfAbsent(products.get(0).getShopID(), k -> new ArrayList<>());
             shopMap.get(products.get(0).getShopID()).add(sc);
         }
+        boolean flag = true;
         for (String shopId : shopMap.keySet()) {
+            if (!flag) break;
             logger.info("生成商店" + shopId + "订单.........");
             boolean f = true;
             String untitled = "";
             for (ShoppingCartVO sc : shopMap.get(shopId)) {
+                //获取所有商品名称，以,分割拼接成字符串
+                untitled = untitled + sc.getProductName() + ",";
                 if (Integer.parseInt(sc.getCartNum()) > sc.getSkuStock()) {
+                    flag = false;
                     f = false;
                     break;
                 }
-                //获取所有商品名称，以,分割拼接成字符串
-                untitled = untitled + sc.getProductName() + ",";
             }
+            untitled = untitled.substring(0, untitled.length() - 1);
             if (f) {
                 System.out.println("-----库存校验完成");
                 logger.info("product stock is OK...");
@@ -123,6 +127,7 @@ public class OrderServiceImpl implements OrderService {
             } else {
                 //表示库存不足
                 Map<String, String> newMap = new HashMap<>();
+                mapList.clear();
                 newMap.put("orderId", null);
                 newMap.put("productNames", untitled);
                 mapList.add(newMap);

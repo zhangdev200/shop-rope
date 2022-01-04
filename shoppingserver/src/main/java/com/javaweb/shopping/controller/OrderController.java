@@ -59,10 +59,12 @@ public class OrderController {
                     data.put("total_fee","1");
                     data.put("trade_type","NATIVE");                //交易类型
                     data.put("notify_url","http://47.118.45.73:8080/pay/callback");           //设置支付完成时的回调方法接口
-                    if (orderId == null) {
-                        msg = orderInfo.get("productNames") + "库存不足！";
-                    }
                     result.add(orderInfo);
+                    if (orderId == null) {
+                        System.out.println("aaaaaaaaaa");
+                        msg = orderInfo.get("productNames") + " 库存不足！";
+                        return new ResultVO(ResStatus.NO, msg, result);
+                    }
                 }
             }
             resultVO = new ResultVO(ResStatus.OK, msg, result);

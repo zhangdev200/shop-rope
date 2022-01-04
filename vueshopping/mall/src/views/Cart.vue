@@ -108,7 +108,7 @@ export default {
               this.getCarts();
             }
             else {
-              this.$message.error('未知错误');
+              this.$message.error(res.msg);
             }
           });
     },

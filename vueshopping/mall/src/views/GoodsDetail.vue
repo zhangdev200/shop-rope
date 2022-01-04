@@ -8,7 +8,8 @@
       </el-col>
       <el-col :span="20">
         <div style="text-align: left; padding: 10px 20px;">
-          <p style="font-weight: bold; margin-top: 5px">{{ detail.goodsName }}</p>
+          <p style="font-weight: bold; margin-top: 5px; display: inline">{{ detail.goodsName }}</p>
+          <span style="display: inline; font-size: 15px; float: right">（库存：{{ detail.stock }}）</span>
           <p style="word-wrap: break-word">{{ detail.description }}</p>
           <p style="color: #666666; position: absolute; bottom: 12px">
             <i class="el-icon-s-shop" style="font-size: 25px"></i>
@@ -140,7 +141,7 @@ export default {
                   stars: item.commType,
                   avatar: item.userImg,
                   nickname: item.nickname,
-                  date: item.replyTime ? item.replyTime.substring(0,10) : null,
+                  date: item.replyTime ? item.replyTime.substring(0, 10) : null,
                   content: item.commContent,
                   numOfZan: Math.floor((Math.random() * 100)),
                   numOfCai: Math.floor((Math.random() * 100)),
@@ -166,6 +167,7 @@ export default {
               storeId: res.data.product.shopID,
               description: res.data.product.content,
               price: res.data.productSkus && res.data.productSkus.length ? res.data.productSkus[0].sellPrice : null,
+              stock: res.data.productSkus && res.data.productSkus.length ? res.data.productSkus[0].stock : null,
               skuId: res.data.productSkus && res.data.productSkus.length ? res.data.productSkus[0].skuId : null,
             }
             this.getCommentByPage(1, 5);
